@@ -16,8 +16,8 @@
                 <form class="form-inline form">
                    <fieldset>
                    <legend>PORTAIL:</legend>
-                        <a href="gestion.php"><button class="btn btn-outline-success" type="button">Tableau employés</button></a>
-                        <a href="service.php"><button class="btn btn-outline-primary" type="button">Tableau des services</button></a>
+                        <a href="gestion.php?action=ajouter"><button class="btn btn-outline-success" type="button">Tableau employés</button></a>
+                        <a href="service.php?action=ajouter"><button class="btn btn-outline-primary" type="button">Tableau des services</button></a>
                    </fieldset>
                  </form>
             </div>

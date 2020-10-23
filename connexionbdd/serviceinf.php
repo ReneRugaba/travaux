@@ -1,6 +1,6 @@
 <?php
-$db=mysqli_init();
-mysqli_real_connect($db,'localhost','malakaie','123456','gestionemploye');
+include("crudnoserv.php");
+
 ?>
 
 <!DOCTYPE html>
@@ -17,13 +17,12 @@ mysqli_real_connect($db,'localhost','malakaie','123456','gestionemploye');
     <?php
     if ($_GET['action']=='infosserv') {
         $id=$_GET['id'];
-        $rs=mysqli_query($db,"SELECT * FROM serv WHERE noserv=$id");
-        $data=mysqli_fetch_array($rs,MYSQLI_ASSOC);
+        $data=rechercheserv($id);
         ?>
         <div >
             <div>
-                <h3 ><?php echo $data['noserv']; ?></h3>
-                <h1><?php echo $data['service']; ?></h1>
+                <h3 ><?php echo $data['num_service']; ?></h3>
+                <h1><?php echo $data['nom_service']; ?></h1>
                 <h1><?php echo $data['ville']; ?></h1>
             </div>
         </div>
@@ -35,7 +34,7 @@ mysqli_real_connect($db,'localhost','malakaie','123456','gestionemploye');
                    <fieldset>
                    <legend>PORTAIL:</legend>
                         <a href="gestion.php"><button class="btn btn-outline-success" type="button">Tableau employés</button></a>
-                        <a href="service.php"><button class="btn btn-outline-primary" type="button">Tableau des services</button></a>
+                        <a href="service.php?action=ajouter"><button class="btn btn-outline-primary" type="button">Tableau des services</button></a>
                    </fieldset>
                  </form>
             </div>

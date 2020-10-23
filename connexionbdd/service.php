@@ -1,40 +1,37 @@
 <?php
- $db=mysqli_init();
- mysqli_real_connect($db,'localhost','malakaie','123456','gestionemploye');
+include("crudnoserv.php");
+ 
+ 
 
 if (!empty($_POST) && isset($_GET['action']) && $_GET['action']=='ajouter') {
-    if (isset($_POST['noserv'])) {
+    if (isset($_POST['num_service'])) {
 
-        $noserv=$_POST['noserv'];
-        $service=$_POST['service'] ? "'".$_POST['service']."'":'NULL';
-        $ville=$_POST['ville'] ? "'".$_POST['service']."'":'NULL';
-   
-       $sql="INSERT INTO serv VALUES($noserv,$service,$ville)";
-       $data=mysqli_query($db,$sql);
+        $num_service=$_POST['num_service'];
+        $service=$_POST['nom_service'] ? "'".$_POST['nom_service']."'":'NULL';
+        $ville=$_POST['ville'] ? "'".$_POST['ville']."'":'NULL';
+        
+        $data=add($num_service,$service,$ville);
+      
     }
 }
-elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action']=='edit' && $_GET['id']) {
-    $id=$_GET['id'];
-    $service=$_POST['service'] ? "'".$_POST['service']."'":'NULL';
+elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action']=='edit') {
+    $id=$_POST['num_service'];
+    $service=$_POST['nom_service'] ? "'".$_POST['nom_service']."'":'NULL';
     $ville=$_POST['ville'] ? "'".$_POST['ville']."'":'NULL';
 
-    $sql="UPDATE serv SET  service=$service, ville=$ville WHERE noserv=$id";
-    $data=mysqli_query($db,$sql);
+    edit($id,$service,$ville);
 }
 elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action']=='sup' && $_GET['id']){
     $id=$_GET['id'];
-    $sql="DELETE FROM serv WHERE noserv=$id";
-    $res=mysqli_query($db,$sql);
-
+   
+    $data=delete($id);
 
 }
 elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action']=='modif' && $_GET['id']){
     $id=$_GET['id'];
-    $sql="SELECT* FROM serv WHERE noserv=$id";
-    $rs=mysqli_query($db,$sql);
-    $data=mysqli_fetch_array($rs, MYSQLI_ASSOC);
-    $noserv=$data['noserv'];
-    $service=$data['service'];
+    $data=afficheDansForm($id);
+    $num_service=$data['num_service'];
+    $service=$data['nom_service'];
     $ville=$data['ville'];
   
 }
@@ -76,17 +73,20 @@ elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action']=='modif' && $
                             <th scope="col">Détails</th>
                         </tr>
                         <?php
-                            $rs=mysqli_query($db,'SELECT * FROM serv');
                             
-                            while ($data=mysqli_fetch_array($rs, MYSQLI_ASSOC)) {
+                            foreach (afficheTab() as $key => $value) {
+                            
                                 ?>
                                 <tr>
-                                    <td><?php echo $data['noserv'];?></td>
-                                    <td><?php echo $data['service'];?></td>
-                                    <td><?php echo $data['ville'];?></td>
-                                    <td><a href="service.php?id=<?php echo $data['noserv'];?>&action=modif"><button type="button" class="btn btn-success">Modifier</button></a></td>
-                                    <td><a href="service.php?id=<?php echo $data['noserv'];?>&action=sup"><button type="button" class="btn btn-danger">X</button></a></td>
-                                    <td><a href="serviceinf.php?id=<?php echo $data['noserv'];?>&action=infosserv"><button type="button" class="btn btn-info">Détails</button></a></td>
+                                    <td><?php echo $value['num_service'];?></td>
+                                    <td><?php echo $value['nom_service'];?></td>
+                                    <td><?php echo $value['ville'];?></td>
+                                    <td><a href="service.php?id=<?php echo $value['num_service'];?>&action=modif"><button type="button" class="btn btn-success">Modifier</button></a></td>
+                                    <td><?php if (isServiceAffect($value['num_service'])==FALSE) {
+                                        ?>
+                                        <a href="service.php?id=<?php echo $value['num_service'];?>&action=sup"><button type="button" class="btn btn-danger">X</button>
+                                    </a><?php } ?></td>
+                                    <td><a href="serviceinf.php?id=<?php echo $value['num_service'];?>&action=infosserv"><button type="button" class="btn btn-info" visibilyti>Détails</button></a></td>
                                 </tr>
                                 <?php
                             }
@@ -98,21 +98,21 @@ elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action']=='modif' && $
                         </div>
                         <div class="container-fluid">
                             <div class="col-6 rounded mx-auto d-block">
-                                <form action="service.php?id=<?php if ($_GET['action']=="modif") {
+                                <form action="service.php?action=<?php if ($_GET['action']=="modif") {
                                     echo "edit";
                                 }
                                 else {
                                     echo "ajouter";
                                 }
-                               ?>&action=edit" class="form" method="POST">
+                               ?>" class="form" method="POST">
                                     <div class="form-row">
                                     <div class="form-group col-md-6">
-                                    <input type="text" class="form-control" id="noserv" name="noserv" value="<?php if ($_GET['action']=='modif') {
-                                        echo $noserv;
+                                    <input type="text" class="form-control" id="num_service" name="num_service" value="<?php if ($_GET['action']=='modif') {
+                                        echo $num_service;
                                     }?>" placeholder="numero de service">
                                     </div>
                                     <div class="form-group col-md-6">
-                                    <input type="text" class="form-control" id="service" name="service" value="<?php if ($_GET['action']=='modif') {
+                                    <input type="text" class="form-control" id="nom_service" name="nom_service" value="<?php if ($_GET['action']=='modif') {
                                         echo $service;
                                     }
                                     else {

@@ -1,59 +1,58 @@
 <?php
- $db=mysqli_init();
- mysqli_real_connect($db,'localhost','malakaie','123456','gestionemploye');
+include("crud.php");
+
+ 
 
  if (!empty($_POST) && isset($_GET['action']) && $_GET['action']=='ajouter') {
-    if (isset($_POST['noemp']) && !empty($_POST['noemp']) && isset($_POST['noserv']) && !empty($_POST['noserv'])) {
+    if (isset($_POST['num_employe']) && !empty($_POST['num_employe']) && isset($_POST['noserv']) && !empty($_POST['noserv'])) {
 
-        $noemp=$_POST['noemp'];
+        $num_employe=$_POST['num_employe'];
         $nom=$_POST['nom'] ? "'".$_POST['nom']."'":'NULL';
         $prenom=$_POST['prenom'] ? "'".$_POST['prenom']."'":'NULL';
         $emp=$_POST['emploi'] ? "'".$_POST['emploi']."'":'NULL';
         $sup=$_POST['sup'] ? "'".$_POST['sup']."'":'NULL';
         $embauche=$_POST['embauche'] ? "'".$_POST['embauche']."'":'NULL';
-        $sal=$_POST['sal'] ? "'".$_POST['sal']."'":'NULL';
-        $comm=$_POST['comm'] ? "'".$_POST['comm']."'":'NULL';
+        $salaire=$_POST['salaire'] ? "'".$_POST['salaire']."'":'NULL';
+        $commission=$_POST['commission'] ? "'".$_POST['commission']."'":'NULL';
         $noserv=$_POST['noserv']; 
    
-       $sql="INSERT INTO emp VALUES($noemp,$nom,$prenom,$emp,$sup,$embauche,$sal,$comm,$noserv)";
-       $rs=mysqli_query($db,$sql);
+       
+       $data=add($num_employe,$nom,$prenom,$emp,$sup,$embauche,$salaire,$commission,$noserv);
     }
  }
- elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action']=='edit' && $_GET['id']) {
-    $id=$_GET['id'];
+ elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action']=='edit') {
+    $id=$_POST['num_employe'];
    
     $nom=$_POST['nom'] ? "'".$_POST['nom']."'":'NULL';
     $prenom=$_POST['prenom'] ? "'".$_POST['prenom']."'":'NULL';
     $emp=$_POST['emploi'] ? "'".$_POST['emploi']."'":'NULL';
     $sup=$_POST['sup'] ? "'".$_POST['sup']."'":'NULL';
     $embauche=$_POST['embauche'] ? "'".$_POST['embauche']."'":'NULL';
-    $sal=$_POST['sal'] ? "'".$_POST['sal']."'":'NULL';
-    $comm=$_POST['comm'] ? "'".$_POST['comm']."'":'NULL';
+    $salaire=$_POST['salaire'] ? "'".$_POST['salaire']."'":'NULL';
+    $commission=$_POST['commission'] ? "'".$_POST['commission']."'":'NULL';
 
 
-    $sql="UPDATE emp SET  nom=$nom, prenom=$prenom, emploi=$emp, sup=$sup, embauche=$embauche, sal=$sal, comm=$comm  WHERE noemp=$id";
-    $data=mysqli_query($db,$sql);
+   $data=edit($id,$nom,$prenom,$emp,$sup,$embauche,$salaire,$commission);
 }
  elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action']=='sup' && $_GET['id']){
         $id=$_GET['id'];
-        $sql="DELETE FROM emp WHERE noemp=$id";
-        $res=mysqli_query($db,$sql);
-
-    
+        $data=delete($id);
+ 
  }
+
  elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action']=='modif' && $_GET['id']){
+     
     $id=$_GET['id'];
-    $sql="SELECT* FROM emp WHERE noemp=$id";
-    $rs=mysqli_query($db,$sql);
-    $data=mysqli_fetch_array($rs, MYSQLI_ASSOC);
-    $noemp=$data['noemp'];
+    $data=rechercheEmpId($id);
+
+    $num_employe=$data['num_employe'];
     $nom=$data['nom'];
     $prenom=$data['prenom'];
     $emploi=$data['emploi'];
     $sup=$data['sup'];
     $embauche=$data['embauche'];
-    $sal=$data['sal'];
-    $comm=$data['comm'];
+    $salaire=$data['salaire'];
+    $commission=$data['commission'];
     $noserv=$data['noserv'];
 }
  ?>
@@ -87,37 +86,43 @@
                 <table class="table">
                     <thead class="thead-dark">
                     <tr>
-                    <th scope="col">Noemp</th>
+                    <th scope="col">num_employe</th>
                     <th scope="col">Nom</th>
                     <th scope="col">Prenom</th>
                     <th scope="col">Emploi</th>
                     <th scope="col">Sup</th>
                     <th scope="col">Embauche</th>
-                    <th scope="col">Sal</th>
-                    <th scope="col">Comm</th>
+                    <th scope="col">salaire</th>
+                    <th scope="col">commission</th>
                     <th scope="col">Noserv</th>
                     <th scope="col">Modifier</th>
                     <th scope="col">Supprimer</th>
                     <th scope="col">Détails</th>
                     </tr>
                     <?php
-                        $rs=mysqli_query($db,'SELECT * FROM emp');
                         
-                        while ($data=mysqli_fetch_array($rs, MYSQLI_ASSOC)) {
+                        
+                        foreach ($data=rechercheEmp() as $key => $value) {
+                            
+                        
                             ?>
                                         <tr>
-                                        <td><?php echo $data['noemp'];?></td>
-                                        <td><?php echo $data['nom'];?></td>
-                                        <td><?php echo $data['prenom'];?></td>
-                                        <td><?php echo $data['emploi'];?></td>
-                                        <td><?php echo $data['sup'];?></td>
-                                        <td><?php echo $data['embauche'];?></td>
-                                        <td><?php echo $data['sal'];?></td>
-                                        <td><?php echo $data['comm'];?></td>
-                                        <td><?php echo $data['noserv'];?></td>
-                                        <td><a href="gestion.php?id=<?php echo $data['noemp'];?>&action=modif"><button type="button" class="btn btn-success">Modifier</button></a></td>
-                                        <td><a href="gestion.php?id=<?php echo $data['noemp'];?>&action=sup"><button type="button" class="btn btn-danger">X</button></a></td>
-                                        <td><a href="profil.php?id=<?php echo $data['noemp'];?>&action=infos"><button type="button" class="btn btn-info">Détails</button></a></td>
+                                        <td><?php echo $value['num_employe'];?></td>
+                                        <td><?php echo $value['nom'];?></td>
+                                        <td><?php echo $value['prenom'];?></td>
+                                        <td><?php echo $value['emploi'];?></td>
+                                        <td><?php echo $value['sup'];?></td>
+                                        <td><?php echo $value['embauche'];?></td>
+                                        <td><?php echo $value['salaire'];?></td>
+                                        <td><?php echo $value['commission'];?></td>
+                                        <td><?php echo $value['num_service'];?></td>
+                                        <td><a href="gestion.php?id=<?php echo $value['num_employe'];?>&action=modif"><button type="button" class="btn btn-success">Modifier</button></a></td>
+                                        <td><?php if (isServiceAffect($value['num_employe'])==FALSE) {
+                                            ?>
+                                            <a href="gestion.php?id=<?php echo $value['num_employe'];?>&action=sup"><button type="button" class="btn btn-danger">X</button></a>
+                                            <?php
+                                        }?></td>
+                                        <td><a href="profil.php?id=<?php echo $value['num_employe'];?>&action=infos"><button type="button" class="btn btn-info">Détails</button></a></td>
                                         </tr>
                             <?php
                         }
@@ -139,8 +144,8 @@
                             ?>" class="form" method="POST">
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                    <input type="text" class="form-control" id="noemp" name="noemp" value="<?php if ($_GET['action']=='modif') {
-                                        echo $noemp;
+                                    <input type="text" class="form-control" id="num_employe" name="num_employe" value="<?php if ($_GET['action']=='modif') {
+                                        echo $num_employe;
                                     }
                                     ?>" placeholder="numero d'employé">
                                     </div>
@@ -172,14 +177,14 @@
                                     }?>" placeholder="embauche">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="sal" name="sal" value="<?php if ($_GET['action']=='modif') {
-                                        echo $sal;
-                                    }?>" placeholder="salaire">
+                                    <input type="text" class="form-control" id="salaire" name="salaire" value="<?php if ($_GET['action']=='modif') {
+                                        echo $salaire;
+                                    }?>" placeholder="salaireaire">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="comm" name="comm" value="<?php if ($_GET['action']=='modif') {
-                                        echo $comm;
-                                    }?>" placeholder="commission">
+                                    <input type="text" class="form-control" id="commission" name="commission" value="<?php if ($_GET['action']=='modif') {
+                                        echo $commission;
+                                    }?>" placeholder="commissionission">
                                 </div>
                                 <div class="form-group">
                                     <input type="text" class="form-control" id="noserv" name="noserv" value="<?php if ($_GET['action']=='modif') {

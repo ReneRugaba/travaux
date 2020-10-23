@@ -1,6 +1,6 @@
 <?php
-$db=mysqli_init();
-mysqli_real_connect($db,'localhost','malakaie','123456','gestionemploye');
+include("crud.php");
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -21,20 +21,19 @@ mysqli_real_connect($db,'localhost','malakaie','123456','gestionemploye');
                         if ($_GET['action']=='infos') 
                         {
                             $id=$_GET['id'];
-                            $rs=mysqli_query($db,"SELECT * FROM emp WHERE noemp=$id");
-                            $data=mysqli_fetch_array($rs,MYSQLI_ASSOC);
+                            $data=afficher($id);
                             ?>
                             <div >
                                 <div>
-                                    <h3 ><?php echo $data['noemp']; ?></h3>
+                                    <h3 ><?php echo $data['num_employe']; ?></h3>
                                     <h1><?php echo $data['nom']; ?></h1>
                                     <h1><?php echo $data['prenom']; ?></h1>
                                     <h1><?php echo $data['emploi']; ?></h1>
                                     <p><?php echo $data['sup']; ?></p>
                                     <p><?php echo $data['embauche']; ?></p>
-                                    <p><?php echo $data['sal']; ?></p>
-                                    <p><?php echo $data['comm']; ?></p>
-                                    <p><?php echo $data['noserv']; ?></p>
+                                    <p><?php echo $data['salaire']; ?></p>
+                                    <p><?php echo $data['commission']; ?></p>
+                                    <p><?php echo $data['num_service']; ?></p>
                                 </div>
                             </div>
                             <?php

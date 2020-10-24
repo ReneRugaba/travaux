@@ -3,10 +3,10 @@ include("crud.php");
 
 
 
-if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { //je verifie si le tableau $_POST est vide et si dans le GET[action]==ajouter
-    if (isset($_POST['num_employe']) && !empty($_POST['num_employe']) && isset($_POST['noserv']) && !empty($_POST['noserv'])) { //Si la vetrification est ok je verifit si dans le post num_employe  et num_service existe et qu'il ne sont pas vide
+if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { //je verifie si le tableau $_POST n'est pas vide et si dans le GET[action]==ajouter
+    if (isset($_POST['num_employe']) && !empty($_POST['num_employe']) && isset($_POST['noserv']) && !empty($_POST['noserv'])) { //Si la verification est ok je verifie si dans le post num_employe  et num_service existe et qu'il ne sont pas vide
 
-        //je recupere chaque element du post dans des variables en anticipant les valeurs vide en leu donnant une valeur NULL
+        //je recupere chaque element du post dans des variables en anticipant leur valeur, s'ils sont vides, en leur donnant une valeur NULL
         $num_employe = $_POST['num_employe'];
         $nom = $_POST['nom'] ? "'" . $_POST['nom'] . "'" : 'NULL';
         $prenom = $_POST['prenom'] ? "'" . $_POST['prenom'] . "'" : 'NULL';
@@ -21,9 +21,9 @@ if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { 
         //ici je fait appel à la foction add que j'ai créé dans crud.php ui s'occupe de rajouter les infos dans les variable dans la tab employe
         $data = add($num_employe, $nom, $prenom, $emp, $sup, $embauche, $salaire, $commission, $noserv);
     }
-} elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'edit') {
+} elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'edit') { //je verifie si le tableau $_GET n'est pas vide et si dans le GET[action]==edit
+    //je rentre les valeurs reçu dans le post dans des variables en anticipant leur valeur, s'ils sont vides, en leur donnant une valeur NULL
     $id = $_POST['num_employe'];
-
     $nom = $_POST['nom'] ? "'" . $_POST['nom'] . "'" : 'NULL';
     $prenom = $_POST['prenom'] ? "'" . $_POST['prenom'] . "'" : 'NULL';
     $emp = $_POST['emploi'] ? "'" . $_POST['emploi'] . "'" : 'NULL';
@@ -32,16 +32,19 @@ if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { 
     $salaire = $_POST['salaire'] ? "'" . $_POST['salaire'] . "'" : 'NULL';
     $commission = $_POST['commission'] ? "'" . $_POST['commission'] . "'" : 'NULL';
 
-
+    //j'appelle la fonction edit que j'ai créé dans crud.php qui s'occupe de modifier les infos correspondant num_employe dans $id
     $data = edit($id, $nom, $prenom, $emp, $sup, $embauche, $salaire, $commission);
-} elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'sup' && $_GET['id']) {
-    $id = $_GET['id'];
-    $data = delete($id);
-} elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'modif' && $_GET['id']) {
+} elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'sup' && $_GET['id']) { //je verifie si le tableau $_GET n'est pas vide et si dans le GET[action]==sup et que id est present dans le get
+    $id = $_GET['id']; // ici je recupere l'id dans le get et je le met dans une variable
+    $data = delete($id); //je me sers de cette variable pour faire appel à la fonction delete dans crud.php qui va s'ocuper de sup la row corespondant id
 
-    $id = $_GET['id'];
-    $data = rechercheEmpId($id);
 
+} elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'modif' && $_GET['id']) { //je verifie si le tableau $_GET n'est pas vide , si dans le GET[action]==modif et si l'id est bien presente dans le get
+
+    $id = $_GET['id']; //je recup l'id et je la met dans la variable $id
+    $data = rechercheEmpId($id); //j'utilise la fonction rechercheEmpId, créé dans crud.php, pour recuperer la row de la tab emp vis à $id, qui m'est retourné en tableau associatif dans la variable data
+
+    //ici je recupère chaque élement dans data grace au clés du tableau assoc et je les met dans une variable
     $num_employe = $data['num_employe'];
     $nom = $data['nom'];
     $prenom = $data['prenom'];
@@ -100,10 +103,10 @@ if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { 
                         </tr>
                         <?php
 
-
+                        //ici je fai sun foreach pour recuperer la table entière, à l'aide de la fonction que j'ai créé dans crud.php, que je receptionne dans un tableau que je parcours à l'aide du foreach
                         foreach ($data = rechercheEmp() as $key => $value) {
 
-
+                            //chaque value contient un tableau assoc et je parcours à partir d'ici
                         ?>
                             <tr>
                                 <td><?php echo $value['num_employe']; ?></td>
@@ -116,11 +119,15 @@ if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { 
                                 <td><?php echo $value['commission']; ?></td>
                                 <td><?php echo $value['num_service']; ?></td>
                                 <td><a href="gestion.php?id=<?php echo $value['num_employe']; ?>&action=modif"><button type="button" class="btn btn-success">Modifier</button></a></td>
+
+                                <!-- ici je gère le bouton de suppression à l'aide de la fonction isServiceAffect() pour enlever la possibilité de supprimer un supperieur hierarchique -->
                                 <td><?php if (isServiceAffect($value['num_employe']) == FALSE) {
                                     ?>
                                         <a href="gestion.php?id=<?php echo $value['num_employe']; ?>&action=sup"><button type="button" class="btn btn-danger">X</button></a>
                                     <?php
                                     } ?></td>
+                                <!-- ici je gère le bouton de suppression à l'aide de la fonction isServiceAffect() pour enlever la possibilité de supprimer un supperieur hierarchique -->
+
                                 <td><a href="profil.php?id=<?php echo $value['num_employe']; ?>&action=infos"><button type="button" class="btn btn-info">Détails</button></a></td>
                             </tr>
                         <?php
@@ -134,6 +141,7 @@ if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { 
                 </div>
                 <div class="container-fluid">
                     <div class="col-6 rounded mx-auto d-block">
+                        <!-- ce formulaire gere les ajouts et les modifications de mannière inteligente grâce l'action du get -->
                         <form action="gestion.php?action=<?php if ($_GET['action'] == "modif") {
                                                                 echo "edit";
                                                             } else {
@@ -142,6 +150,7 @@ if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { 
                                                             ?>" class="form" method="POST">
                             <div class="form-row">
                                 <div class="form-group col-md-6">
+                                    <!-- pour chanque value du form j'echo les infos à modifier si dans le get action==modif dans le cas contraire, le placeholder remplace les values -->
                                     <input type="text" class="form-control" id="num_employe" name="num_employe" value="<?php if ($_GET['action'] == 'modif') {
                                                                                                                             echo $num_employe;
                                                                                                                         }

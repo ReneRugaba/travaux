@@ -3,33 +3,36 @@ include("crudnoserv.php");
  
  
 
-if (!empty($_POST) && isset($_GET['action']) && $_GET['action']=='ajouter') {
-    if (isset($_POST['num_service'])) {
-
+if (!empty($_POST) && isset($_GET['action']) && $_GET['action']=='ajouter') { //je verifie si le tableau $_POST n'est pas vide et si dans le GET[action]==ajouter
+    if (isset($_POST['num_service'])) { //Si la verification est ok je verifie si dans le post num_service n'est pas vide
+        //je recupere chaque element du post dans des variables en anticipant leur valeur, s'ils sont vides, en leur donnant une valeur NULL
         $num_service=$_POST['num_service'];
         $service=$_POST['nom_service'] ? "'".$_POST['nom_service']."'":'NULL';
         $ville=$_POST['ville'] ? "'".$_POST['ville']."'":'NULL';
         
+        //ici je fait appel à la foction add que j'ai créé dans crudnoserv.php qui s'occupe de inserer les infos dans les variable dans la tab service
         $data=add($num_service,$service,$ville);
-      
     }
 }
-elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action']=='edit') {
+elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action']=='edit') { //je verifie si le tableau $_GET n'est pas vide et si dans le GET[action]==edit
+    //je rentre les valeurs reçu dans le post dans des variables en anticipant leur valeur, s'ils sont vides, en leur donnant une valeur NULL
     $id=$_POST['num_service'];
     $service=$_POST['nom_service'] ? "'".$_POST['nom_service']."'":'NULL';
     $ville=$_POST['ville'] ? "'".$_POST['ville']."'":'NULL';
 
+     //j'appelle la fonction edit que j'ai créé dans crudnoserv.php qui s'occupe de modifier les infos correspondant a num_service  dans la tab service
     edit($id,$service,$ville);
 }
-elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action']=='sup' && $_GET['id']){
-    $id=$_GET['id'];
+elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action']=='sup' && $_GET['id']){//je verifie si le tableau $_GET n'est pas vide et si dans le GET[action]==sup et que id est present dans le get
+    $id=$_GET['id'];// ici je recupere l'id dans le get et je le met dans une variable
    
-    $data=delete($id);
+    delete($id);//je fais appel à la fonction delete dans crudnoserv.php qui va s'ocuper de sup la row corespondant id
 
 }
-elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action']=='modif' && $_GET['id']){
-    $id=$_GET['id'];
-    $data=afficheDansForm($id);
+elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action']=='modif' && $_GET['id']){ //je verifie si le tableau $_GET n'est pas vide , si dans le GET[action]==modif et si l'id est bien presente dans le get
+    $id=$_GET['id']; //je recup l'id du get et je la met dans la variable $id
+    $data=rechercheserv($id); //j'utilise la fonction rechercheserv, créé dans crud.php, pour recuperer la row de la tab emp vis à $id, qui m'est retourné en tableau associatif dans la variable data
+    //ici je recupère chaque élement dans data grace au clés du tableau assoc et je les met dans une variable et je les echo dans le form de la modification
     $num_service=$data['num_service'];
     $service=$data['nom_service'];
     $ville=$data['ville'];
@@ -73,19 +76,23 @@ elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action']=='modif' && $
                             <th scope="col">Détails</th>
                         </tr>
                         <?php
-                            
+                            //ici je fai sun foreach pour recuperer la table entière, à l'aide de la fonction que j'ai créé dans crudnoserv.php, que je receptionne dans un tableau que je parcours à l'aide du foreach
                             foreach (afficheTab() as $key => $value) {
-                            
+                                 //chaque value contient un tableau assoc et je parcours à partir d'ici
                                 ?>
                                 <tr>
                                     <td><?php echo $value['num_service'];?></td>
                                     <td><?php echo $value['nom_service'];?></td>
                                     <td><?php echo $value['ville'];?></td>
                                     <td><a href="service.php?id=<?php echo $value['num_service'];?>&action=modif"><button type="button" class="btn btn-success">Modifier</button></a></td>
-                                    <td><?php if (isServiceAffect($value['num_service'])==FALSE) {
+                                    <td>
+                                    <!-- ici je gère le bouton de suppression à l'aide de la fonction isServiceAffect() pour enlever la possibilité de supprimer un service qui est affecté aux employes de la tab employe grâce à la jointure -->
+                                    <?php if (isServiceAffect($value['num_service'])==FALSE) {
                                         ?>
                                         <a href="service.php?id=<?php echo $value['num_service'];?>&action=sup"><button type="button" class="btn btn-danger">X</button>
-                                    </a><?php } ?></td>
+                                    </a><?php } ?>
+                                    <!-- ici je gère le bouton de suppression à l'aide de la fonction isServiceAffect() pour enlever la possibilité de supprimer un service qui est affecté aux employes de la tab employe grâce à la jointure -->
+                                    </td>
                                     <td><a href="serviceinf.php?id=<?php echo $value['num_service'];?>&action=infosserv"><button type="button" class="btn btn-info" visibilyti>Détails</button></a></td>
                                 </tr>
                                 <?php
@@ -98,6 +105,7 @@ elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action']=='modif' && $
                         </div>
                         <div class="container-fluid">
                             <div class="col-6 rounded mx-auto d-block">
+                            <!-- ce formulaire gere les ajouts et les modifications de mannière inteligente grâce l'action du get -->
                                 <form action="service.php?action=<?php if ($_GET['action']=="modif") {
                                     echo "edit";
                                 }
@@ -107,6 +115,7 @@ elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action']=='modif' && $
                                ?>" class="form" method="POST">
                                     <div class="form-row">
                                     <div class="form-group col-md-6">
+                                     <!-- pour chanque value du form j'echo les infos à modifier si dans le get action==modif dans le cas contraire, le placeholder remplace les values -->
                                     <input type="text" class="form-control" id="num_service" name="num_service" value="<?php if ($_GET['action']=='modif') {
                                         echo $num_service;
                                     }?>" placeholder="numero de service">

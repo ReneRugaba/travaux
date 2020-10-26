@@ -9,8 +9,8 @@
     <title>Document</title>
 </head>
 <body>
+<!-- ici se trouve le portail qui permet d'acceder à aux tableaux service et employe -->
     <div class="container-fluid">
-    
         <div class="row">
             <div class="col-6 mx-auto d-block">
                 <form class="form-inline form">

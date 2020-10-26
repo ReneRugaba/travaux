@@ -32,11 +32,11 @@ if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { 
     $salaire = $_POST['salaire'] ? "'" . $_POST['salaire'] . "'" : 'NULL';
     $commission = $_POST['commission'] ? "'" . $_POST['commission'] . "'" : 'NULL';
 
-    //j'appelle la fonction edit que j'ai créé dans crud.php qui s'occupe de modifier les infos correspondant num_employe dans $id
+    //j'appelle la fonction edit que j'ai créé dans crud.php qui s'occupe de modifier les infos correspondant a num_employe dans la tab employe
     $data = edit($id, $nom, $prenom, $emp, $sup, $embauche, $salaire, $commission);
 } elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'sup' && $_GET['id']) { //je verifie si le tableau $_GET n'est pas vide et si dans le GET[action]==sup et que id est present dans le get
     $id = $_GET['id']; // ici je recupere l'id dans le get et je le met dans une variable
-    $data = delete($id); //je me sers de cette variable pour faire appel à la fonction delete dans crud.php qui va s'ocuper de sup la row corespondant id
+    delete($id); //je fais appel à la fonction delete dans crudnoserv.php qui va s'ocuper de sup la row corespondant id
 
 
 } elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'modif' && $_GET['id']) { //je verifie si le tableau $_GET n'est pas vide , si dans le GET[action]==modif et si l'id est bien presente dans le get

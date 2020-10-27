@@ -17,7 +17,7 @@ class Maison extends Batiment
     /**
      * Get the value of nbPieces
      */
-    public function getNbPieces()
+    public function getNbPieces(): int
     {
         return $this->nbPieces;
     }
@@ -27,7 +27,7 @@ class Maison extends Batiment
      *
      * @return  self
      */
-    public function setNbPieces($nbPieces)
+    public function setNbPieces(int $nbPieces): self
     {
         $this->nbPieces = $nbPieces;
 

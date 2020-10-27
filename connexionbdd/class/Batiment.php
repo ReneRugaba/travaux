@@ -9,7 +9,7 @@ class Batiment
 
 
 
-    function __construct($newadress)
+    function __construct(string $newadress)
     {
         $this->adresse = $newadress;
     }
@@ -38,7 +38,7 @@ class Batiment
     /**
      * Get the value of superficie
      */
-    public function getSuperficie()
+    public function getSuperficie(): int
     {
         return $this->superficie;
     }

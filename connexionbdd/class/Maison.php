@@ -1,20 +1,22 @@
 <?php
 
-include('Batiment');
+include('Batiment.php');
 
-class Maison extends Batiment{
+class Maison extends Batiment
+{
     private $nbPieces;
 
-    function __construct($newAdresse,$newSuperficie,$newNbPieces){
-        $this->adresse=$newAdresse;
-        $this->supeficie=$newSuperficie;
-        $this->nbPieces=$newNbPieces;
+    function __construct(string $newAdresse, int $newSuperficie, int $newNbPieces)
+    {
+        $this->adresse = $newAdresse;
+        $this->superficie = $newSuperficie;
+        $this->nbPieces = $newNbPieces;
     }
 
 
     /**
      * Get the value of nbPieces
-     */ 
+     */
     public function getNbPieces()
     {
         return $this->nbPieces;
@@ -24,7 +26,7 @@ class Maison extends Batiment{
      * Set the value of nbPieces
      *
      * @return  self
-     */ 
+     */
     public function setNbPieces($nbPieces)
     {
         $this->nbPieces = $nbPieces;
@@ -33,7 +35,8 @@ class Maison extends Batiment{
     }
 
     // accesseur class
-    function __toString(){
-        return "{adesse}: ".$this->adresse."{superficie}: ".$this->superficie. "{nb de pieces}: ".$this->nbPieces;
+    function __toString()
+    {
+        return "{adresse}: " . $this->adresse . "{superficie}: " . $this->superficie . "{nb de pieces}: " . $this->nbPieces;
     }
 }

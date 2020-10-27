@@ -1,22 +1,24 @@
 <?php
 
 
-class Batiment {
+class Batiment
+{
     private $adresse;
     private $superficie;
 
 
 
 
-    function __construct($newadress){
-        $this->adresse=$newadress;
+    function __construct($newadress)
+    {
+        $this->adresse = $newadress;
     }
 
 
     /**
      * Get the value of adresse
-     */ 
-    public function getAdresse():string
+     */
+    public function getAdresse(): string
     {
         return $this->adresse;
     }
@@ -25,7 +27,7 @@ class Batiment {
      * Set the value of adresse
      *
      * @return  self
-     */ 
+     */
     public function setAdresse(string $adresse): self
     {
         $this->adresse = $adresse;
@@ -35,7 +37,7 @@ class Batiment {
 
     /**
      * Get the value of superficie
-     */ 
+     */
     public function getSuperficie()
     {
         return $this->superficie;
@@ -45,8 +47,8 @@ class Batiment {
      * Set the value of superficie
      *
      * @return  self
-     */ 
-    public function setSuperficie(int $superficie):int
+     */
+    public function setSuperficie(int $superficie): self
     {
         $this->superficie = $superficie;
 
@@ -54,8 +56,8 @@ class Batiment {
     }
 
 
-    function __toString(){
-        return "{adresse} :".$this->adresse."{superficie} :".$this->superficie;
+    function __toString()
+    {
+        return "{adresse} :" . $this->adresse . "{superficie} :" . $this->superficie;
     }
-    
 }

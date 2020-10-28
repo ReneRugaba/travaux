@@ -9,7 +9,7 @@ class Batiment
 
 
 
-    function __construct(string $newadress)
+    public function __construct(string $newadress)
     {
         $this->adresse = $newadress;
     }

@@ -3,24 +3,26 @@ include_once('Personne.php');
 include_once('Profil.php');
 
 
-class Utilisateur extends Personne{
+class Utilisateur extends Personne
+{
     private $log;
     private $passWord;
     private $service;
     private $profil;
 
-    public function __construct(Personne $personne,string $log,string $passWord,string $service)
+    public function __construct(Personne $personne, string $log, string $passWord, string $service, Profil $profil)
     {
-        parent::__construct($personne->getId(),$personne->getNom(),$personne->getPrenom(),$personne->getMail(),$personne->getTelephone(),$personne->getSalaire());
-        $this->log=$log;
-        $this->passWord=$passWord;
-        $this->service=$service;
+        parent::__construct($personne->getId(), $personne->getNom(), $personne->getPrenom(), $personne->getMail(), $personne->getTelephone(), $personne->getSalaire());
+        $this->log = $log;
+        $this->passWord = $passWord;
+        $this->service = $service;
+        $this->profil = $profil;
     }
 
     /**
      * Get the value of log
-     */ 
-    public function getLog():string
+     */
+    public function getLog(): string
     {
         return $this->log;
     }
@@ -29,8 +31,8 @@ class Utilisateur extends Personne{
      * Set the value of log
      *
      * @return  self
-     */ 
-    public function setLog(string $log):self
+     */
+    public function setLog(string $log): self
     {
         $this->log = $log;
 
@@ -39,8 +41,8 @@ class Utilisateur extends Personne{
 
     /**
      * Get the value of passWord
-     */ 
-    public function getPassWord():string
+     */
+    public function getPassWord(): string
     {
         return $this->passWord;
     }
@@ -49,8 +51,8 @@ class Utilisateur extends Personne{
      * Set the value of passWord
      *
      * @return  self
-     */ 
-    public function setPassWord(string $passWord):self
+     */
+    public function setPassWord(string $passWord): self
     {
         $this->passWord = $passWord;
 
@@ -59,8 +61,8 @@ class Utilisateur extends Personne{
 
     /**
      * Get the value of service
-     */ 
-    public function getService():string
+     */
+    public function getService(): string
     {
         return $this->service;
     }
@@ -69,8 +71,8 @@ class Utilisateur extends Personne{
      * Set the value of service
      *
      * @return  self
-     */ 
-    public function setService(string $service):self
+     */
+    public function setService(string $service): self
     {
         $this->service = $service;
 
@@ -78,27 +80,26 @@ class Utilisateur extends Personne{
     }
 
     // calculSalaire
-    public function calculerSalaire(): float{
-        if ($this->profil->getCode()=='MN') {
-            return $this->$salaire*1.10;
-        }
-        elseif ($this->profil->getCode()=='DG') {
-           return $this->$salaire*1.40;
-        }
-        else
-        {
+    public function calculerSalaire(): float
+    {
+        if ($this->profil->getCode() == 'MN') {
+            return $this->getSalaire() * 1.10;
+        } elseif ($this->profil->getCode() == 'DG') {
+            return $this->getSalaire() * 1.40;
+        } else {
             return $this->salaire;
         }
     }
 
     // affiche
-    public function affiche():void{
+    public function affiche(): void
+    {
         echo $this;
     }
 
     /**
      * Get the value of profil
-     */ 
+     */
     public function getProfil(): Profil
     {
         return $this->profil;
@@ -108,8 +109,8 @@ class Utilisateur extends Personne{
      * Set the value of profil
      *
      * @return  self
-     */ 
-    public function setProfil(Profil $profil):self
+     */
+    public function setProfil(Profil $profil): self
     {
         $this->profil = $profil;
 

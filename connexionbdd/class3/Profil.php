@@ -1,26 +1,34 @@
 <?php
 
 
-class Profil{
+class Profil
+{
     private $id;
     private $code;
     private $libelle;
-    
+
+
+    public function __construct(int $id, string $code, string $libelle)
+    {
+        $this->id = $id;
+        $this->code = $code;
+        $this->libelle = $libelle;
+    }
 
     /**
      * Get the value of id
-     */ 
-    public function getId():int
+     */
+    public function getId(): int
     {
         return $this->id;
     }
 
-    
+
 
     /**
      * Get the value of code
-     */ 
-    public function getCode():string
+     */
+    public function getCode(): string
     {
         return $this->code;
     }
@@ -29,8 +37,8 @@ class Profil{
      * Set the value of code
      *
      * @return  self
-     */ 
-    public function setCode(string $code):self
+     */
+    public function setCode(string $code): self
     {
         $this->code = $code;
 
@@ -39,8 +47,8 @@ class Profil{
 
     /**
      * Get the value of libelle
-     */ 
-    public function getLibelle():string
+     */
+    public function getLibelle(): string
     {
         return $this->libelle;
     }
@@ -49,15 +57,16 @@ class Profil{
      * Set the value of libelle
      *
      * @return  self
-     */ 
-    public function setLibelle(string $libelle):self
+     */
+    public function setLibelle(string $libelle): self
     {
         $this->libelle = $libelle;
 
         return $this;
     }
 
-    public function __toString(){
+    public function __toString()
+    {
         return $this->libelle;
     }
 }

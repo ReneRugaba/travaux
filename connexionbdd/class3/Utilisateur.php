@@ -10,9 +10,9 @@ class Utilisateur extends Personne
     private $service;
     private $profil;
 
-    public function __construct(Personne $personne, string $log, string $passWord, string $service, Profil $profil)
+    public function __construct(int $id,string $nom,string $prenom,string $mail,string $telephone,float $salaire, string $log, string $passWord, string $service, Profil $profil)
     {
-        parent::__construct($personne->getId(), $personne->getNom(), $personne->getPrenom(), $personne->getMail(), $personne->getTelephone(), $personne->getSalaire());
+        parent::__construct($id, $nom, $prenom, $mail, $telephone, $salaire);
         $this->log = $log;
         $this->passWord = $passWord;
         $this->service = $service;
@@ -80,7 +80,7 @@ class Utilisateur extends Personne
     }
 
     // calculSalaire
-    public function calculerSalaire(): float
+    public function calculSalaire(): float
     {
         if ($this->profil->getCode() == 'MN') {
             return $this->getSalaire() * 1.10;

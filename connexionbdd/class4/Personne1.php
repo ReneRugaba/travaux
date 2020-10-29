@@ -1,5 +1,6 @@
 <?php
 
+
 abstract class Personne{
     protected $id;
     protected $nom;
@@ -7,31 +8,36 @@ abstract class Personne{
     protected $mail;
     protected $telephone;
     protected $salaire;
+    public static $counter=0;
 
-    public function __construct(int $id,string $nom,string $prenom,string $mail,string $telephone,float $salaire)
-    {
-        $this->id=$id;
-        $this->nom=$nom;
-        $this->prenom=$prenom;
-        $this->mail=$mail;
-        $this->telephone=$telephone;
-        $this->salaire=$salaire;
-    }
-
-    /**
-     * Get the value of id
-     */ 
-    public function getId(): int
-    {
-        return $this->id;
-    }
+   
 
     
 
     /**
+     * Get the value of id
+     */ 
+    public function getId():int
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set the value of id
+     *
+     * @return  self
+     */ 
+    public function setId(int $id):self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
      * Get the value of nom
      */ 
-    public function getNom(): string
+    public function getNom():string
     {
         return $this->nom;
     }
@@ -111,7 +117,7 @@ abstract class Personne{
     /**
      * Get the value of salaire
      */ 
-    public function getSalaire():float 
+    public function getSalaire():float
     {
         return $this->salaire;
     }
@@ -128,13 +134,30 @@ abstract class Personne{
         return $this;
     }
 
-    // calcul salaire
-    public abstract function calculSalaire();
-
-    // affiche
-    public function affiche(){
-
+    /**
+     * Get the value of counter
+     */ 
+    public function getCounter():int
+    {
+        return $this->counter;
     }
 
+    /**
+     * Set the value of counter
+     *
+     * @return  self
+     */ 
+    public function setCounter(int $counter):self
+    {
+        $this->counter = $counter;
 
+        return $this;
+    }
+
+    public abstract function calculSalaire():float;
+
+    public function __toString()
+    {
+        return "{id}; ". $this->id." {nom}; ". $this->nom." {prenom}; ". $this->prenom." {mail}; ". $this->mail." {telephone}; ". $this->telephone."{salaire}; ". $this->salaire."{counter}; ". self::$counter;
+    }
 }

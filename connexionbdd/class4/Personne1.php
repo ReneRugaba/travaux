@@ -1,23 +1,33 @@
 <?php
 
 
-abstract class Personne{
+abstract class Personne
+{
     protected $id;
     protected $nom;
     protected $prenom;
     protected $mail;
     protected $telephone;
     protected $salaire;
-    public static $counter=0;
+    public static $counter = 0;
 
-   
 
-    
+    public function __construct(int $id, string $nom, string $prenom, string $mail, string $telephone, float $salaire)
+    {
+        $this->id = $id;
+        $this->nom = $nom;
+        $this->prenom = $prenom;
+        $this->telephone = $telephone;
+        $this->salaire = $salaire;
+        $this->mail = $mail;
+        self::$counter++;
+    }
+
 
     /**
      * Get the value of id
-     */ 
-    public function getId():int
+     */
+    public function getId(): int
     {
         return $this->id;
     }
@@ -26,8 +36,8 @@ abstract class Personne{
      * Set the value of id
      *
      * @return  self
-     */ 
-    public function setId(int $id):self
+     */
+    public function setId(int $id): self
     {
         $this->id = $id;
 
@@ -36,8 +46,8 @@ abstract class Personne{
 
     /**
      * Get the value of nom
-     */ 
-    public function getNom():string
+     */
+    public function getNom(): string
     {
         return $this->nom;
     }
@@ -46,8 +56,8 @@ abstract class Personne{
      * Set the value of nom
      *
      * @return  self
-     */ 
-    public function setNom(string $nom):self
+     */
+    public function setNom(string $nom): self
     {
         $this->nom = $nom;
 
@@ -56,8 +66,8 @@ abstract class Personne{
 
     /**
      * Get the value of prenom
-     */ 
-    public function getPrenom():string
+     */
+    public function getPrenom(): string
     {
         return $this->prenom;
     }
@@ -66,7 +76,7 @@ abstract class Personne{
      * Set the value of prenom
      *
      * @return  self
-     */ 
+     */
     public function setPrenom(string $prenom): self
     {
         $this->prenom = $prenom;
@@ -76,8 +86,8 @@ abstract class Personne{
 
     /**
      * Get the value of mail
-     */ 
-    public function getMail():string
+     */
+    public function getMail(): string
     {
         return $this->mail;
     }
@@ -86,8 +96,8 @@ abstract class Personne{
      * Set the value of mail
      *
      * @return  self
-     */ 
-    public function setMail(string $mail):self
+     */
+    public function setMail(string $mail): self
     {
         $this->mail = $mail;
 
@@ -96,8 +106,8 @@ abstract class Personne{
 
     /**
      * Get the value of telephone
-     */ 
-    public function getTelephone():string
+     */
+    public function getTelephone(): string
     {
         return $this->telephone;
     }
@@ -106,8 +116,8 @@ abstract class Personne{
      * Set the value of telephone
      *
      * @return  self
-     */ 
-    public function setTelephone(string $telephone):self
+     */
+    public function setTelephone(string $telephone): self
     {
         $this->telephone = $telephone;
 
@@ -116,8 +126,8 @@ abstract class Personne{
 
     /**
      * Get the value of salaire
-     */ 
-    public function getSalaire():float
+     */
+    public function getSalaire(): float
     {
         return $this->salaire;
     }
@@ -126,8 +136,8 @@ abstract class Personne{
      * Set the value of salaire
      *
      * @return  self
-     */ 
-    public function setSalaire(float $salaire):self
+     */
+    public function setSalaire(float $salaire): self
     {
         $this->salaire = $salaire;
 
@@ -136,8 +146,8 @@ abstract class Personne{
 
     /**
      * Get the value of counter
-     */ 
-    public function getCounter():int
+     */
+    public function getCounter(): int
     {
         return $this->counter;
     }
@@ -146,18 +156,18 @@ abstract class Personne{
      * Set the value of counter
      *
      * @return  self
-     */ 
-    public function setCounter(int $counter):self
+     */
+    public function setCounter(int $counter): self
     {
         $this->counter = $counter;
 
         return $this;
     }
 
-    public abstract function calculSalaire():float;
+    public abstract function calculSalaire(): float;
 
     public function __toString()
     {
-        return "{id}; ". $this->id." {nom}; ". $this->nom." {prenom}; ". $this->prenom." {mail}; ". $this->mail." {telephone}; ". $this->telephone."{salaire}; ". $this->salaire."{counter}; ". self::$counter;
+        return "{id}; " . $this->id . " {nom}; " . $this->nom . " {prenom}; " . $this->prenom . " {mail}; " . $this->mail . " {telephone}; " . $this->telephone . "{salaire}; " . $this->salaire . "{counter}; " . self::$counter;
     }
 }

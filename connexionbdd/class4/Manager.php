@@ -8,13 +8,7 @@ class Manager extends Personne
 
     public function __construct(int $id, string $nom, string $prenom, string $mail, string $telephone, float $salaire, $service)
     {
-        $this->id = $id;
-        $this->nom = $nom;
-        $this->prenom = $prenom;
-        $this->telephone = $telephone;
-        $this->salaire = $salaire;
-        $this->mail = $mail;
-        self::$counter = self::$counter + 1;
+        parent::__construct($id,$nom,$prenom,$mail,$telephone,$salaire,$service);
         $this->service = $service;
     }
 

@@ -10,12 +10,13 @@
 </head>
 
 <body>
+    <!-- ce formulaire permet de se coennecter à la base de donnée utilisateurs -->
     <div class="container-fluid">
         <div class="row">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-4 mx-auto d-block ">
-                        <form class="form">
+                        <form class="form" action="profilex.php" method="POST">
                             <div class="form-group row">
                                 <div class="col-sm-10">
                                     <input type="email" class="form-control" id="inputEmail3" name="email" placeholder="email">

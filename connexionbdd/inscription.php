@@ -10,10 +10,11 @@
 </head>
 
 <body>
+    <!-- ce formulaire sert à l'inscription pour la base de donnée utilisateur -->
     <div class="container-fluid">
         <div class="row">
             <div class="col-4 mx-auto d-block">
-                <form class="needs-validation form" novalidate>
+                <form class="needs-validation form" action="execute.php" method="POST">
                     <div class="form-row">
                         <div class="col-md-12 mb-3">
                             <input type="email" class="form-control" name="email" placeholder="votre e-mail" required>
@@ -28,25 +29,9 @@
                             <div class="valid-tooltip">
                                 Looks good!
                             </div>
-                            <input type="password" name="password" class="form-control" required placeholder="confirmation mo de passe">
+                            <input type="password" name="password2" class="form-control" required placeholder="confirmation mot de passe">
                             <div class="valid-tooltip">
                                 Looks good!
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col">
-                            <div class="row">
-                                <div class="col-md-12 mb-3">
-                                    <input type="radio" name="profil" class="form-check-input">
-                                    <label for="profil" class="form-check-label">utilisateur</label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12 mb-3">
-                                    <input type="radio" name="profil" class="form-check-input">
-                                    <label for="profil" class="form-check-label">admin</label>
-                                </div>
                             </div>
                         </div>
                     </div>

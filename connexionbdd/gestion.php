@@ -1,4 +1,6 @@
 <?php
+session_start();
+include('conditionConsultPages.php');
 include("crud.php");
 
 
@@ -75,7 +77,7 @@ if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { 
                 <form class="form-inline form">
                     <fieldset>
                         <legend>PORTAIL:</legend>
-                        <a href="accueil.php?"><button class="btn btn-outline-success" type="button">Accueil</button></a>
+                        <a href="profilsession.php?"><button class="btn btn-outline-success" type="button">Accueil</button></a>
                         <a href="service.php?action=ajouter"><button class="btn btn-outline-primary" type="button">Tableau des services</button></a>
                     </fieldset>
                 </form>
@@ -115,13 +117,21 @@ if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { 
                                 <td><?php echo $value['emploi']; ?></td>
                                 <td><?php echo $value['sup']; ?></td>
                                 <td><?php echo $value['embauche']; ?></td>
-                                <td><?php echo $value['sal']; ?></td>
-                                <td><?php echo $value['comm']; ?></td>
+                                <td><?php if ($_SESSION['profil'] == 'admin') {
+                                        echo $value['sal'];
+                                    } ?></td>
+                                <td><?php if ($_SESSION['profil'] == 'admin') {
+                                        echo $value['comm'];
+                                    } ?></td>
                                 <td><?php echo $value['noserv']; ?></td>
-                                <td><a href="gestion.php?id=<?php echo $value['noemp']; ?>&action=modif"><button type="button" class="btn btn-success">Modifier</button></a></td>
+                                <td><a href="gestion.php?id=<?php echo $value['noemp']; ?>&action=modif"><?php
+                                                                                                            if ($_SESSION['profil'] == 'admin') {
+                                                                                                            ?><button type="button" class="btn btn-success">Modifier</button><?php
+                                                                                                                                                                            }
+                                                                                                                                                                                ?></a></td>
 
                                 <!-- ici je gère le bouton de suppression à l'aide de la fonction isServiceAffect() pour enlever la possibilité de supprimer un supperieur hierarchique -->
-                                <td><?php if (isServiceAffect($value['noemp']) == FALSE) {
+                                <td><?php if (isServiceAffect($value['noemp']) == FALSE && $_SESSION['profil'] == 'admin') {
                                     ?>
                                         <a href="gestion.php?id=<?php echo $value['noemp']; ?>&action=sup"><button type="button" class="btn btn-danger">X</button></a>
                                     <?php
@@ -135,71 +145,87 @@ if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { 
                         ?>
                 </table>
                 <div class="container-fluid">
-                    <div class="row">
-                        <a href="gestion.php?action=ajouter" class="mx-auto d-block"><button type="button" class="btn btn-primary">Ajouter</button></a>
-                    </div>
+                    <?php
+                    if ($_SESSION['profil'] == 'admin') {
+                    ?>
+                        <div class="row">
+                            <a href="gestion.php?action=ajouter" class="mx-auto d-block"><button type="button" class="btn btn-primary">Ajouter</button></a>
+                        </div>
+                    <?php
+                    }
+                    ?>
                 </div>
                 <div class="container-fluid">
                     <div class="col-6 rounded mx-auto d-block">
                         <!-- ce formulaire gere les ajouts et les modifications de mannière inteligente grâce l'action du get -->
-                        <form action="gestion.php?action=<?php if ($_GET['action'] == 'modif') {
-                                                                echo "edit";
-                                                            } else {
-                                                                echo "ajouter";
-                                                            }
-                                                            ?>" class="form" method="POST">
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <!-- pour chanque value du form j'echo les infos à modifier si dans le get action==modif dans le cas contraire, le placeholder remplace les values -->
-                                    <input type="text" class="form-control" id="noemp" name="noemp" value="<?php if ($_GET['action'] == 'modif') {
-                                                                                                                echo $noemp;
-                                                                                                            }
-                                                                                                            ?>" placeholder="numero d'employé">
+                        <?php
+                        if ($_SESSION['profil'] == 'admin') {
+                        ?>
+                            <form action="gestion.php?action=<?php if ($_GET['action'] == 'modif') {
+                                                                    echo "edit";
+                                                                } else {
+                                                                    echo "ajouter";
+                                                                }
+                                                                ?>" class="form" method="POST">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <!-- pour chanque value du form j'echo les infos à modifier si dans le get action==modif dans le cas contraire, le placeholder remplace les values -->
+                                        <input type="text" class="form-control" id="noemp" name="noemp" value="<?php if ($_GET['action'] == 'modif') {
+                                                                                                                    echo $noemp;
+                                                                                                                }
+                                                                                                                ?>" placeholder="numero d'employé">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <input type="text" class="form-control" id="nom" name="nom" value="<?php if ($_GET['action'] == 'modif') {
+                                                                                                                echo $nom;
+                                                                                                            } ?>" placeholder="nom">
+                                    </div>
                                 </div>
-                                <div class="form-group col-md-6">
-                                    <input type="text" class="form-control" id="nom" name="nom" value="<?php if ($_GET['action'] == 'modif') {
-                                                                                                            echo $nom;
-                                                                                                        } ?>" placeholder="nom">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="prenom" name="prenom" value="<?php if ($_GET['action'] == 'modif') {
+                                                                                                                    echo $prenom;
+                                                                                                                } ?>" placeholder="prenom">
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" id="prenom" name="prenom" value="<?php if ($_GET['action'] == 'modif') {
-                                                                                                                echo $prenom;
-                                                                                                            } ?>" placeholder="prenom">
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" id="emploi" name="emploi" value="<?php if ($_GET['action'] == 'modif') {
-                                                                                                                echo $emploi;
-                                                                                                            } ?>" placeholder="emploi">
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" id="sup" name="sup" value="<?php if ($_GET['action'] == 'modif') {
-                                                                                                        echo $sup;
-                                                                                                    } ?>" placeholder="sup">
-                            </div>
-                            <div class="form-group">
-                                <label for="date">Date embauche:</label>
-                                <input type="date" class="form-control" id="date" name="embauche" value="<?php if ($_GET['action'] == 'modif') {
-                                                                                                                echo $embauche;
-                                                                                                            } ?>" placeholder="embauche">
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" id="sal" name="sal" value="<?php if ($_GET['action'] == 'modif') {
-                                                                                                        echo $sal;
-                                                                                                    } ?>" placeholder="salaire">
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" id="comm" name="comm" value="<?php if ($_GET['action'] == 'modif') {
-                                                                                                            echo $comm;
-                                                                                                        } ?>" placeholder="commission">
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" id="noserv" name="noserv" value="<?php if ($_GET['action'] == 'modif') {
-                                                                                                                echo $noserv;
-                                                                                                            } ?>" placeholder="numero de service">
-                            </div>
-                            <button type="submit" class="btn btn-primary">Modiffier/Ajouter</button>
-                        </form>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="emploi" name="emploi" value="<?php if ($_GET['action'] == 'modif') {
+                                                                                                                    echo $emploi;
+                                                                                                                } ?>" placeholder="emploi">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="sup" name="sup" value="<?php if ($_GET['action'] == 'modif') {
+                                                                                                            echo $sup;
+                                                                                                        } ?>" placeholder="sup">
+                                </div>
+                                <div class="form-group">
+                                    <label for="date">Date embauche:</label>
+                                    <input type="date" class="form-control" id="date" name="embauche" value="<?php if ($_GET['action'] == 'modif') {
+                                                                                                                    echo $embauche;
+                                                                                                                } ?>" placeholder="embauche">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="sal" name="sal" value="<?php if ($_GET['action'] == 'modif') {
+                                                                                                            echo $sal;
+                                                                                                        } ?>" placeholder="salaire">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="comm" name="comm" value="<?php if ($_GET['action'] == 'modif') {
+                                                                                                                echo $comm;
+                                                                                                            } ?>" placeholder="commission">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="noserv" name="noserv" value="<?php if ($_GET['action'] == 'modif') {
+                                                                                                                    echo $noserv;
+                                                                                                                } ?>" placeholder="numero de service">
+                                </div>
+                                <?php
+                                if ($_SESSION['profil'] == 'admin') {
+                                ?><button type="submit" class="btn btn-primary">Modiffier/Ajouter</button><?php
+                                                                                                        }
+                                                                                                            ?>
+                            </form>
+                        <?php
+                        }
+                        ?>
                     </div>
                 </div>
             </div>

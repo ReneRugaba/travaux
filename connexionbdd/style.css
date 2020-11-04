@@ -10,3 +10,7 @@ table{
 .form{
     margin-top: 25%;
 }
+
+.messageErr{
+    color: red;
+}

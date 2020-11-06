@@ -1,49 +1,83 @@
 <?php
 include("connectbdd.php");
 //cette fonction ajoute un nouveau serv dans la table serv
-function add($noserv, $serv, $ville)
+function add(Service2 $service2)
 {
     $db = connectBdd();
-    $sql = "INSERT INTO serv VALUES($noserv,$serv,$ville)";
-    $data = mysqli_query($db, $sql);
+    $req = $db->prepare("INSERT INTO serv VALUES(?,?,?)");
+    $noser = $service2->getNoserv();
+    $serv = $service2->getService();
+    $ville = $service2->getVille();
+    $req->bind_param(
+        'iss',
+        $noser,
+        $serv,
+        $ville
+    );
+    $req->execute();
+    $db->close();
 }
 
 //cet fonction suprime la row d'un serv par ID=noserv
 function delete($id)
 {
     $db = connectBdd();
-    $sql = "DELETE FROM serv WHERE noserv=$id";
-    $res = mysqli_query($db, $sql);
+    $req = $db->prepare("DELETE FROM serv WHERE noserv=?");
+    $req->bind_param('i', $id);
+    $req->execute();
+    $db->close();
 }
-//cette fonction retoune la row d'un serv et le retourne dans un tableau assoc pour etre afficher dans servinf.php
+//cette fonction cherche la row d'un serv et la retourne dans un tableau assoc pour etre afficher dans servinf.php
 function rechercheserv($id)
 {
     $db = connectBdd();
-    $rs = mysqli_query($db, "SELECT * FROM serv WHERE noserv=$id");
-    $data = mysqli_fetch_array($rs, MYSQLI_ASSOC);
+    $req = $db->prepare("SELECT * FROM serv WHERE noserv=?");
+    $req->bind_param('i', $id);
+    $req->execute();
+    $rs = $req->get_result();
+    $data = $rs->fetch_array(MYSQLI_ASSOC);
+    $rs->free();
+    $db->close();
     return $data;
 }
 // cette fonction met à jour les information d'un serv après modification par form vis à  POST
-function edit($id, $serv, $ville)
+function edit(Service2 $service2)
 {
     $db = connectBdd();
-    $sql = "UPDATE serv SET  service=$serv, ville=$ville WHERE noserv=$id";
-    $data = mysqli_query($db, $sql);
+    $req = $db->prepare("UPDATE serv SET  service=?, ville=? WHERE noserv=?");
+    $serv = $service2->getService();
+    $ville = $service2->getVille();
+    $id = $service2->getNoserv();
+    $req->bind_param(
+        'ssi',
+        $serv,
+        $ville,
+        $id
+    );
+    $req->execute();
+    $db->close();
 }
 //fonction recupere toute la table serv et la retourne sous forme d'un array associatif
 function afficheTab()
 {
     $db = connectBdd();
-    $rs = mysqli_query($db, 'SELECT * FROM serv');
-    $data = mysqli_fetch_all($rs, MYSQLI_ASSOC);
+    $req = $db->prepare('SELECT * FROM serv');
+    $req->execute();
+    $rs = $req->get_result();
+    $data = $rs->fetch_all(MYSQLI_ASSOC);
+    $rs->free();
+    $db->close();
     return $data;
 }
 //cette fonction verifie si le noserv, dans la table serv, correspond au noserv, dans emp, par jointure et retourne un booleen
 function isservAffect($num)
 {
     $db = connectBdd();
-    $rs = mysqli_query($db, "SELECT*FROM emp AS A INNER JOIN serv AS B ON A.noserv=B.noserv WHERE A.noserv=$num");
-    $data = mysqli_fetch_all($rs, MYSQLI_ASSOC);
+    $req = $db->prepare("SELECT*FROM emp AS A INNER JOIN serv AS B ON A.noserv=B.noserv WHERE A.noserv=?");
+    $req->bind_param('i', $num);
+    $req->execute();
+    $rs = $req->get_result();
+    $data = $rs->fetch_all(MYSQLI_ASSOC);
     if (!empty($data)) {
         return TRUE;
     }

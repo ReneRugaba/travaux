@@ -2,47 +2,54 @@
 session_start();
 include('conditionConsultPages.php');
 include("crud.php");
+include_once('Employe2.php');
 
 
 
 if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { //je verifie si le tableau $_POST n'est pas vide et si dans le GET[action]==ajouter
     if (isset($_POST['noemp']) && !empty($_POST['noemp']) && isset($_POST['noserv']) && !empty($_POST['noserv'])) { //Si la verification est ok je verifie si dans le post noemp  et noserv existe et qu'il ne sont pas vide
 
-        //je recupere chaque element du post dans des variables en anticipant leur valeur, s'ils sont vides, en leur donnant une valeur NULL
-        $noemp = $_POST['noemp'];
-        $nom = $_POST['nom'] ? "'" . $_POST['nom'] . "'" : 'NULL';
-        $prenom = $_POST['prenom'] ? "'" . $_POST['prenom'] . "'" : 'NULL';
-        $emp = $_POST['emploi'] ? "'" . $_POST['emploi'] . "'" : 'NULL';
-        $sup = $_POST['sup'] ? "'" . $_POST['sup'] . "'" : 'NULL';
-        $embauche = $_POST['embauche'] ? "'" . $_POST['embauche'] . "'" : 'NULL';
-        $sal = $_POST['sal'] ? "'" . $_POST['sal'] . "'" : 'NULL';
-        $comm = $_POST['comm'] ? "'" . $_POST['comm'] . "'" : 'NULL';
-        $noserv = $_POST['noserv'];
-
+        $employe = new Employe2();
+        $id = $_POST['noemp'];
+        $nom = $_POST['nom'];
+        $prenom = $_POST['prenom'];
+        $emp = $_POST['emploi'];
+        $sup = $_POST['sup'] ? $_POST['sup'] : NULL;
+        $embauche = $_POST['embauche'];
+        $sal = $_POST['sal'] ? $_POST['sal'] : NULL;
+        $comm = $_POST['comm'] ? $_POST['comm'] : NULL;
+        $noser = $_POST['noserv'];
+        $employe->setNoemp($id)->setNom($nom)->setPrenom($prenom)->setEmploi($emp)->setSup($sup)->setEmbauche($date = new DateTime($embauche))->setSal($sal)->setComm($comm)->setNoserv($noser);
 
         //ici je fait appel à la foction add que j'ai créé dans crud.php ui s'occupe de rajouter les infos dans les variable dans la tab employe
-        $data = add($noemp, $nom, $prenom, $emp, $sup, $embauche, $sal, $comm, $noserv);
+        add($employe);
     }
 } elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'edit') { //je verifie si le tableau $_GET n'est pas vide et si dans le GET[action]==edit
     //je rentre les valeurs reçu dans le post dans des variables en anticipant leur valeur, s'ils sont vides, en leur donnant une valeur NULL
+
+
+    $employe = new Employe2();
     $id = $_POST['noemp'];
-    $nom = $_POST['nom'] ? "'" . $_POST['nom'] . "'" : 'NULL';
-    $prenom = $_POST['prenom'] ? "'" . $_POST['prenom'] . "'" : 'NULL';
-    $emp = $_POST['emploi'] ? "'" . $_POST['emploi'] . "'" : 'NULL';
-    $sup = $_POST['sup'] ? "'" . $_POST['sup'] . "'" : 'NULL';
-    $embauche = $_POST['embauche'] ? "'" . $_POST['embauche'] . "'" : 'NULL';
-    $sal = $_POST['sal'] ? "'" . $_POST['sal'] . "'" : 'NULL';
-    $comm = $_POST['comm'] ? "'" . $_POST['comm'] . "'" : 'NULL';
+    $nom = $_POST['nom'];
+    $prenom = $_POST['prenom'];
+    $emp = $_POST['emploi'];
+    $sup = $_POST['sup'] ? $_POST['sup'] : NULL;
+    $embauche = $_POST['embauche'];
+    $sal = $_POST['sal'] ? $_POST['sal'] : NULL;
+    $comm = $_POST['comm'] ? $_POST['comm'] : NULL;
+    $noser = $_POST['noserv'];
+    $employe->setNoemp($id)->setNom($nom)->setPrenom($prenom)->setEmploi($emp)->setSup($sup)->setEmbauche($date = new DateTime($embauche))->setSal($sal)->setComm($comm)->setNoserv($noser);
+
+
 
     //j'appelle la fonction edit que j'ai créé dans crud.php qui s'occupe de modifier les infos correspondant a noemp dans la tab employe
-    $data = edit($id, $nom, $prenom, $emp, $sup, $embauche, $sal, $comm);
+    edit($employe);
 } elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'sup' && $_GET['id']) { //je verifie si le tableau $_GET n'est pas vide et si dans le GET[action]==sup et que id est present dans le get
     $id = $_GET['id']; // ici je recupere l'id dans le get et je le met dans une variable
     delete($id); //je fais appel à la fonction delete dans crudnoserv.php qui va s'ocuper de sup la row corespondant id
 
 
 } elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'modif' && $_GET['id']) { //je verifie si le tableau $_GET n'est pas vide , si dans le GET[action]==modif et si l'id est bien presente dans le get
-
     $id = $_GET['id']; //je recup l'id et je la met dans la variable $id
     $data = rechercheEmpId($id); //j'utilise la fonction rechercheEmpId, créé dans crud.php, pour recuperer la row de la tab emp vis à $id, qui m'est retourné en tableau associatif dans la variable data
 
@@ -144,17 +151,6 @@ if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { 
                         }
                         ?>
                 </table>
-                <div class="container-fluid">
-                    <?php
-                    if ($_SESSION['profil'] == 'admin') {
-                    ?>
-                        <div class="row">
-                            <a href="gestion.php?action=ajouter" class="mx-auto d-block"><button type="button" class="btn btn-primary">Ajouter</button></a>
-                        </div>
-                    <?php
-                    }
-                    ?>
-                </div>
                 <div class="container-fluid">
                     <div class="col-6 rounded mx-auto d-block">
                         <!-- ce formulaire gere les ajouts et les modifications de mannière inteligente grâce l'action du get -->

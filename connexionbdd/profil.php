@@ -42,8 +42,12 @@ include("crud.php");
                                         <h1><?php echo $data['emploi']; ?></h1>
                                         <p><?php echo $data['sup']; ?></p>
                                         <p><?php echo $data['embauche']; ?></p>
-                                        <p><?php echo $data['sal']; ?></p>
-                                        <p><?php echo $data['comm']; ?></p>
+                                        <p><?php if ($_SESSION['profil'] == 'admin') {
+                                                echo $data['sal'];
+                                            } ?></p>
+                                        <p><?php if ($_SESSION['profil'] == 'admin') {
+                                                echo $data['comm'];
+                                            } ?></p>
                                         <p><?php echo $data['noserv']; ?></p>
                                     </div>
                                 </div>

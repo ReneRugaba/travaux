@@ -114,6 +114,6 @@ abstract class Employe
     public function __toString()
     {
         $dt = new DateToFrench($this->dateN->format('l d F Y'));
-        return "{matricule:} " . $this->matricule . "  {nom:} " . $this->nom . " {prenom} " . $this->prenom . " date de naissance: " . $dt->forma('l d F Y');
+        return "{matricule:} " . $this->matricule . "  {nom:} " . $this->nom . " {prenom} " . $this->prenom . " {date de naissance:} " . $dt->forma('l d F Y');
     }
 }

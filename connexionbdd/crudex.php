@@ -1,4 +1,5 @@
 <?php
+include('connectbdd.php');
 
 /**
  * cette fonction s'occupe de chercher un utilisateur avec la colonne profil
@@ -7,7 +8,7 @@
  */
 function trouveUser(string $nomcol): array
 {
-    $mysqli = new mysqli('localhost', 'malakaie', '123456', 'gestionemploye'); //connection  la base de donnée
+    $mysqli = connectBdd(); //connection  la base de donnée
     $prepare = $mysqli->prepare("select * from utilisateur where profil=?"); //preparation de la requette avant insertion
     $prepare->bind_param('s', $nomcol); //mis en correspondance du ? avec $nomcol
     $prepare->execute(); //execution de la requete
@@ -28,7 +29,7 @@ function trouveUser(string $nomcol): array
 function setUser(string $mail, string $password): void
 {
 
-    $mysqli = new mysqli('localhost', 'malakaie', '123456', 'gestionemploye'); //connection  la base de donnée
+    $mysqli = connectBdd(); //connection  la base de donnée
     $prepare = $mysqli->prepare("insert into utilisateur values(NULL,?,?,'utilisateur')"); //preparation de la requette avant insertion
     $prepare->bind_param("ss", $mail, $password); //mis en correspondance des ? avec $password et $mail
     $prepare->execute(); //execution de la requete
@@ -43,11 +44,15 @@ function setUser(string $mail, string $password): void
  */
 function getConnectUser(string $mail): array
 {
-    $mysqli = new mysqli('localhost', 'malakaie', '123456', 'gestionemploye'); //connection  la base de donnée
+    $mysqli = connectBdd(); //connection  la base de donnée
     $req = $mysqli->prepare("select * from utilisateur where username=?"); //preparation de la requette select
     $req->bind_param('s', $mail); //mis en correspondance du ? avec $mail
     $req->execute(); //execution de la requete
     $rs = $req->get_result(); //recupertion du resultat de la requete
     $array = $rs->fetch_array(MYSQLI_ASSOC); //resutat mis dans un tableau associatif
-    return $array; //retourne un array
+    if (!empty($array)) {
+        return $array; //retourne un array
+    } else {
+        return $array = [];
+    }
 }

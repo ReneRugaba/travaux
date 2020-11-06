@@ -2,6 +2,7 @@
 session_start();
 include('conditionConsultPages.php');
 include("crudnoserv.php");
+include_once('Service2.php');
 
 
 
@@ -9,20 +10,26 @@ if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { 
     if (isset($_POST['noserv'])) { //Si la verification est ok je verifie si dans le post noserv n'est pas vide
         //je recupere chaque element du post dans des variables en anticipant leur valeur, s'ils sont vides, en leur donnant une valeur NULL
         $noserv = $_POST['noserv'];
-        $service = $_POST['service'] ? "'" . $_POST['service'] . "'" : 'NULL';
-        $ville = $_POST['ville'] ? "'" . $_POST['ville'] . "'" : 'NULL';
+        $serv = $_POST['service'] ? $_POST['service']  : NULL;
+        $ville = $_POST['ville'] ? $_POST['ville']  : NULL;
+
+        $service2 = new Service2();
+        $service2->setNoserv($noserv)->setService($serv)->setVille($ville);
 
         //ici je fait appel à la foction add que j'ai créé dans crudnoserv.php qui s'occupe de inserer les infos dans les variable dans la tab service
-        $data = add($noserv, $service, $ville);
+        $data = add($service2);
     }
 } elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'edit') { //je verifie si le tableau $_GET n'est pas vide et si dans le GET[action]==edit
     //je rentre les valeurs reçu dans le post dans des variables en anticipant leur valeur, s'ils sont vides, en leur donnant une valeur NULL
-    $id = $_POST['noserv'];
-    $service = $_POST['service'] ? "'" . $_POST['service'] . "'" : 'NULL';
-    $ville = $_POST['ville'] ? "'" . $_POST['ville'] . "'" : 'NULL';
+    $noserv = $_POST['noserv'];
+    $serv = $_POST['service'] ? $_POST['service']  : NULL;
+    $ville = $_POST['ville'] ? $_POST['ville']  : NULL;
+
+    $service2 = new Service2();
+    $service2->setNoserv($noserv)->setService($serv)->setVille($ville);
 
     //j'appelle la fonction edit que j'ai créé dans crudnoserv.php qui s'occupe de modifier les infos correspondant a noserv  dans la tab service
-    edit($id, $service, $ville);
+    edit($service2);
 } elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'sup' && $_GET['id']) { //je verifie si le tableau $_GET n'est pas vide et si dans le GET[action]==sup et que id est present dans le get
     $id = $_GET['id']; // ici je recupere l'id dans le get et je le met dans une variable
 
@@ -104,13 +111,6 @@ if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { 
                         ?>
                 </table>
                 <div class="container-fluid">
-                    <?php
-                    if ($_SESSION['profil'] == 'admin') {
-                    ?> <div class="row">
-                            <a href="service.php?action=ajouter" class="mx-auto d-block"><button type="button" class="btn btn-primary">Ajouter</button></a>
-                        </div><?php
-                            }
-                                ?>
                     <div class="container-fluid">
                         <div class="col-6 rounded mx-auto d-block">
                             <!-- ce formulaire gere les ajouts et les modifications de mannière inteligente grâce l'action du get -->
@@ -245,9 +245,9 @@ if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { 
                                     </div>
                                     <?php
                                     if ($_SESSION['profil'] == 'admin') {
-                                    ?><button type="submit" class="btn btn-primary">Modifier</button><?php
-                                                                                                    }
-                                                                                                        ?>
+                                    ?><button type="submit" class="btn btn-primary">Modifier/Ajouter</button><?php
+                                                                                                            }
+                                                                                                                ?>
                                 </form>
                             <?php
                             }

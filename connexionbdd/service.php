@@ -13,10 +13,14 @@ if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { 
         $serv = $_POST['service'] ? $_POST['service']  : NULL;
         $ville = $_POST['ville'] ? $_POST['ville']  : NULL;
 
-        $service2 = new Service2();
+        $service2 = new Service2(); //ici je crée mon objet instance de ma class Service2
+
+        /**
+         * ici je donne une valeur à chaque attribut de mon obje employe
+         */
         $service2->setNoserv($noserv)->setService($serv)->setVille($ville);
 
-        //ici je fait appel à la foction add que j'ai créé dans crudnoserv.php qui s'occupe de inserer les infos dans les variable dans la tab service
+        //ici je fait appel à la foction add que j'ai créé dans crudnoserv.php qui s'occupe de inserer les infos dans les variable dans la tab service en donnant mon objet en argu
         $data = add($service2);
     }
 } elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'edit') { //je verifie si le tableau $_GET n'est pas vide et si dans le GET[action]==edit
@@ -25,10 +29,14 @@ if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { 
     $serv = $_POST['service'] ? $_POST['service']  : NULL;
     $ville = $_POST['ville'] ? $_POST['ville']  : NULL;
 
-    $service2 = new Service2();
+    $service2 = new Service2(); //ici je crée mon objet $service
+
+    /**
+     * ici je donne une nouvelle valeur à chaque attribu de mon objet $service à l'aide des setter
+     */
     $service2->setNoserv($noserv)->setService($serv)->setVille($ville);
 
-    //j'appelle la fonction edit que j'ai créé dans crudnoserv.php qui s'occupe de modifier les infos correspondant a noserv  dans la tab service
+    //j'appelle la fonction edit que j'ai créé dans crudnoserv.php qui s'occupe de modifier les infos correspondant a noserv  dans la tab service en lui donnant en argu mon objet $service
     edit($service2);
 } elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'sup' && $_GET['id']) { //je verifie si le tableau $_GET n'est pas vide et si dans le GET[action]==sup et que id est present dans le get
     $id = $_GET['id']; // ici je recupere l'id dans le get et je le met dans une variable

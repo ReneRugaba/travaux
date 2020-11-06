@@ -1,7 +1,13 @@
 <?php
 
+/**
+ * cette class me sert à la création  des objets $employe
+ */
 class Employe2
 {
+    /**
+     * attributs de ma class
+     */
     private $noemp;
     private $nom;
     private $prenom;
@@ -12,7 +18,9 @@ class Employe2
     private $comm;
     private $noserv;
 
-
+    /**
+     * à partir d'ici on trouve l'ensemble des methode de ma classe
+     */
 
     /**
      * Get the value of noemp

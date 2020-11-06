@@ -1,7 +1,13 @@
 <?php
 include("connectbdd.php");
-//cette fonction ajoute un nouveau serv dans la table serv
-function add(Service2 $service2)
+
+/**
+ *cette fonction ajoute un nouveau serv dans la table serv
+ *
+ * @param Service2 $service2
+ * @return void
+ */
+function add(Service2 $service2): void
 {
     $db = connectBdd();
     $req = $db->prepare("INSERT INTO serv VALUES(?,?,?)");
@@ -18,8 +24,13 @@ function add(Service2 $service2)
     $db->close();
 }
 
-//cet fonction suprime la row d'un serv par ID=noserv
-function delete($id)
+/** 
+ *cet fonction suprime la row d'un serv par ID=noserv
+ *
+ * @param integer $id
+ * @return void
+ */
+function delete(int $id): void
 {
     $db = connectBdd();
     $req = $db->prepare("DELETE FROM serv WHERE noserv=?");
@@ -27,8 +38,14 @@ function delete($id)
     $req->execute();
     $db->close();
 }
-//cette fonction cherche la row d'un serv et la retourne dans un tableau assoc pour etre afficher dans servinf.php
-function rechercheserv($id)
+
+/** 
+ *cette fonction cherche la row d'un serv et la retourne dans un tableau assoc pour etre afficher dans servinf.php
+ *
+ * @param integer $id
+ * @return array
+ */
+function rechercheserv(int $id): array
 {
     $db = connectBdd();
     $req = $db->prepare("SELECT * FROM serv WHERE noserv=?");
@@ -40,8 +57,14 @@ function rechercheserv($id)
     $db->close();
     return $data;
 }
-// cette fonction met à jour les information d'un serv après modification par form vis à  POST
-function edit(Service2 $service2)
+
+/** 
+ *cette fonction met à jour les information d'un serv après modification par form vis à  POST
+ *
+ * @param Service2 $service2
+ * @return void
+ */
+function edit(Service2 $service2): void
 {
     $db = connectBdd();
     $req = $db->prepare("UPDATE serv SET  service=?, ville=? WHERE noserv=?");
@@ -57,8 +80,14 @@ function edit(Service2 $service2)
     $req->execute();
     $db->close();
 }
-//fonction recupere toute la table serv et la retourne sous forme d'un array associatif
-function afficheTab()
+
+
+/** 
+ *fonction recupere toute la table serv et la retourne sous forme d'un array associatif
+ *
+ * @return array
+ */
+function afficheTab(): array
 {
     $db = connectBdd();
     $req = $db->prepare('SELECT * FROM serv');
@@ -69,8 +98,14 @@ function afficheTab()
     $db->close();
     return $data;
 }
-//cette fonction verifie si le noserv, dans la table serv, correspond au noserv, dans emp, par jointure et retourne un booleen
-function isservAffect($num)
+
+/** 
+ *cette fonction verifie si le noserv, dans la table serv, correspond au noserv, dans emp, par jointure et retourne un booleen
+ *
+ * @param integer $num
+ * @return boolean
+ */
+function isservAffect(int $num)
 {
     $db = connectBdd();
     $req = $db->prepare("SELECT*FROM emp AS A INNER JOIN serv AS B ON A.noserv=B.noserv WHERE A.noserv=?");

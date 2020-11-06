@@ -1,6 +1,8 @@
 <?php
 
-
+/**
+ * cette classe sert à la création des objets $service
+ */
 class Service2
 {
     private $noserv;

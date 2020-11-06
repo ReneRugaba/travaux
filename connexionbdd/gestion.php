@@ -9,7 +9,11 @@ include_once('Employe2.php');
 if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { //je verifie si le tableau $_POST n'est pas vide et si dans le GET[action]==ajouter
     if (isset($_POST['noemp']) && !empty($_POST['noemp']) && isset($_POST['noserv']) && !empty($_POST['noserv'])) { //Si la verification est ok je verifie si dans le post noemp  et noserv existe et qu'il ne sont pas vide
 
-        $employe = new Employe2();
+        $employe = new Employe2(); // je crée mon objet $employe en appellant ma class Employe2
+
+        /**
+         * ici je mets mes $_POST dans des variable avec anticipation valeur null pour int et float
+         */
         $id = $_POST['noemp'];
         $nom = $_POST['nom'];
         $prenom = $_POST['prenom'];
@@ -19,16 +23,24 @@ if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { 
         $sal = $_POST['sal'] ? $_POST['sal'] : NULL;
         $comm = $_POST['comm'] ? $_POST['comm'] : NULL;
         $noser = $_POST['noserv'];
+
+        /**
+         * à partir d'ici grace au setter, je donne la valeur de mes $_POST à mon objet employe
+         */
         $employe->setNoemp($id)->setNom($nom)->setPrenom($prenom)->setEmploi($emp)->setSup($sup)->setEmbauche($date = new DateTime($embauche))->setSal($sal)->setComm($comm)->setNoserv($noser);
 
-        //ici je fait appel à la foction add que j'ai créé dans crud.php ui s'occupe de rajouter les infos dans les variable dans la tab employe
+        //ici je fait appel à la foction add que j'ai créé dans crud.php ui s'occupe de rajouter les infos dans les variable dans la tab employe en lui passant mon objet $employe
         add($employe);
     }
 } elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'edit') { //je verifie si le tableau $_GET n'est pas vide et si dans le GET[action]==edit
     //je rentre les valeurs reçu dans le post dans des variables en anticipant leur valeur, s'ils sont vides, en leur donnant une valeur NULL
 
 
-    $employe = new Employe2();
+    $employe = new Employe2(); //ici je crée mon employe avec ma class Employe2
+
+    /**
+     * ici je mets mes $_POST dans des variable avec anticipation valeur null pour int et float
+     */
     $id = $_POST['noemp'];
     $nom = $_POST['nom'];
     $prenom = $_POST['prenom'];
@@ -37,12 +49,16 @@ if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { 
     $embauche = $_POST['embauche'];
     $sal = $_POST['sal'] ? $_POST['sal'] : NULL;
     $comm = $_POST['comm'] ? $_POST['comm'] : NULL;
+
     $noser = $_POST['noserv'];
+    /**
+     * à partir d'ici grace au setter, je donne la valeur de mes $_POST à mon objet employe
+     */
     $employe->setNoemp($id)->setNom($nom)->setPrenom($prenom)->setEmploi($emp)->setSup($sup)->setEmbauche($date = new DateTime($embauche))->setSal($sal)->setComm($comm)->setNoserv($noser);
 
 
 
-    //j'appelle la fonction edit que j'ai créé dans crud.php qui s'occupe de modifier les infos correspondant a noemp dans la tab employe
+    //j'appelle la fonction edit que j'ai créé dans crud.php qui s'occupe de modifier les infos correspondant a noemp dans la tab employe et je lui donne Mon objet employe en argu
     edit($employe);
 } elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'sup' && $_GET['id']) { //je verifie si le tableau $_GET n'est pas vide et si dans le GET[action]==sup et que id est present dans le get
     $id = $_GET['id']; // ici je recupere l'id dans le get et je le met dans une variable
@@ -72,7 +88,6 @@ if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="style.css">
     <title>affichage employé</title>
 </head>

@@ -17,7 +17,7 @@ if (!empty($_POST)) { //ici je verifie que le POST n'est pas vide
 
         } else //dans le cas ou mon mot de passe n'est pas identique 
         {
-            echo 'merci de mettre deux mot de passe identique'; //se mesage est affiché
+            echo 'merci de mettre deux mots de passe identique'; //se mesage est affiché
         }
     } else //dans le cas ou tous les champs ne sont pas renseigner
     {

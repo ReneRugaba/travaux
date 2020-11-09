@@ -1,7 +1,9 @@
 <?php
 session_start();
 include('conditionConsultPages.php');
-include_once('EmployeService.php');
+include_once('model/EmployeService.php');
+include_once('model/Employe2.php');
+include_once('afficheTabEmp.php');
 
 
 
@@ -114,44 +116,9 @@ if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { 
 
                         //ici je fai sun foreach pour recuperer la table entière, à l'aide de la fonction que j'ai créé dans crud.php, que je receptionne dans un tableau que je parcours à l'aide du foreach
                         $data = new EmployeService();
-                        foreach ($data->rechercheEmp() as $key => $value) {
-
-                            //chaque value contient un tableau assoc et je parcours à partir d'ici
-                        ?>
-                            <tr>
-                                <td><?php echo $value['noemp']; ?></td>
-                                <td><?php echo $value['nom']; ?></td>
-                                <td><?php echo $value['prenom']; ?></td>
-                                <td><?php echo $value['emploi']; ?></td>
-                                <td><?php echo $value['sup']; ?></td>
-                                <td><?php echo $value['embauche']; ?></td>
-                                <td><?php if ($_SESSION['profil'] == 'admin') {
-                                        echo $value['sal'];
-                                    } ?></td>
-                                <td><?php if ($_SESSION['profil'] == 'admin') {
-                                        echo $value['comm'];
-                                    } ?></td>
-                                <td><?php echo $value['noserv']; ?></td>
-                                <td><a href="gestion.php?id=<?php echo $value['noemp']; ?>&action=modif"><?php
-                                                                                                            if ($_SESSION['profil'] == 'admin') {
-                                                                                                            ?><button type="button" class="btn btn-success">Modifier</button><?php
-                                                                                                                                                                            }
-                                                                                                                                                                                ?></a></td>
-
-                                <!-- ici je gère le bouton de suppression à l'aide de la fonction isServiceAffect() pour enlever la possibilité de supprimer un supperieur hierarchique -->
-                                <td><?php
-                                    $affect = new EmployeService();
-                                    if ($affect->affectEmp($value['noemp']) == FALSE && $_SESSION['profil'] == 'admin') {
-                                    ?>
-                                        <a href="gestion.php?id=<?php echo $value['noemp']; ?>&action=sup"><button type="button" class="btn btn-danger">X</button></a>
-                                    <?php
-                                    } ?></td>
-                                <!-- ici je gère le bouton de suppression à l'aide de la fonction isServiceAffect() pour enlever la possibilité de supprimer un supperieur hierarchique -->
-
-                                <td><a href="profil.php?id=<?php echo $value['noemp']; ?>&action=infos"><button type="button" class="btn btn-info">Détails</button></a></td>
-                            </tr>
-                        <?php
-                        }
+                        $data = $data->rechercheEmp();
+                        $isAdmin = $_SESSION['profil'];
+                        afficheTabEmp($data, $isAdmin);
                         ?>
                 </table>
                 <div class="container-fluid">

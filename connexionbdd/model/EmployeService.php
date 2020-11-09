@@ -28,7 +28,7 @@ class EmployeService
         $data->edit($employe);
     }
 
-    public function affectEmp($num): bool
+    public function affectEmp($num): ?bool
     {
         $empDao = new EmployeMysqliDao();
         $rep = $empDao->isServiceAffect($num);

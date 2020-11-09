@@ -1,9 +1,9 @@
 <?php
 session_start();
 include('conditionConsultPages.php');
-include("ServiceService.php");
-include_once('Service2.php');
-
+include("model/ServiceService.php");
+include_once('model/Service2.php');
+include_once('afficheTabServ.php');
 
 
 if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { //je verifie si le tableau $_POST n'est pas vide et si dans le GET[action]==ajouter
@@ -93,33 +93,9 @@ if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { 
                         <?php
                         //ici je fai sun foreach pour recuperer la table entière, à l'aide de la fonction que j'ai créé dans crudnoserv.php, que je receptionne dans un tableau que je parcours à l'aide du foreach
                         $data = new ServiceService();
-                        foreach ($data->afficheServ() as $key => $value) {
-                            //chaque value contient un tableau assoc et je parcours à partir d'ici
-                        ?>
-                            <tr>
-                                <td><?php echo $value['noserv']; ?></td>
-                                <td><?php echo $value['service']; ?></td>
-                                <td><?php echo $value['ville']; ?></td>
-                                <td><a href="service.php?id=<?php echo $value['noserv']; ?>&action=modif"><?php
-                                                                                                            if ($_SESSION['profil'] == 'admin') {
-                                                                                                            ?><button type="button" class="btn btn-success">Modifier</button><?php
-                                                                                                                                                                            }
-                                                                                                                                                                                ?></a></td>
-                                <td>
-                                    <!-- ici je gère le bouton de suppression à l'aide de la fonction isservAffect() pour enlever la possibilité de supprimer un service qui est affecté aux employes de la tab employe grâce à la jointure -->
-
-                                    <?php
-                                    $data = new ServiceService();
-                                    if ($data->isservAf($value['noserv']) == FALSE && $_SESSION['profil'] == 'admin') {
-                                    ?>
-                                        <a href="service.php?id=<?php echo $value['noserv']; ?>&action=sup"><button type="button" class="btn btn-danger">X</button>
-                                        </a><?php } ?>
-                                    <!-- ici je gère le bouton de suppression à l'aide de la fonction isservAffect() pour enlever la possibilité de supprimer un service qui est affecté aux employes de la tab employe grâce à la jointure -->
-                                </td>
-                                <td><a href="serviceinf.php?id=<?php echo $value['noserv']; ?>&action=infosserv"><button type="button" class="btn btn-info" visibilyti>Détails</button></a></td>
-                            </tr>
-                        <?php
-                        }
+                        $data = $data->afficheServ();
+                        $isAdmin = $_SESSION['profil'];
+                        afficheTabServ($data, $isAdmin);
                         ?>
                 </table>
                 <div class="container-fluid">

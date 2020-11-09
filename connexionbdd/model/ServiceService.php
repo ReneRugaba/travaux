@@ -34,7 +34,7 @@ class ServiceService
         return $data->afficheTab();
     }
 
-    public function isservAf(int $id): bool
+    public function isservAf(int $id): ?bool
     {
         $data = new ServiceMysqliDao();
         return $data->isservAffect($id);

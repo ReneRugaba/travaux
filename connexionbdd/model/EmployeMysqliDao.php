@@ -159,6 +159,8 @@ class EmployeMysqliDao
         $db->close();
         if (!empty($data)) {
             return TRUE;
+        } else {
+            return null;
         }
     }
 }

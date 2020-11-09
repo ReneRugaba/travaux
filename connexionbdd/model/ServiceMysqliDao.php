@@ -117,6 +117,8 @@ class ServiceMysqliDao
         $data = $rs->fetch_all(MYSQLI_ASSOC);
         if (!empty($data)) {
             return TRUE;
+        } else {
+            return null;
         }
     }
 }

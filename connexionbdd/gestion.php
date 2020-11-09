@@ -1,36 +1,21 @@
 <?php
 session_start();
 include('conditionConsultPages.php');
-include("crud.php");
-include_once('Employe2.php');
+include_once('EmployeService.php');
 
 
 
 if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { //je verifie si le tableau $_POST n'est pas vide et si dans le GET[action]==ajouter
     if (isset($_POST['noemp']) && !empty($_POST['noemp']) && isset($_POST['noserv']) && !empty($_POST['noserv'])) { //Si la verification est ok je verifie si dans le post noemp  et noserv existe et qu'il ne sont pas vide
 
-        $employe = new Employe2(); // je crée mon objet $employe en appellant ma class Employe2
-
-        /**
-         * ici je mets mes $_POST dans des variable avec anticipation valeur null pour int et float
-         */
-        $id = $_POST['noemp'];
-        $nom = $_POST['nom'];
-        $prenom = $_POST['prenom'];
-        $emp = $_POST['emploi'];
         $sup = $_POST['sup'] ? $_POST['sup'] : NULL;
-        $embauche = $_POST['embauche'];
         $sal = $_POST['sal'] ? $_POST['sal'] : NULL;
         $comm = $_POST['comm'] ? $_POST['comm'] : NULL;
-        $noser = $_POST['noserv'];
-
-        /**
-         * à partir d'ici grace au setter, je donne la valeur de mes $_POST à mon objet employe
-         */
-        $employe->setNoemp($id)->setNom($nom)->setPrenom($prenom)->setEmploi($emp)->setSup($sup)->setEmbauche($date = new DateTime($embauche))->setSal($sal)->setComm($comm)->setNoserv($noser);
-
-        //ici je fait appel à la foction add que j'ai créé dans crud.php ui s'occupe de rajouter les infos dans les variable dans la tab employe en lui passant mon objet $employe
-        add($employe);
+        $empServ = new Employe2();
+        $empServ->setNoemp($_POST['noemp'])->setNom($_POST['nom'])->setPrenom($_POST['prenom'])
+            ->setEmploi($_POST['emploi'])->setSup($sup)->setEmbauche($date = new DateTime($_POST['embauche']))
+            ->setSal($sal)->setComm($comm)->setNoserv($_POST['noserv']);
+        EmployeService::AddEmploye($empServ);
     }
 } elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'edit') { //je verifie si le tableau $_GET n'est pas vide et si dans le GET[action]==edit
     //je rentre les valeurs reçu dans le post dans des variables en anticipant leur valeur, s'ils sont vides, en leur donnant une valeur NULL
@@ -59,15 +44,15 @@ if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { 
 
 
     //j'appelle la fonction edit que j'ai créé dans crud.php qui s'occupe de modifier les infos correspondant a noemp dans la tab employe et je lui donne Mon objet employe en argu
-    edit($employe);
+    EmployeService::edit($employe);
 } elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'sup' && $_GET['id']) { //je verifie si le tableau $_GET n'est pas vide et si dans le GET[action]==sup et que id est present dans le get
     $id = $_GET['id']; // ici je recupere l'id dans le get et je le met dans une variable
-    delete($id); //je fais appel à la fonction delete dans crudnoserv.php qui va s'ocuper de sup la row corespondant id
+    employeService::sup($id); //je fais appel à la fonction delete dans crudnoserv.php qui va s'ocuper de sup la row corespondant id
 
 
 } elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'modif' && $_GET['id']) { //je verifie si le tableau $_GET n'est pas vide , si dans le GET[action]==modif et si l'id est bien presente dans le get
     $id = $_GET['id']; //je recup l'id et je la met dans la variable $id
-    $data = rechercheEmpId($id); //j'utilise la fonction rechercheEmpId, créé dans crud.php, pour recuperer la row de la tab emp vis à $id, qui m'est retourné en tableau associatif dans la variable data
+    $data = employeService::modif($id); //j'utilise la fonction rechercheEmpId, créé dans crud.php, pour recuperer la row de la tab emp vis à $id, qui m'est retourné en tableau associatif dans la variable data
 
     //ici je recupère chaque élement dans data grace au clés du tableau assoc et je les met dans une variable
     $noemp = $data['noemp'];
@@ -128,7 +113,8 @@ if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { 
                         <?php
 
                         //ici je fai sun foreach pour recuperer la table entière, à l'aide de la fonction que j'ai créé dans crud.php, que je receptionne dans un tableau que je parcours à l'aide du foreach
-                        foreach ($data = rechercheEmp() as $key => $value) {
+                        $data = new EmployeService();
+                        foreach ($data->rechercheEmp() as $key => $value) {
 
                             //chaque value contient un tableau assoc et je parcours à partir d'ici
                         ?>
@@ -153,7 +139,9 @@ if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { 
                                                                                                                                                                                 ?></a></td>
 
                                 <!-- ici je gère le bouton de suppression à l'aide de la fonction isServiceAffect() pour enlever la possibilité de supprimer un supperieur hierarchique -->
-                                <td><?php if (isServiceAffect($value['noemp']) == FALSE && $_SESSION['profil'] == 'admin') {
+                                <td><?php
+                                    $affect = new EmployeService();
+                                    if ($affect->affectEmp($value['noemp']) == FALSE && $_SESSION['profil'] == 'admin') {
                                     ?>
                                         <a href="gestion.php?id=<?php echo $value['noemp']; ?>&action=sup"><button type="button" class="btn btn-danger">X</button></a>
                                     <?php

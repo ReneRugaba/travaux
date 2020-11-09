@@ -1,10 +1,8 @@
 <?php
 session_start();
-if (empty($_SESSION['username'])) {
-    header('location: connexion.php');
-}
+include_once('conditionConsultPages.php');
 
-include("crud.php");
+include("EmployeService.php");
 
 ?>
 <!DOCTYPE html>
@@ -31,7 +29,7 @@ include("crud.php");
                             if ($_GET['action'] == 'infos') //ici je verifie si dans le get actint==infos
                             {
                                 $id = $_GET['id']; // je recupere ID dans le get et je la met dans une variable
-                                $data = afficher($id); // j'appelle la fonction afficher pour recuperer les infos de l'employe correspondant à l'ID du get
+                                $data = EmployeService::aff($id); // j'appelle la fonction afficher pour recuperer les infos de l'employe correspondant à l'ID du get
                         ?>
                                 <div>
                                     <div>

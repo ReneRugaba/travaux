@@ -1,7 +1,7 @@
 <?php
 session_start();
 include('conditionConsultPages.php');
-include("crudnoserv.php");
+include("ServiceService.php");
 include_once('Service2.php');
 
 
@@ -21,7 +21,7 @@ if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { 
         $service2->setNoserv($noserv)->setService($serv)->setVille($ville);
 
         //ici je fait appel à la foction add que j'ai créé dans crudnoserv.php qui s'occupe de inserer les infos dans les variable dans la tab service en donnant mon objet en argu
-        $data = add($service2);
+        ServiceService::ajout($service2);
     }
 } elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'edit') { //je verifie si le tableau $_GET n'est pas vide et si dans le GET[action]==edit
     //je rentre les valeurs reçu dans le post dans des variables en anticipant leur valeur, s'ils sont vides, en leur donnant une valeur NULL
@@ -37,15 +37,15 @@ if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { 
     $service2->setNoserv($noserv)->setService($serv)->setVille($ville);
 
     //j'appelle la fonction edit que j'ai créé dans crudnoserv.php qui s'occupe de modifier les infos correspondant a noserv  dans la tab service en lui donnant en argu mon objet $service
-    edit($service2);
+    ServiceService::modiff($service2);
 } elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'sup' && $_GET['id']) { //je verifie si le tableau $_GET n'est pas vide et si dans le GET[action]==sup et que id est present dans le get
     $id = $_GET['id']; // ici je recupere l'id dans le get et je le met dans une variable
 
-    delete($id); //je fais appel à la fonction delete dans crudnoserv.php qui va s'ocuper de sup la row corespondant id
+    ServiceService::sup($id); //je fais appel à la fonction delete dans crudnoserv.php qui va s'ocuper de sup la row corespondant id
 
 } elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'modif' && $_GET['id']) { //je verifie si le tableau $_GET n'est pas vide , si dans le GET[action]==modif et si l'id est bien presente dans le get
     $id = $_GET['id']; //je recup l'id du get et je la met dans la variable $id
-    $data = rechercheserv($id); //j'utilise la fonction rechercheserv, créé dans crud.php, pour recuperer la row de la tab emp vis à $id, qui m'est retourné en tableau associatif dans la variable data
+    $data = ServiceService::recheById($id); //j'utilise la fonction rechercheserv, créé dans crud.php, pour recuperer la row de la tab emp vis à $id, qui m'est retourné en tableau associatif dans la variable data
     //ici je recupère chaque élement dans data grace au clés du tableau assoc et je les met dans une variable et je les echo dans le form de la modification
     $noserv = $data['noserv'];
     $service = $data['service'];
@@ -92,7 +92,8 @@ if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { 
                         </tr>
                         <?php
                         //ici je fai sun foreach pour recuperer la table entière, à l'aide de la fonction que j'ai créé dans crudnoserv.php, que je receptionne dans un tableau que je parcours à l'aide du foreach
-                        foreach (afficheTab() as $key => $value) {
+                        $data = new ServiceService();
+                        foreach ($data->afficheServ() as $key => $value) {
                             //chaque value contient un tableau assoc et je parcours à partir d'ici
                         ?>
                             <tr>
@@ -106,7 +107,10 @@ if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { 
                                                                                                                                                                                 ?></a></td>
                                 <td>
                                     <!-- ici je gère le bouton de suppression à l'aide de la fonction isservAffect() pour enlever la possibilité de supprimer un service qui est affecté aux employes de la tab employe grâce à la jointure -->
-                                    <?php if (isservAffect($value['noserv']) == FALSE && $_SESSION['profil'] == 'admin') {
+
+                                    <?php
+                                    $data = new ServiceService();
+                                    if ($data->isservAf($value['noserv']) == FALSE && $_SESSION['profil'] == 'admin') {
                                     ?>
                                         <a href="service.php?id=<?php echo $value['noserv']; ?>&action=sup"><button type="button" class="btn btn-danger">X</button>
                                         </a><?php } ?>

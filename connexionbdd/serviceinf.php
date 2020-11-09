@@ -1,7 +1,7 @@
 <?php
 session_start();
 include('conditionConsultPages.php');
-include("crudnoserv.php");
+include_once("ServiceService.php");
 
 ?>
 
@@ -26,7 +26,8 @@ include("crudnoserv.php");
                 //ici je verifie si le get action==infosserv
                 if ($_GET['action'] == 'infosserv') {
                     $id = $_GET['id']; // je recupere ID dans le get et je la met dans une variable
-                    $data = rechercheserv($id); // j'appelle la fonction afficherserv pour recuperer les infos du service correspondant à l'ID du get
+                    $data = new ServiceService();
+                    $data = $data->recherById($id); // j'appelle la fonction afficherserv pour recuperer les infos du service correspondant à l'ID du get
                 ?>
                     <div>
                         <!-- ici j'echo chaque info du service correspondant -->

@@ -39,6 +39,8 @@
                                 } elseif (isset($_GET['action']) && !empty($_GET['action']) && $_GET['action'] == 'erreur') {
                                     echo 'votre mail ou votre mot de passe n\'est pas reconnu. Merci de vous inscrire en suivant ce lien
                             ' ?><a href="inscription.php">inscrivez vous ici</a><?php ',si cela n\'est pas encore le cas';
+                                                                            } elseif (isset($_GET['action']) && !empty($_GET['action']) && $_GET['action'] == 'succes') {
+                                                                                echo 'votre inscription a été validé avec succès!';
                                                                             }
                                                                                 ?>
                             </div>

@@ -1,7 +1,7 @@
 <?php
 session_start();
 include('conditionConsultPages.php');
-include("model/ServiceService.php");
+include("service/ServiceService.php");
 include_once('model/Service2.php');
 include_once('afficheTabServ.php');
 

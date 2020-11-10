@@ -2,7 +2,7 @@
 session_start();
 include_once('conditionConsultPages.php');
 
-include("model/EmployeService.php");
+include("service/EmployeService.php");
 
 ?>
 <!DOCTYPE html>

@@ -1,7 +1,7 @@
 <?php
-include("connectbdd.php");
+include_once __DIR__ . '/ConnectBdd.php';
 
-class ServiceMysqliDao
+class ServiceMysqliDao extends ConnectBdd
 {
     /**
      *cette fonction ajoute un nouveau serv dans la table serv
@@ -11,7 +11,8 @@ class ServiceMysqliDao
      */
     public function add(Service2 $service2): void
     {
-        $db = connectBdd();
+        $db = new ConnectBdd();
+        $db = $db->connectBdd();
         $req = $db->prepare("INSERT INTO serv VALUES(?,?,?)");
         $noser = $service2->getNoserv();
         $serv = $service2->getService();
@@ -34,7 +35,8 @@ class ServiceMysqliDao
      */
     public function delete(int $id): void
     {
-        $db = connectBdd();
+        $db = new ConnectBdd();
+        $db = $db->connectBdd();
         $req = $db->prepare("DELETE FROM serv WHERE noserv=?");
         $req->bind_param('i', $id);
         $req->execute();
@@ -49,7 +51,8 @@ class ServiceMysqliDao
      */
     public function rechercheserv(int $id): array
     {
-        $db = connectBdd();
+        $db = new ConnectBdd();
+        $db = $db->connectBdd();
         $req = $db->prepare("SELECT * FROM serv WHERE noserv=?");
         $req->bind_param('i', $id);
         $req->execute();
@@ -68,7 +71,8 @@ class ServiceMysqliDao
      */
     public function edit(Service2 $service2): void
     {
-        $db = connectBdd();
+        $db = new ConnectBdd();
+        $db = $db->connectBdd();
         $req = $db->prepare("UPDATE serv SET  service=?, ville=? WHERE noserv=?");
         $serv = $service2->getService();
         $ville = $service2->getVille();
@@ -91,7 +95,8 @@ class ServiceMysqliDao
      */
     public function afficheTab(): array
     {
-        $db = connectBdd();
+        $db = new ConnectBdd();
+        $db = $db->connectBdd();
         $req = $db->prepare('SELECT * FROM serv');
         $req->execute();
         $rs = $req->get_result();
@@ -109,7 +114,8 @@ class ServiceMysqliDao
      */
     public function isservAffect(int $num)
     {
-        $db = connectBdd();
+        $db = new ConnectBdd();
+        $db = $db->connectBdd();
         $req = $db->prepare("SELECT*FROM emp AS A INNER JOIN serv AS B ON A.noserv=B.noserv WHERE A.noserv=?");
         $req->bind_param('i', $num);
         $req->execute();

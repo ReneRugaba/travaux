@@ -1,7 +1,7 @@
 <?php
-include("connectbdd.php"); // connection à la base de donnée
+include_once __DIR__ . '/ConnectBdd.php';
 
-class EmployeMysqliDao
+class EmployeMysqliDao extends ConnectBdd
 {
     /**
      * cette fonction ajoute un employé dans la table emp
@@ -10,7 +10,8 @@ class EmployeMysqliDao
      */
     public function add(Employe2 $employe): void
     {
-        $db = connectBdd();
+        $db = new ConnectBdd();
+        $db = $db->connectBdd();
         $req = $db->prepare("INSERT INTO emp VALUES(?,?,?,?,?,?,?,?,?)");
         $id = $employe->getNoemp();
         $nom = $employe->getNom();
@@ -45,7 +46,8 @@ class EmployeMysqliDao
      */
     public function delete(int $id): void
     {
-        $db = connectBdd();
+        $db = new ConnectBdd();
+        $db = $db->connectBdd();
         $req = $db->prepare("DELETE FROM emp WHERE noemp=?");
         $req->bind_param('i', $id);
         $req->execute();
@@ -60,7 +62,8 @@ class EmployeMysqliDao
      */
     public function rechercheEmpId(int $id): array
     {
-        $db = connectBdd();
+        $db = new ConnectBdd();
+        $db = $db->connectBdd();
         $req = $db->prepare("SELECT* FROM emp WHERE noemp=?");
         $req->bind_param('i', $id);
         $req->execute();
@@ -79,7 +82,8 @@ class EmployeMysqliDao
      */
     public function edit(Employe2 $employe): void
     {
-        $db = connectBdd();
+        $db = new ConnectBdd();
+        $db = $db->connectBdd();
         $req = $db->prepare("UPDATE emp SET  nom=?, prenom=?, emploi=?, sup=?, embauche=?, sal=?, comm=?  WHERE noemp=?");
         $id = $employe->getNoemp();
         $nom = $employe->getNom();
@@ -112,7 +116,8 @@ class EmployeMysqliDao
      */
     public function afficher(int $id): array
     {
-        $db = connectBdd();
+        $db = new ConnectBdd();
+        $db = $db->connectBdd();
         $req = $db->prepare("select * from emp where noemp=?");
         $req->bind_param('i', $id);
         $req->execute();
@@ -131,7 +136,8 @@ class EmployeMysqliDao
     public function rechercheEmp(): array
     {
 
-        $db = connectBdd();
+        $db = new ConnectBdd();
+        $db = $db->connectBdd();
         $req = $db->prepare('select * from emp');
         $req->execute();
         $rs = $req->get_result();
@@ -149,7 +155,8 @@ class EmployeMysqliDao
      */
     public function isServiceAffect(int $num)
     {
-        $db = connectBdd();
+        $db = new ConnectBdd();
+        $db = $db->connectBdd();
         $req = $db->prepare("SELECT*FROM emp  WHERE sup=?");
         $req->bind_param('i', $num);
         $req->execute();

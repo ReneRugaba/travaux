@@ -1,5 +1,5 @@
 <?php
-include_once('ServiceMysqliDao.php');
+include_once(__DIR__ . '/../dao/ServiceMysqliDao.php');
 
 class ServiceService
 {

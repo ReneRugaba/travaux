@@ -1,7 +1,7 @@
 <?php
 session_start();
 include_once('conditionConsultPages.php');
-
+include_once __DIR__ . '/vues/afficheDetailsEmp.php';
 include("service/EmployeService.php");
 
 ?>
@@ -30,26 +30,7 @@ include("service/EmployeService.php");
                             {
                                 $id = $_GET['id']; // je recupere ID dans le get et je la met dans une variable
                                 $data = EmployeService::aff($id); // j'appelle la fonction afficher pour recuperer les infos de l'employe correspondant à l'ID du get
-                        ?>
-                                <div>
-                                    <div>
-                                        <!-- ici j'echo chaque info de l'employé correspondant -->
-                                        <h3><?php echo $data['noemp']; ?></h3>
-                                        <h1><?php echo $data['nom']; ?></h1>
-                                        <h1><?php echo $data['prenom']; ?></h1>
-                                        <h1><?php echo $data['emploi']; ?></h1>
-                                        <p><?php echo $data['sup']; ?></p>
-                                        <p><?php echo $data['embauche']; ?></p>
-                                        <p><?php if ($_SESSION['profil'] == 'admin') {
-                                                echo $data['sal'];
-                                            } ?></p>
-                                        <p><?php if ($_SESSION['profil'] == 'admin') {
-                                                echo $data['comm'];
-                                            } ?></p>
-                                        <p><?php echo $data['noserv']; ?></p>
-                                    </div>
-                                </div>
-                        <?php
+                                afficheDetailsEmp($data);
                             }
                         }
                         ?>

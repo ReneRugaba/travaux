@@ -2,8 +2,8 @@
 session_start();
 include('conditionConsultPages.php');
 include("service/ServiceService.php");
-include_once('model/Service2.php');
-include_once('afficheTabServ.php');
+include_once('model/Service.php');
+include_once(__DIR__ . '/vues/afficheTabServ.php');
 
 
 if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { //je verifie si le tableau $_POST n'est pas vide et si dans le GET[action]==ajouter
@@ -51,4 +51,4 @@ if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { 
     $service = $data['service'];
     $ville = $data['ville'];
 }
-require('tabServiceAcceuil.php');
+require(__DIR__ . '/vues/tabServiceAcceuil.php');

@@ -2,6 +2,7 @@
 session_start();
 include('conditionConsultPages.php');
 include_once("service/ServiceService.php");
+include_once __DIR__ . '/vues/afficheDetailsServ.php';
 
 ?>
 
@@ -28,16 +29,7 @@ include_once("service/ServiceService.php");
                     $id = $_GET['id']; // je recupere ID dans le get et je la met dans une variable
                     $data = new ServiceService();
                     $data = $data->recherById($id); // j'appelle la fonction afficherserv pour recuperer les infos du service correspondant à l'ID du get
-                ?>
-                    <div>
-                        <!-- ici j'echo chaque info du service correspondant -->
-                        <div>
-                            <h3><?php echo $data['noserv']; ?></h3>
-                            <h1><?php echo $data['service']; ?></h1>
-                            <h1><?php echo $data['ville']; ?></h1>
-                        </div>
-                    </div>
-                <?php
+                    afficheDetailsServ($data);
                 }
                 ?>
                 <a href="gestion.php?action=ajouter"><button class="btn btn-outline-success" type="button">Tableau employés</button></a>

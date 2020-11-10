@@ -2,8 +2,8 @@
 session_start();
 include('conditionConsultPages.php');
 include_once('service/EmployeService.php');
-include_once('model/Employe2.php');
-include_once('afficheTabEmp.php');
+include_once('model/Employe.php');
+include_once(__DIR__ . '/vues/afficheTabEmp.php');
 
 
 
@@ -68,4 +68,4 @@ if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { 
     $noserv = $data['noserv'];
 }
 
-require('tabEmpAcceuil.php');
+require(__DIR__ . '/vues/tabEmpAcceuil.php');

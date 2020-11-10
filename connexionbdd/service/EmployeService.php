@@ -1,8 +1,16 @@
 <?php
 include_once(__DIR__ . '/../dao/EmployeMysqliDao.php');
-
+/**
+ * ici ce trouve la classe de la couche service qui s'ocupe de mettre la couche controlleur et dao en connection pour les employés
+ */
 class EmployeService
 {
+    /**
+     * cette methode fait appel à la methode afficher de la couche dao et retourne un array
+     *
+     * @param integer $id
+     * @return array
+     */
     public static function aff(int $id): array
     {
         $row = new EmployeMysqliDao();
@@ -10,6 +18,12 @@ class EmployeService
         return $data;
     }
 
+    /**
+     * cette methode fait appel à la methode rechercheEmpId de la couche dao et retourne un array
+     *
+     * @param integer $id
+     * @return array
+     */
     public static function modif(int $id): array
     {
         $row = new EmployeMysqliDao();
@@ -17,24 +31,48 @@ class EmployeService
         return $data;
     }
 
+    /**
+     * cette methode fait appel à la methode delete de la couche dao et ne retourne rien
+     *
+     * @param integer $id
+     * @return void
+     */
     public static function sup(int $id): void
     {
         $row = new EmployeMysqliDao();
         $row->delete($id);
     }
+
+    /**
+     * cette methode fait appel à la methode edit de la couche dao et ne retourne rien
+     *
+     * @param Employe2 $employe
+     * @return void
+     */
     public static function edit(Employe2 $employe): void
     {
         $data = new EmployeMysqliDao();
         $data->edit($employe);
     }
 
-    public function affectEmp($num): ?bool
+    /**
+     * cette methode fait appel à la methode isSups de la couche dao et ne retourne rien
+     *
+     * @param integer $num
+     * @return boolean|null
+     */
+    public function affectEmp(int $num): ?bool
     {
         $empDao = new EmployeMysqliDao();
-        $rep = $empDao->isServiceAffect($num);
+        $rep = $empDao->isSup($num);
         return $rep;
     }
 
+    /**
+     * cette methode fait appel à la rechercheEmp  de la couche dao et ne retourne un array
+     *
+     * @return array
+     */
     public function rechercheEmp(): array
     {
         $data = new EmployeMysqliDao();
@@ -42,6 +80,12 @@ class EmployeService
         return $data;
     }
 
+    /**
+     * cette methode fait appel à la add de la couche dao et ne retourne un array
+     *
+     * @param Employe2 $employe2
+     * @return void
+     */
     public static function AddEmploye(Employe2 $employe2): void
     {
         $employe = new EmployeMysqliDao(); // je crée mon objet $employe en appellant ma class Employe2

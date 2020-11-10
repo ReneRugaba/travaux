@@ -28,7 +28,7 @@ include_once __DIR__ . '/vues/afficheDetailsServ.php';
                 if ($_GET['action'] == 'infosserv') {
                     $id = $_GET['id']; // je recupere ID dans le get et je la met dans une variable
                     $data = new ServiceService();
-                    $data = $data->recherById($id); // j'appelle la fonction afficherserv pour recuperer les infos du service correspondant à l'ID du get
+                    $data = $data->recherById($id); // j'appelle la methode recherById de mon objet de ma class serviceService qui fait le lien avec dao dans ma couche service
                     afficheDetailsServ($data);
                 }
                 ?>

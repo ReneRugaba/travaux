@@ -1,6 +1,9 @@
 <?php
 include_once __DIR__ . '/ConnectBdd.php';
 
+/**
+ * cette classe fait le lien avec la bdd et est la fille de la class bdd pour les Employés
+ */
 class EmployeMysqliDao extends ConnectBdd
 {
     /**
@@ -153,7 +156,7 @@ class EmployeMysqliDao extends ConnectBdd
      * @param integer $num
      * @return boolean
      */
-    public function isServiceAffect(int $num)
+    public function isSup(int $num)
     {
         $db = new ConnectBdd();
         $db = $db->connectBdd();

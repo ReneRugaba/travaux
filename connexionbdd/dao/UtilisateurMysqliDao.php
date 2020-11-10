@@ -1,6 +1,10 @@
 <?php
 include('connectbdd.php');
 
+
+/**
+ * cette classe fait le lien avec la bdd et est la fille de la class bdd pour les utilisateurs
+ */
 class UtilisateurMysqliDao extends ConnectBdd
 {
     /**

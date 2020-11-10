@@ -1,5 +1,5 @@
 <?php
-include("UtilisateurService.php"); //connection au fichier crudex
+include(__DIR__ . "/service/UtilisateurService.php"); //connection au fichier das la couche service
 
 /**
  * ici se trouve le programe principal pour insertion des inscriptions
@@ -13,7 +13,7 @@ if (!empty($_POST)) { //ici je verifie que le POST n'est pas vide
             $password = password_hash($_POST['password'], PASSWORD_DEFAULT); //ici je hash le mot de passe et je le met dans une variable
             $mail = $_POST['email']; //je meit le mail dans une variable
             $util = new utilisateurService();
-            $util->setUserServ($mail, $password); // je fait appel à la fonction setUser qui se trouve dans crudex
+            $util->setUserServ($mail, $password); // je fait appel à la fonction setUser qui se trouve dans la couche service
             header('location: connexion.php?action=succes');
         } else //dans le cas ou mon mot de passe n'est pas identique 
         {

@@ -1,6 +1,9 @@
 <?php
 include_once __DIR__ . '/ConnectBdd.php';
 
+/**
+ * cette classe fait le lien avec la bdd et est la fille de la class bdd pour les Services
+ */
 class ServiceMysqliDao extends ConnectBdd
 {
     /**

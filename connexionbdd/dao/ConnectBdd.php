@@ -4,7 +4,7 @@ class ConnectBdd
 {
 
     /**
-     * cette fonction gere la connection à la base de donnéé pour chaque fonction de l'appli
+     * cette methode gere la connection à la base de donnéé pour chaque methode de l'appli
      *
      * @return mysqli
      */

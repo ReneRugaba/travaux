@@ -12,8 +12,12 @@ if (!empty($_POST)) { //ici je verifie que le POST n'est pas vide
         $array = $array->getConnectU($_POST['email']); //je fait appel à la methode getConnectUser et je met en argu le $_POST[mail] et je recupère un array
 
         if (password_verify($_POST['password'], $array['password'])) { //je verifie que le hash du mot de passe de l'utilisateur correspondant est bien identique à celui renseigé par le user
-            session_start();
-            $_SESSION['username'] = $_POST['email'];
+            session_start(); //si tout va bien je demarre la session
+
+            /**
+             * ici je met les clés values de mon array dans le tableau $_SESSION
+             */
+            $_SESSION['username'] = $array['username'];
             $_SESSION['profil'] = $array['profil'];
             header("location: profilsession.php");
         } else { //le cas contraire

@@ -49,8 +49,8 @@ if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { 
     $id = $_GET['id']; //je recup l'id du get et je la met dans la variable $id
     $data = ServiceService::recheById($id); //j'utilise la methode recheById abstraite de ma class ServiceService qui fait le lien avec dao dans ma couche service et je recupere un array
     //ici je recupère chaque élement dans data grace au clés du tableau assoc et je les met dans une variable et je les echo dans le form de la modification
-    $noserv = $data['noserv'];
-    $service = $data['service'];
-    $ville = $data['ville'];
+    $noserv = $data->getNoserv();
+    $service = $data->getService();
+    $ville = $data->getVille();
 }
 require(__DIR__ . '/vues/tabServiceAcceuil.php');

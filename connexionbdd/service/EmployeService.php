@@ -11,10 +11,10 @@ class EmployeService
      * @param integer $id
      * @return array
      */
-    public static function aff(int $id): array
+    public static function aff(int $id): Employe2
     {
         $row = new EmployeMysqliDao();
-        $data = $row->afficher($id);
+        $data = $row->rechercheById($id);
         return $data;
     }
 
@@ -24,10 +24,10 @@ class EmployeService
      * @param integer $id
      * @return array
      */
-    public static function modif(int $id): array
+    public static function modif(int $id): Employe2
     {
         $row = new EmployeMysqliDao();
-        $data = $row->rechercheEmpId($id);
+        $data = $row->rechercheById($id);
         return $data;
     }
 
@@ -52,7 +52,7 @@ class EmployeService
     public static function edit(Employe2 $employe): void
     {
         $data = new EmployeMysqliDao();
-        $data->edit($employe);
+        $data->update($employe);
     }
 
     /**
@@ -64,7 +64,7 @@ class EmployeService
     public function affectEmp(int $num): ?bool
     {
         $empDao = new EmployeMysqliDao();
-        $rep = $empDao->isSup($num);
+        $rep = $empDao->Affect($num);
         return $rep;
     }
 
@@ -76,8 +76,7 @@ class EmployeService
     public function rechercheEmp(): array
     {
         $data = new EmployeMysqliDao();
-        $data = $data->rechercheEmp();
-        return $data;
+        return $data->searchAll();
     }
 
     /**

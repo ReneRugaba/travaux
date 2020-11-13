@@ -27,7 +27,7 @@ class ServiceService
     public static function modiff(Service2 $service2): void
     {
         $row = new ServiceMysqliDao();
-        $row->edit($service2);
+        $row->update($service2);
     }
 
     /**
@@ -48,10 +48,10 @@ class ServiceService
      * @param integer $id
      * @return array
      */
-    public static function recheById(int $id): array
+    public static function recheById(int $id): Service2
     {
         $serv = new ServiceMysqliDao();
-        $row = $serv->rechercheserv($id);
+        $row = $serv->rechercheById($id);
         return $row;
     }
 
@@ -63,7 +63,7 @@ class ServiceService
     public function afficheServ(): array
     {
         $data = new ServiceMysqliDao();
-        return $data->afficheTab();
+        return $data->searchAll();
     }
 
     /**
@@ -75,7 +75,7 @@ class ServiceService
     public function isservAf(int $id): ?bool
     {
         $data = new ServiceMysqliDao();
-        return $data->isservAffect($id);
+        return $data->Affect($id);
     }
 
     /**
@@ -84,9 +84,9 @@ class ServiceService
      * @param integer $id
      * @return array
      */
-    public function recherById(int $id): array
+    public function recherById(int $id): Service2
     {
         $serv = new ServiceMysqliDao();
-        return $serv->rechercheserv($id);
+        return $serv->rechercheById($id);
     }
 }

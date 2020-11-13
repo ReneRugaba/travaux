@@ -2,25 +2,25 @@
 
 
 
-function afficheDetailsEmp(array $data)
+function afficheDetailsEmp(Employe2 $data)
 {
 ?>
     <div>
         <div>
             <!-- ici j'echo chaque info de l'employé correspondant -->
-            <h3><?php echo $data['noemp']; ?></h3>
-            <h1><?php echo $data['nom']; ?></h1>
-            <h1><?php echo $data['prenom']; ?></h1>
-            <h1><?php echo $data['emploi']; ?></h1>
-            <p><?php echo $data['sup']; ?></p>
-            <p><?php echo $data['embauche']; ?></p>
+            <h3><?php echo $data->getNoemp(); ?></h3>
+            <h1><?php echo $data->getNom(); ?></h1>
+            <h1><?php echo $data->getPrenom(); ?></h1>
+            <h1><?php echo $data->getEmploi(); ?></h1>
+            <p><?php echo $data->getSup(); ?></p>
+            <p><?php echo $data->getEmbauche()->format("d-m-Y"); ?></p>
             <p><?php if ($_SESSION['profil'] == 'admin') {
-                    echo $data['sal'];
+                    echo $data->getSal();
                 } ?></p>
             <p><?php if ($_SESSION['profil'] == 'admin') {
-                    echo $data['comm'];
+                    echo $data->getComm();
                 } ?></p>
-            <p><?php echo $data['noserv']; ?></p>
+            <p><?php echo $data->getNoserv(); ?></p>
         </div>
     </div>
 <?php

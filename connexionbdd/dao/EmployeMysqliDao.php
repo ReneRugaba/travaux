@@ -1,10 +1,12 @@
 <?php
 include_once __DIR__ . '/ConnectBdd.php';
+include_once __DIR__ . '/../model/Employe.php';
+include_once __DIR__ . '/InterfEmpDao.php';
 
 /**
  * cette classe fait le lien avec la bdd et est la fille de la class bdd pour les Employés
  */
-class EmployeMysqliDao extends ConnectBdd
+class EmployeMysqliDao extends ConnectBdd implements InterEmpfDao
 {
     /**
      * cette fonction ajoute un employé dans la table emp
@@ -63,7 +65,7 @@ class EmployeMysqliDao extends ConnectBdd
      * @param integer $id
      * @return array
      */
-    public function rechercheEmpId(int $id): array
+    public function rechercheById(int $id): Employe2
     {
         $db = new ConnectBdd();
         $db = $db->connectBdd();
@@ -72,9 +74,13 @@ class EmployeMysqliDao extends ConnectBdd
         $req->execute();
         $rs = $req->get_result();
         $data = $rs->fetch_array(MYSQLI_ASSOC);
+        $obj = new Employe2();
+        $obj->setNoemp($data['noemp'])->setNom($data['nom'])->setPrenom($data['prenom'])
+            ->setEmploi($data['emploi'])->setSup($data['sup'])->setEmbauche(new DateTime($data['embauche']))
+            ->setSal($data['sal'])->setComm($data['comm'])->setNoserv($data['noserv']);
         $rs->free();
         $db->close();
-        return $data;
+        return $obj;
     }
 
     /**
@@ -83,7 +89,7 @@ class EmployeMysqliDao extends ConnectBdd
      * @param Employe2 $employe
      * @return void
      */
-    public function edit(Employe2 $employe): void
+    public function update(Employe2 $employe): void
     {
         $db = new ConnectBdd();
         $db = $db->connectBdd();
@@ -111,32 +117,13 @@ class EmployeMysqliDao extends ConnectBdd
         $req->execute();
         $db->close();
     }
-    /**
-     *cette fonction rechereche un employé et retourne sa row dans un tableau associatif qui sera affiché sur la page profil.php
-     *
-     * @param int $id
-     * @return array
-     */
-    public function afficher(int $id): array
-    {
-        $db = new ConnectBdd();
-        $db = $db->connectBdd();
-        $req = $db->prepare("select * from emp where noemp=?");
-        $req->bind_param('i', $id);
-        $req->execute();
-        $rs = $req->get_result();
-        $data = $rs->fetch_array(MYSQLI_ASSOC);
-        $rs->free();
-        $db->close();
-        return $data;
-    }
 
     /**
      *fonction recupere toute la table emp et la retourne sous forme d'un array associatif
      *
      * @return array
      */
-    public function rechercheEmp(): array
+    public function searchAll(): array
     {
 
         $db = new ConnectBdd();
@@ -145,9 +132,19 @@ class EmployeMysqliDao extends ConnectBdd
         $req->execute();
         $rs = $req->get_result();
         $data = $rs->fetch_all(MYSQLI_ASSOC);
+        $employes = [];
+        foreach ($data as $value) {
+            $obj = new Employe2();
+            $obj->setNoemp($value['noemp'])->setNom($value['nom'])->setPrenom($value['prenom'])
+                ->setEmploi($value['emploi'])->setSup($value['sup'])->setEmbauche(new DateTime($value['embauche']))
+                ->setSal($value['sal'])->setComm($value['comm'])->setNoserv($value['noserv']);
+            $employes[] = $obj;
+        }
+
+
         $rs->free();
         $db->close();
-        return $data;
+        return $employes;
     }
 
     /**
@@ -156,7 +153,7 @@ class EmployeMysqliDao extends ConnectBdd
      * @param integer $num
      * @return boolean
      */
-    public function isSup(int $num)
+    public function Affect(int $num): ?bool
     {
         $db = new ConnectBdd();
         $db = $db->connectBdd();

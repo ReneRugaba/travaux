@@ -1,9 +1,9 @@
 <?php
-
+include_once __DIR__ . '/Objet.php';
 /**
  * cette class me sert à la création  des objets $employe
  */
-class Employe2
+class Employe2 extends Objet
 {
     /**
      * attributs de ma class

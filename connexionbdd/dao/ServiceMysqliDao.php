@@ -1,10 +1,12 @@
 <?php
 include_once __DIR__ . '/ConnectBdd.php';
+include_once __DIR__ . '/../model/Service.php';
+include_once __DIR__ . '/InterfServDao.php';
 
 /**
  * cette classe fait le lien avec la bdd et est la fille de la class bdd pour les Services
  */
-class ServiceMysqliDao extends ConnectBdd
+class ServiceMysqliDao extends ConnectBdd implements InterServDao
 {
     /**
      *cette fonction ajoute un nouveau serv dans la table serv
@@ -50,9 +52,9 @@ class ServiceMysqliDao extends ConnectBdd
      *cette fonction cherche la row d'un serv et la retourne dans un tableau assoc pour etre afficher dans servinf.php
      *
      * @param integer $id
-     * @return array
+     * @return Serice2
      */
-    public function rechercheserv(int $id): array
+    public function rechercheById(int $id): Service2
     {
         $db = new ConnectBdd();
         $db = $db->connectBdd();
@@ -61,9 +63,11 @@ class ServiceMysqliDao extends ConnectBdd
         $req->execute();
         $rs = $req->get_result();
         $data = $rs->fetch_array(MYSQLI_ASSOC);
+        $obj = new Service2();
+        $obj->setNoserv($data['noserv'])->setService($data['service'])->setVille($data['ville']);
         $rs->free();
         $db->close();
-        return $data;
+        return $obj;
     }
 
     /** 
@@ -72,7 +76,7 @@ class ServiceMysqliDao extends ConnectBdd
      * @param Service2 $service2
      * @return void
      */
-    public function edit(Service2 $service2): void
+    public function update(Service2 $service2): void
     {
         $db = new ConnectBdd();
         $db = $db->connectBdd();
@@ -96,7 +100,7 @@ class ServiceMysqliDao extends ConnectBdd
      *
      * @return array
      */
-    public function afficheTab(): array
+    public function searchAll(): array
     {
         $db = new ConnectBdd();
         $db = $db->connectBdd();
@@ -104,9 +108,16 @@ class ServiceMysqliDao extends ConnectBdd
         $req->execute();
         $rs = $req->get_result();
         $data = $rs->fetch_all(MYSQLI_ASSOC);
+        $services = [];
+        foreach ($data as $value) {
+            $obj = new Service2();
+            $obj->setNoserv($value['noserv'])->setService($value['service'])->setVille($value['ville']);
+            $services[] = $obj;
+        }
+
         $rs->free();
         $db->close();
-        return $data;
+        return $services;
     }
 
     /** 
@@ -115,7 +126,7 @@ class ServiceMysqliDao extends ConnectBdd
      * @param integer $num
      * @return boolean
      */
-    public function isservAffect(int $num)
+    public function Affect(int $num): ?bool
     {
         $db = new ConnectBdd();
         $db = $db->connectBdd();

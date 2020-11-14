@@ -34,7 +34,7 @@ include("service/EmployeService.php");
                             }
                         }
                         ?>
-                        <a href="gestion.php?action=ajouter"><button class="btn btn-outline-success" type="button">Tableau employés</button></a>
+                        <a href="gestion.php"><button class="btn btn-outline-success" type="button">Tableau employés</button></a>
                         <a href="service.php?action=ajouter"><button class="btn btn-outline-primary" type="button">Tableau des services</button></a>
                     </fieldset>
                 </form>

@@ -1,7 +1,7 @@
 <?php
 include_once __DIR__ . '/Formulaire.php';
 
-function tabEmpaccueil(?Employe2 $emp)
+function tabEmpaccueil()
 {
 ?>
     <!DOCTYPE html>
@@ -24,6 +24,13 @@ function tabEmpaccueil(?Employe2 $emp)
                             <legend>PORTAIL:</legend>
                             <a href="profilsession.php?"><button class="btn btn-outline-success" type="button">Accueil</button></a>
                             <a href="service.php?action=ajouter"><button class="btn btn-outline-primary" type="button">Tableau des services</button></a>
+                            <?php
+                            if ($_SESSION['profil'] == 'admin') {
+                            ?>
+                                <a href="gestion.php?action=ajouter"><button class="btn btn-outline-warning" type="button">Ajouter employé</button></a>
+                            <?php
+                            }
+                            ?>
                         </fieldset>
                     </form>
                 </div>
@@ -57,14 +64,6 @@ function tabEmpaccueil(?Employe2 $emp)
                             afficheTabEmp($data, $isAdmin);
                             ?>
                     </table>
-                    <div class="container-fluid">
-                        <div class="col-6 rounded mx-auto d-block">
-                            <!-- ce formulaire gere les ajouts et les modifications de mannière inteligente grâce l'action du get -->
-                            <?php
-                            Formulaire($emp);
-                            ?>
-                        </div>
-                    </div>
                 </div>
             </div>
 

@@ -13,7 +13,7 @@ include_once __DIR__ . '/vues/formulaire2.php';
 if (isset($_GET['action']) && $_GET['action'] == 'ajouter') { //je verifie si le tableau $_POST n'est pas vide et si dans le GET[action]==ajouter
     if (isset($_POST['noserv'])) { //Si la verification est ok je verifie si dans le post noserv n'est pas vide
         //je recupere chaque element du post dans des variables en anticipant leur valeur, s'ils sont vides, en leur donnant une valeur NULL
-        $noserv = $_POST['noserv'];
+        $noserv = $_POST['noserv'] ? $_POST['noserv']  : NULL;
         $serv = $_POST['service'] ? $_POST['service']  : NULL;
         $ville = $_POST['ville'] ? $_POST['ville']  : NULL;
 
@@ -26,9 +26,15 @@ if (isset($_GET['action']) && $_GET['action'] == 'ajouter') { //je verifie si le
 
         //ici je fait appel à la methode abstraite de ma class ServiceService qui fait le lien avec dao dans ma couche service
         ServiceService::ajout($service2);
+        if ($_POST['noserv'] != null) {
 ?>
-        <h1 class="text-success">Ajout Service réussit avec succès!!</h1>
+            <h1 class="text-success">Ajout Service réussit avec succès!!</h1>
+        <?php
+        } else {
+        ?>
+            <h1 class="text-danger">Merci de renseigner un numéro de cervice!!</h1>
 <?php
+        }
     }
     $data = null;
     Formulaire2($data);
@@ -47,6 +53,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'ajouter') { //je verifie si le
 
     //j'appelle la methode modiff abstraite de ma class ServiceService qui fait le lien avec dao dans ma couce service
     ServiceService::modiff($service2);
+    tabServiceAccueil();
 } elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'sup' && $_GET['id']) { //je verifie si le tableau $_GET n'est pas vide et si dans le GET[action]==sup et que id est present dans le get
     $id = $_GET['id']; // ici je recupere l'id dans le get et je le met dans une variable
 

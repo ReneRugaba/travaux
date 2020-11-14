@@ -12,7 +12,7 @@ class Service2
     /**
      * Get the value of noserv
      */
-    public function getNoserv(): int
+    public function getNoserv(): ?int
     {
         return $this->noserv;
     }
@@ -22,7 +22,7 @@ class Service2
      *
      * @return  self
      */
-    public function setNoserv(int $noserv): self
+    public function setNoserv(?int $noserv): self
     {
         $this->noserv = $noserv;
 

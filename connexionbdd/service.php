@@ -26,6 +26,9 @@ if (isset($_GET['action']) && $_GET['action'] == 'ajouter') { //je verifie si le
 
         //ici je fait appel à la methode abstraite de ma class ServiceService qui fait le lien avec dao dans ma couche service
         ServiceService::ajout($service2);
+?>
+        <h1 class="text-success">Ajout Service réussit avec succès!!</h1>
+<?php
     }
     $data = null;
     Formulaire2($data);
@@ -48,7 +51,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'ajouter') { //je verifie si le
     $id = $_GET['id']; // ici je recupere l'id dans le get et je le met dans une variable
 
     ServiceService::sup($id); //je fais appel à methode supp abstraite de ma class ServiceService qui fait le lien avec dao dans ma couche service
-
+    tabServiceAccueil();
 } elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'modif' && $_GET['id']) { //je verifie si le tableau $_GET n'est pas vide , si dans le GET[action]==modif et si l'id est bien presente dans le get
     $id = $_GET['id']; //je recup l'id du get et je la met dans la variable $id
     $data = ServiceService::recheById($id); //j'utilise la methode recheById abstraite de ma class ServiceService qui fait le lien avec dao dans ma couche service et je recupere un array

@@ -63,13 +63,13 @@ function Formulaire2(?Service2 $data)
                                                                                                                 } ?>" placeholder="service">
                                 </div>
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-12">
                                 <label for="ville">VILLE:</label>
-                                <select id="inputState" class="form-control" name="ville" value="<?php if ($_GET['action'] == 'modif') {
-                                                                                                        echo $data->getVille();
-                                                                                                    } else {
-                                                                                                        echo "";
-                                                                                                    } ?>">
+                                <select id="inputState" class="form-control mx-auto d-block" name="ville" value="<?php if ($_GET['action'] == 'modif') {
+                                                                                                                        echo $data->getVille();
+                                                                                                                    } else {
+                                                                                                                        echo "";
+                                                                                                                    } ?>">
                                     <option value="bourg">Bour-en-Bresse (01)</option>
                                     <option value="laon">Laon (02)</option>
                                     <option value="moulins">Moulins (03)</option>

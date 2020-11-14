@@ -23,7 +23,7 @@ function tabEmpaccueil()
                         <fieldset>
                             <legend>PORTAIL:</legend>
                             <a href="profilsession.php?"><button class="btn btn-outline-success" type="button">Accueil</button></a>
-                            <a href="service.php?action=ajouter"><button class="btn btn-outline-primary" type="button">Tableau des services</button></a>
+                            <a href="service.php"><button class="btn btn-outline-primary" type="button">Tableau des services</button></a>
                             <?php
                             if ($_SESSION['profil'] == 'admin') {
                             ?>

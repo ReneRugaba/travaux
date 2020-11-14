@@ -2,13 +2,15 @@
 session_start();
 include('conditionConsultPages.php');
 include("service/ServiceService.php");
+include_once __DIR__ . '/vues/afficheTabServ.php';
 include_once('model/Service.php');
-include_once(__DIR__ . '/vues/afficheTabServ.php');
+include_once(__DIR__ . '/vues/tabServiceAcceuil.php');
+include_once __DIR__ . '/vues/formulaire2.php';
 
 /**
  * ce fichier est le fichier controleur qui gere le traitement de la tab service
  */
-if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { //je verifie si le tableau $_POST n'est pas vide et si dans le GET[action]==ajouter
+if (isset($_GET['action']) && $_GET['action'] == 'ajouter') { //je verifie si le tableau $_POST n'est pas vide et si dans le GET[action]==ajouter
     if (isset($_POST['noserv'])) { //Si la verification est ok je verifie si dans le post noserv n'est pas vide
         //je recupere chaque element du post dans des variables en anticipant leur valeur, s'ils sont vides, en leur donnant une valeur NULL
         $noserv = $_POST['noserv'];
@@ -25,6 +27,8 @@ if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { 
         //ici je fait appel à la methode abstraite de ma class ServiceService qui fait le lien avec dao dans ma couche service
         ServiceService::ajout($service2);
     }
+    $data = null;
+    Formulaire2($data);
 } elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'edit') { //je verifie si le tableau $_GET n'est pas vide et si dans le GET[action]==edit
     //je rentre les valeurs reçu dans le post dans des variables en anticipant leur valeur, s'ils sont vides, en leur donnant une valeur NULL
     $noserv = $_POST['noserv'];
@@ -49,8 +53,7 @@ if (!empty($_POST) && isset($_GET['action']) && $_GET['action'] == 'ajouter') { 
     $id = $_GET['id']; //je recup l'id du get et je la met dans la variable $id
     $data = ServiceService::recheById($id); //j'utilise la methode recheById abstraite de ma class ServiceService qui fait le lien avec dao dans ma couche service et je recupere un array
     //ici je recupère chaque élement dans data grace au clés du tableau assoc et je les met dans une variable et je les echo dans le form de la modification
-    $noserv = $data->getNoserv();
-    $service = $data->getService();
-    $ville = $data->getVille();
+    Formulaire2($data);
+} else {
+    tabServiceAccueil();
 }
-require(__DIR__ . '/vues/tabServiceAcceuil.php');

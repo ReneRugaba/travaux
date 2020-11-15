@@ -1,6 +1,12 @@
 <?php
 
-
+/**
+ * tableau service
+ *
+ * @param array $data
+ * @param string $isAdmin
+ * @return html
+ */
 function afficheTabServ(array $data, string $isAdmin)
 {
     foreach ($data as $value) {

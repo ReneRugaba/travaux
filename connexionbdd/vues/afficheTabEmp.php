@@ -10,8 +10,8 @@ function afficheTabEmp($data, $isadmin)
             <td><?php echo $value->getNoemp(); ?></td>
             <td><?php echo $value->getNom(); ?></td>
             <td><?php echo $value->getPrenom(); ?></td>
-            <td><?php echo $value->getSup(); ?></td>
             <td><?php echo $value->getEmploi(); ?></td>
+            <td><?php echo $value->getSup(); ?></td>
             <td><?php echo $value->getEmbauche()->format('d-m-Y'); ?></td>
             <td><?php if ($isadmin == 'admin') {
                     echo $value->getSal();

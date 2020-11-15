@@ -1,5 +1,6 @@
 <?php
 include(__DIR__ . "/service/UtilisateurService.php"); //connection au fichier das la couche service
+include_once __DIR__ . '/model/Utilisateur.php';
 
 /**
  * ici se trouve le programe principal pour insertion des inscriptions
@@ -10,10 +11,9 @@ if (!empty($_POST)) { //ici je verifie que le POST n'est pas vide
         && !empty($_POST['password2']) // ici je verifie que chaque POST existe et qu'il n'est pas vide
     ) {
         if ($_POST['password'] == $_POST['password2']) { // je verifie que les mots de passe sont identique
-            $password = password_hash($_POST['password'], PASSWORD_DEFAULT); //ici je hash le mot de passe et je le met dans une variable
-            $mail = $_POST['email']; //je meit le mail dans une variable
-            $util = new utilisateurService();
-            $util->setUserServ($mail, $password); // je fait appel à la fonction setUser qui se trouve dans la couche service
+            $util = new Utilisateur();
+            $util->setEmail($_POST['email'])->setPassWord(password_hash($_POST['password'], PASSWORD_DEFAULT));
+            utilisateurService::setUserServ($util); // je fait appel à la fonction setUser qui se trouve dans la couche service
             header('location: connexion.php?action=succes');
         } else //dans le cas ou mon mot de passe n'est pas identique 
         {

@@ -36,12 +36,12 @@ function Formulaire(?Employe2 $emp)
             <div class="container-fluid">
                 <div class="col-6 rounded mx-auto d-block">
                     <!-- ce formulaire gere les ajouts et les modifications de mannière inteligente grâce l'action du get -->
-                    <form <?php if ($_GET['action'] == 'modif') {
-                                echo "edit";
-                            } else {
-                                echo "ajouter";
-                            }
-                            ?> class="form" method="POST">
+                    <form action="gestion.php?action=<?php if ($_GET['action'] == 'modif') {
+                                                            echo "edit";
+                                                        } else {
+                                                            echo "ajouter";
+                                                        }
+                                                        ?>" class="form" method="POST">
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <!-- pour chanque value du form j'echo les infos à modifier si dans le get action==modif dans le cas contraire, le placeholder remplace les values -->

@@ -12,7 +12,7 @@ class utilisateurService
      * @param string $mail
      * @return array
      */
-    public function getConnectU(string $mail): array
+    public static function getConnectU(Utilisateur $mail): Utilisateur
     {
         $row = new UtilisateurMysqliDao();
         return $row->getConnectUser($mail);
@@ -25,9 +25,9 @@ class utilisateurService
      * @param string $pass
      * @return void
      */
-    public function setUserServ(string $mail, string $pass): void
+    public static function setUserServ(Utilisateur $utilisateur): void
     {
         $row = new UtilisateurMysqliDao();
-        $row->setUser($mail, $pass);
+        $row->setUser($utilisateur);
     }
 }

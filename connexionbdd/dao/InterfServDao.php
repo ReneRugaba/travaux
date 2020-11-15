@@ -1,6 +1,8 @@
 <?php
 include_once __DIR__ . '/../model/Service.php';
-
+/**
+ * interface service
+ */
 interface InterServDao
 {
     public function add(Service2 $employe): void;

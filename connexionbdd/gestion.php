@@ -54,12 +54,10 @@ if (isset($_GET['action']) && $_GET['action'] == 'ajouter') { //je verifie si le
 
             //j'appelle la fonction edit la methode abstraite de employeService qui s'occupe de faire la liaison avec le dao
             EmployeService::edit($employe);
-            $data = null;
             tabEmpaccueil();
         } elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'sup' && $_GET['id']) { //je verifie si le tableau $_GET n'est pas vide et si dans le GET[action]==sup et que id est present dans le get
             $id = $_GET['id']; // ici je recupere l'id dans le get et je le met dans une variable
             employeService::sup($id); //je fais appel à la methode abstraite sup dans dans la couche EmployeService qui fait le lien avec dao
-            $data = null;
             tabEmpaccueil();
         } elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'modif' && $_GET['id']) { //je verifie si le tableau $_GET n'est pas vide , si dans le GET[action]==modif et si l'id est bien presente dans le get
 

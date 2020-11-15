@@ -1,6 +1,8 @@
 <?php
 include_once __DIR__ . '/../model/Employe.php';
-
+/**
+ * inerface employé
+ */
 interface InterEmpfDao
 {
     public function add(Employe2 $employe): void;

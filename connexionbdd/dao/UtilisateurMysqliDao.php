@@ -1,5 +1,6 @@
 <?php
 include('connectbdd.php');
+include_once __DIR__ . '/../model/Utilisateur.php';
 
 
 /**
@@ -27,42 +28,47 @@ class UtilisateurMysqliDao extends ConnectBdd
     }
 
     /**
-     * fonction qui insert dans la base de donnée un utilisateur
+     * Undocumented function
      *
-     * @param string $mail
-     * @param string $password
+     * @param Utilisateur $utilisateur
      * @return void
      */
-    public function setUser(string $mail, string $password): void
+    public function setUser(Utilisateur $utilisateur): void
     {
 
         $db = new ConnectBdd();
         $db = $db->connectBdd(); //connection  la base de donnée
         $prepare = $db->prepare("insert into utilisateur values(NULL,?,?,'utilisateur')"); //preparation de la requette avant insertion
+        $mail = $utilisateur->getEmail();
+        $password = $utilisateur->getPassWord();
         $prepare->bind_param("ss", $mail, $password); //mis en correspondance des ? avec $password et $mail
         $prepare->execute(); //execution de la requete
         $db->close(); //fermeture de la connection avec la base de donnée
     }
 
     /**
-     * fonction qui recherche correspondance dans la base de donnée avec $mail
+     * Undocumented function
      *
-     * @param string $mail
-     * @return array
+     * @param Utilisateur $mail
+     * @return Utilisateur|null
      */
-    public function getConnectUser(string $mail): array
+    public function getConnectUser(Utilisateur $mail): ?Utilisateur
     {
         $db = new ConnectBdd();
         $db = $db->connectBdd(); //connection  la base de donnée
-        $req = $db->prepare("select * from utilisateur where username=?"); //preparation de la requette select
-        $req->bind_param('s', $mail); //mis en correspondance du ? avec $mail
+        $req = $db->prepare("select * from utilisateur where username=?"); //preparation de la requette prepare
+        $email = $mail->getEmail();
+        $req->bind_param('s', $email); //mis en correspondance du ? avec $mail
         $req->execute(); //execution de la requete
         $rs = $req->get_result(); //recupertion du resultat de la requete
         $array = $rs->fetch_array(MYSQLI_ASSOC); //resutat mis dans un tableau associatif
+        var_dump($array);
+        $obj = new Utilisateur();
+        $obj->setEmail($array['username'])->setPassWord($array['password'])->setProfil($array['profil']);
         if (!empty($array)) {
-            return $array; //retourne un array
+            return $obj; //retourne un array
         } else {
-            return $array = [];
+            return null;
         }
     }
 }

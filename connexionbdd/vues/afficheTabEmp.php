@@ -1,6 +1,13 @@
 <?php
 
-function afficheTabEmp($data, $isadmin)
+/**
+ * infos de chaque employe dans le tableau employe
+ *
+ * @param Employe2 $data
+ * @param string $isadmin
+ * @return html
+ */
+function afficheTabEmp(array $data, string $isadmin)
 {
     foreach ($data as $value) {
 

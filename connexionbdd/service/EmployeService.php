@@ -6,10 +6,10 @@ include_once(__DIR__ . '/../dao/EmployeMysqliDao.php');
 class EmployeService
 {
     /**
-     * cette methode fait appel à la methode afficher de la couche dao et retourne un array
+     * Undocumented function
      *
      * @param integer $id
-     * @return array
+     * @return Employe2
      */
     public static function aff(int $id): Employe2
     {
@@ -19,10 +19,10 @@ class EmployeService
     }
 
     /**
-     * cette methode fait appel à la methode rechercheEmpId de la couche dao et retourne un array
+     * Undocumented function
      *
      * @param integer $id
-     * @return array
+     * @return Employe2
      */
     public static function modif(int $id): Employe2
     {

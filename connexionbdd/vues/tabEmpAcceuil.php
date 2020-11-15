@@ -1,6 +1,12 @@
 <?php
 include_once __DIR__ . '/Formulaire.php';
 
+
+/**
+ * page d'accueil employe
+ *
+ * @return html
+ */
 function tabEmpaccueil()
 {
 ?>

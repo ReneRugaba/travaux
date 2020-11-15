@@ -26,6 +26,10 @@ if (isset($_GET['action']) && $_GET['action'] == 'ajouter') { //je verifie si le
 
         //ici je fait appel à la methode abstraite de ma class ServiceService qui fait le lien avec dao dans ma couche service
         ServiceService::ajout($service2);
+
+        /**
+         * ici j'inticipe la possibilité de retour d'un $_POST vide
+         */
         if ($_POST['noserv'] != null) {
 ?>
             <h1 class="text-success">Ajout Service réussit avec succès!!</h1>
@@ -51,14 +55,14 @@ if (isset($_GET['action']) && $_GET['action'] == 'ajouter') { //je verifie si le
      */
     $service2->setNoserv($noserv)->setService($serv)->setVille($ville);
 
-    //j'appelle la methode modiff abstraite de ma class ServiceService qui fait le lien avec dao dans ma couce service
+    //j'appelle la methode modiff abstraite de ma class ServiceService qui fait le lien avec dao dans ma couce service en lui donnant une instance de Service
     ServiceService::modiff($service2);
-    tabServiceAccueil();
+    tabServiceAccueil(); //j'appel la page html de table service
 } elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'sup' && $_GET['id']) { //je verifie si le tableau $_GET n'est pas vide et si dans le GET[action]==sup et que id est present dans le get
     $id = $_GET['id']; // ici je recupere l'id dans le get et je le met dans une variable
 
     ServiceService::sup($id); //je fais appel à methode supp abstraite de ma class ServiceService qui fait le lien avec dao dans ma couche service
-    tabServiceAccueil();
+    tabServiceAccueil(); //j'appel la page html de table service
 } elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'modif' && $_GET['id']) { //je verifie si le tableau $_GET n'est pas vide , si dans le GET[action]==modif et si l'id est bien presente dans le get
     $id = $_GET['id']; //je recup l'id du get et je la met dans la variable $id
     $data = ServiceService::recheById($id); //j'utilise la methode recheById abstraite de ma class ServiceService qui fait le lien avec dao dans ma couche service et je recupere un array

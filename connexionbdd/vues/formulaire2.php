@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * formulaire ajout/modification service
+ *
+ * @param Service2|null $data
+ * @return html
+ */
 function Formulaire2(?Service2 $data)
 {
 ?>

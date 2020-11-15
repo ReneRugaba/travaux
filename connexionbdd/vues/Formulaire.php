@@ -1,6 +1,11 @@
 <?php
 
-
+/**
+ * formulaire modification/ajout employe
+ *
+ * @param Employe2|null $emp
+ * @return html
+ */
 function Formulaire(?Employe2 $emp)
 {
 ?>

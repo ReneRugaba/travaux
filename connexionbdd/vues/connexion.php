@@ -1,6 +1,10 @@
 <?php
 
-
+/**
+ * formulaire connexion
+ *
+ * @return html
+ */
 function connexion()
 {
 ?>

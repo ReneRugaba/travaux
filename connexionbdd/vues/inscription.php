@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * formulaire inscription
+ *
+ * @return html
+ */
 function inscription()
 {
 ?>

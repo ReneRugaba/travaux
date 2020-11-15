@@ -1,7 +1,12 @@
 <?php
 
 
-
+/**
+ * fonction qui retourne chaque info des l'employés 
+ *
+ * @param Employe2 $data
+ * @return le tableau de l'employe
+ */
 function afficheDetailsEmp(Employe2 $data)
 {
 ?>

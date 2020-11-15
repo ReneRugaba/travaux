@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * details d'un service
+ *
+ * @return html
+ */
 function serviceInfo()
 {
 ?>

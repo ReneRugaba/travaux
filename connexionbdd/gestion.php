@@ -21,16 +21,15 @@ if (isset($_GET['action']) && $_GET['action'] == 'ajouter') { //je verifie si le
             ->setEmploi($_POST['emploi'])->setSup($sup)->setEmbauche($date = new DateTime($_POST['embauche']))
             ->setSal($sal)->setComm($comm)->setNoserv($_POST['noserv']);
         EmployeService::AddEmploye($empServ); //après avoir donnée une valeur à chaque atrtibu de ma class employe2, je fait appel à 
-        //la methode abstraite de employeService dans la couche service
+        //la methode abstraite de employeService dans la couche service en lui donnant mon instance d'employe
 ?>
         <h1 class="text-success">Ajout employé réssit avec succès!
 
         </h1> <?php
             }
-            $data = null;
-            Formulaire($data);
+            $data = null; // en donnant la valeur null par defaut à data j'enticipe les erreurs de mon formulaire car je gère la modification et l'ajout dans le même form
+            Formulaire($data); //ici j'appel le form en html
         } elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'edit') { //je verifie si le tableau $_GET n'est pas vide et si dans le GET[action]==edit
-            //je rentre les valeurs reçu dans le post dans des variables en anticipant leur valeur, s'ils sont vides, en leur donnant une valeur NULL
 
             $employe = new Employe2(); //ici je crée mon employe avec ma class Employe2
 
@@ -54,7 +53,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'ajouter') { //je verifie si le
 
             //j'appelle la fonction edit la methode abstraite de employeService qui s'occupe de faire la liaison avec le dao
             EmployeService::edit($employe);
-            tabEmpaccueil();
+            tabEmpaccueil(); //j'appel la page de d'accueil de mon tableau employe
         } elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'sup' && $_GET['id']) { //je verifie si le tableau $_GET n'est pas vide et si dans le GET[action]==sup et que id est present dans le get
             $id = $_GET['id']; // ici je recupere l'id dans le get et je le met dans une variable
             employeService::sup($id); //je fais appel à la methode abstraite sup dans dans la couche EmployeService qui fait le lien avec dao
@@ -65,7 +64,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'ajouter') { //je verifie si le
             $data = employeService::modif($id); //j'utilise la methode modif abstraite qui se trouve dans ma couche service et qui fait le lien ave le dao
             //ici je recupère chaque élement dans data grace au clés du tableau assoc et je les met dans une variable
 
-            Formulaire($data);
+            Formulaire($data); //je fait appel au formulaire en lui donnant mon objet data en argu
         } else {
-            tabEmpaccueil();
+            tabEmpaccueil(); //j'appel la page de la table employe par défaut de mon controleur
         }

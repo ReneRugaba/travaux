@@ -7,10 +7,10 @@ include_once(__DIR__ . '/../dao/UtilisateurMysqliDao.php');
 class utilisateurService
 {
     /**
-     * cette methode fait appel à la methode getConnectUser de la couche dao et retourne un array
+     * cette methode fait appel à la methode getConnectUser de la couche dao et retourne un Utilisateur
      *
      * @param string $mail
-     * @return array
+     * @return Utilisateur
      */
     public static function getConnectU(Utilisateur $mail): Utilisateur
     {
@@ -19,10 +19,9 @@ class utilisateurService
     }
 
     /**
-     * cette methode fait appel à la methode setUser de la couche dao et ne retourne rien
+     * Undocumented function
      *
-     * @param string $mail
-     * @param string $pass
+     * @param Utilisateur $utilisateur
      * @return void
      */
     public static function setUserServ(Utilisateur $utilisateur): void

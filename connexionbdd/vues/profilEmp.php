@@ -1,6 +1,10 @@
 <?php
 
-
+/**
+ * details d'un employe
+ *
+ * @return html
+ */
 function profiEmp()
 {
 ?>

@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * ici on appel le profil Employe à l'aide de la fonction profiEmp
+ */
 session_start();
 include_once('conditionConsultPages.php');
 include_once __DIR__ . '/vues/afficheDetailsEmp.php';

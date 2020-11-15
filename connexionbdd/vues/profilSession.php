@@ -1,6 +1,10 @@
 <?php
 
-
+/**
+ * profil session après connexion avec succes
+ *
+ * @return html
+ */
 function profiSession()
 {
 ?>

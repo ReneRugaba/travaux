@@ -1,4 +1,11 @@
 <?php
+
+/**
+ * retourne les datails en html
+ *
+ * @param Service2 $data
+ * @return retourne les détails d'un service
+ */
 function afficheDetailsServ(Service2 $data)
 {
 ?>

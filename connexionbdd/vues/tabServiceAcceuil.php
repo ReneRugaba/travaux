@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * page d'acceuil tableau service
+ *
+ * @return html
+ */
 function tabServiceAccueil()
 {
 ?>

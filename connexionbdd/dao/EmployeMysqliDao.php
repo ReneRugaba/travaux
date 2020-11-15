@@ -60,10 +60,10 @@ class EmployeMysqliDao extends ConnectBdd implements InterEmpfDao
     }
 
     /**
-     *cette fonction retoune la row d'un employé dans le formulaire de modification
+     * Undocumented function
      *
      * @param integer $id
-     * @return array
+     * @return Employe2
      */
     public function rechercheById(int $id): Employe2
     {
@@ -148,10 +148,10 @@ class EmployeMysqliDao extends ConnectBdd implements InterEmpfDao
     }
 
     /**
-     *cette fonction verifie si le noemp correspond au num de superieur et retourne un booleen
+     * Undocumented function
      *
      * @param integer $num
-     * @return boolean
+     * @return boolean|null
      */
     public function Affect(int $num): ?bool
     {

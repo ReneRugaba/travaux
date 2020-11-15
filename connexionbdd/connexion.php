@@ -2,4 +2,4 @@
 
 include __DIR__ . '/vues/connexion.php';
 
-connexion();
+connexion();//cette fonction appel mon formulaire de connexion et l'affiche

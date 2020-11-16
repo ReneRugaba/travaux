@@ -20,7 +20,9 @@ if (isset($_GET['action']) && $_GET['action'] == 'ajouter') { //je verifie si le
         $empServ->setNoemp($_POST['noemp'])->setNom($_POST['nom'])->setPrenom($_POST['prenom'])
             ->setEmploi($_POST['emploi'])->setSup($sup)->setEmbauche($date = new DateTime($_POST['embauche']))
             ->setSal($sal)->setComm($comm)->setNoserv($_POST['noserv']);
-        EmployeService::AddEmploye($empServ); //après avoir donnée une valeur à chaque atrtibu de ma class employe2, je fait appel à 
+
+        $emp = new EmployeService();
+        $emp->Add($empServ); //après avoir donnée une valeur à chaque atrtibu de ma class employe2, je fait appel à 
         //la methode abstraite de employeService dans la couche service en lui donnant mon instance d'employe
 ?>
         <h1 class="text-success">Ajout employé réssit avec succès!
@@ -52,16 +54,19 @@ if (isset($_GET['action']) && $_GET['action'] == 'ajouter') { //je verifie si le
             $employe->setNoemp($id)->setNom($nom)->setPrenom($prenom)->setEmploi($emp)->setSup($sup)->setEmbauche($date = new DateTime($embauche))->setSal($sal)->setComm($comm)->setNoserv($noser);
 
             //j'appelle la fonction edit la methode abstraite de employeService qui s'occupe de faire la liaison avec le dao
-            EmployeService::edit($employe);
+            $emp = new EmployeService();
+            $emp->edit($employe);
             tabEmpaccueil(); //j'appel la page de d'accueil de mon tableau employe
         } elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'sup' && $_GET['id']) { //je verifie si le tableau $_GET n'est pas vide et si dans le GET[action]==sup et que id est present dans le get
             $id = $_GET['id']; // ici je recupere l'id dans le get et je le met dans une variable
-            employeService::sup($id); //je fais appel à la methode abstraite sup dans dans la couche EmployeService qui fait le lien avec dao
+            $emp = new EmployeService();
+            $emp->sup($id); //je fais appel à la methode abstraite sup dans dans la couche EmployeService qui fait le lien avec dao
             tabEmpaccueil();
         } elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'modif' && $_GET['id']) { //je verifie si le tableau $_GET n'est pas vide , si dans le GET[action]==modif et si l'id est bien presente dans le get
 
             $id = $_GET['id']; //je recup l'id et je la met dans la variable $id
-            $data = employeService::modif($id); //j'utilise la methode modif abstraite qui se trouve dans ma couche service et qui fait le lien ave le dao
+            $emp = new EmployeService();
+            $data = $emp->modif($id); //j'utilise la methode modif abstraite qui se trouve dans ma couche service et qui fait le lien ave le dao
             //ici je recupère chaque élement dans data grace au clés du tableau assoc et je les met dans une variable
 
             Formulaire($data); //je fait appel au formulaire en lui donnant mon objet data en argu

@@ -26,7 +26,7 @@ function afficheTabServ(array $data, string $isAdmin)
 
                 <?php
                 $data = new ServiceService();
-                if ($data->isservAf($value->getNoserv()) == FALSE && $isAdmin == 'admin') {
+                if ($data->affect($value->getNoserv()) == FALSE && $isAdmin == 'admin') {
                 ?>
                     <a href="service.php?id=<?php echo $value->getNoserv(); ?>&action=sup"><button type="button" class="btn btn-danger">X</button>
                     </a><?php } ?>

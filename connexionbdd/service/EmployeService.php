@@ -1,21 +1,16 @@
 <?php
 include_once(__DIR__ . '/../dao/EmployeMysqliDao.php');
+include_once __DIR__ . '/interfService.php';
 /**
  * ici ce trouve la classe de la couche service qui s'ocupe de mettre la couche controlleur et dao en connection pour les employés
  */
-class EmployeService
+class EmployeService implements interfService
 {
-    /**
-     * Undocumented function
-     *
-     * @param integer $id
-     * @return Employe2
-     */
-    public static function aff(int $id): Employe2
+    private $empDao;
+
+    public function __construct()
     {
-        $row = new EmployeMysqliDao();
-        $data = $row->rechercheById($id);
-        return $data;
+        $this->empDao = new EmployeMysqliDao();
     }
 
     /**
@@ -24,11 +19,20 @@ class EmployeService
      * @param integer $id
      * @return Employe2
      */
-    public static function modif(int $id): Employe2
+    public  function aff(int $id): object
     {
-        $row = new EmployeMysqliDao();
-        $data = $row->rechercheById($id);
-        return $data;
+        return $this->empDao->rechercheById($id);
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param integer $id
+     * @return Employe2
+     */
+    public function modif(int $id): object
+    {
+        return $this->empDao->rechercheById($id);
     }
 
     /**
@@ -37,10 +41,9 @@ class EmployeService
      * @param integer $id
      * @return void
      */
-    public static function sup(int $id): void
+    public function sup(int $id): void
     {
-        $row = new EmployeMysqliDao();
-        $row->delete($id);
+        $this->empDao->delete($id);
     }
 
     /**
@@ -49,10 +52,9 @@ class EmployeService
      * @param Employe2 $employe
      * @return void
      */
-    public static function edit(Employe2 $employe): void
+    public function edit(object $employe): void
     {
-        $data = new EmployeMysqliDao();
-        $data->update($employe);
+        $this->empDao->update($employe);
     }
 
     /**
@@ -61,11 +63,9 @@ class EmployeService
      * @param integer $num
      * @return boolean|null
      */
-    public function affectEmp(int $num): ?bool
+    public function affect(int $num): ?bool
     {
-        $empDao = new EmployeMysqliDao();
-        $rep = $empDao->Affect($num);
-        return $rep;
+        return $this->empDao->Affect($num);
     }
 
     /**
@@ -73,10 +73,9 @@ class EmployeService
      *
      * @return array
      */
-    public function rechercheEmp(): array
+    public function recherche(): array
     {
-        $data = new EmployeMysqliDao();
-        return $data->searchAll();
+        return $this->empDao->searchAll();
     }
 
     /**
@@ -85,9 +84,28 @@ class EmployeService
      * @param Employe2 $employe2
      * @return void
      */
-    public static function AddEmploye(Employe2 $employe2): void
+    public function Add(object $employe2): void
     {
-        $employe = new EmployeMysqliDao(); // je crée mon objet $employe en appellant ma class Employe2
-        $employe->add($employe2);
+        $this->empDao->add($employe2);
+    }
+
+    /**
+     * Get the value of empDao
+     */
+    public function getempDao()
+    {
+        return $this->empDao;
+    }
+
+    /**
+     * Set the value of empDao
+     *
+     * @return  self
+     */
+    public function setempDao($empDao)
+    {
+        $this->empDao = $empDao;
+
+        return $this;
     }
 }

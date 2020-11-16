@@ -11,7 +11,8 @@ if (!empty($_POST)) { //ici je verifie que le POST n'est pas vide
     ) {
         $array = new Utilisateur();
         $array->setEmail($_POST['email'])->setPassWord($_POST['password']);
-        $data = UtilisateurService::getConnectU($array); //je fait appel à la methode getConnectUser et je met en argu le un objet de Utilisateur et je recupère le données de
+        $utServ = new utilisateurService();
+        $data = $utServ->getConnectU($array); //je fait appel à la methode getConnectUser et je met en argu le un objet de Utilisateur et je recupère le données de
         //ma BDD en objet utilisteur également
         if (password_verify($array->getPassWord(), $data->getPassWord())) { //je verifie que le hash du mot de passe de l'utilisateur correspondant est bien identique à celui renseigé par le user
             session_start(); //si tout va bien je demarre la session

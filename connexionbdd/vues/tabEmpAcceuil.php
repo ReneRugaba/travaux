@@ -49,7 +49,7 @@ function tabEmpaccueil()
                             trEmp();
                             //ici je fai sun foreach pour recuperer la table entière, à l'aide de la fonction que j'ai créé dans crud.php, que je receptionne dans un tableau que je parcours à l'aide du foreach
                             $data = new EmployeService();
-                            $data = $data->rechercheEmp();
+                            $data = $data->recherche();
                             $isAdmin = $_SESSION['profil'];
                             afficheTabEmp($data, $isAdmin);
                             ?>

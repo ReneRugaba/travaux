@@ -25,7 +25,8 @@ function profiEmp()
                                 if ($_GET['action'] == 'infos') //ici je verifie si dans le get actint==infos
                                 {
                                     $id = $_GET['id']; // je recupere ID dans le get et je la met dans une variable
-                                    $data = EmployeService::aff($id); // j'appelle la methode aff absetraite de ma class EmployeService qui fait le lien avec dao et je recupère un array
+                                    $emp = new EmployeService();
+                                    $data = $emp->aff($id); // j'appelle la methode aff absetraite de ma class EmployeService qui fait le lien avec dao et je recupère un array
                                     afficheDetailsEmp($data); //cette foction me sert à afficher le detail d'un employe qui est dans ma couche vues de mon appli
                                 }
                             }

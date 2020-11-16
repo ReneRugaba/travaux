@@ -25,7 +25,8 @@ if (isset($_GET['action']) && $_GET['action'] == 'ajouter') { //je verifie si le
         $service2->setNoserv($noserv)->setService($serv)->setVille($ville);
 
         //ici je fait appel à la methode abstraite de ma class ServiceService qui fait le lien avec dao dans ma couche service
-        ServiceService::ajout($service2);
+        $serv = new ServiceService();
+        $serv->Add($service2);
 
         /**
          * ici j'inticipe la possibilité de retour d'un $_POST vide
@@ -56,16 +57,18 @@ if (isset($_GET['action']) && $_GET['action'] == 'ajouter') { //je verifie si le
     $service2->setNoserv($noserv)->setService($serv)->setVille($ville);
 
     //j'appelle la methode modiff abstraite de ma class ServiceService qui fait le lien avec dao dans ma couce service en lui donnant une instance de Service
-    ServiceService::modiff($service2);
+    $serv = new ServiceService();
+    $serv->modif($service2);
     tabServiceAccueil(); //j'appel la page html de table service
 } elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'sup' && $_GET['id']) { //je verifie si le tableau $_GET n'est pas vide et si dans le GET[action]==sup et que id est present dans le get
     $id = $_GET['id']; // ici je recupere l'id dans le get et je le met dans une variable
-
-    ServiceService::sup($id); //je fais appel à methode supp abstraite de ma class ServiceService qui fait le lien avec dao dans ma couche service
+    $serv = new ServiceService();
+    $serv->sup($id); //je fais appel à methode supp abstraite de ma class ServiceService qui fait le lien avec dao dans ma couche service
     tabServiceAccueil(); //j'appel la page html de table service
 } elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'modif' && $_GET['id']) { //je verifie si le tableau $_GET n'est pas vide , si dans le GET[action]==modif et si l'id est bien presente dans le get
     $id = $_GET['id']; //je recup l'id du get et je la met dans la variable $id
-    $data = ServiceService::recheById($id); //j'utilise la methode recheById abstraite de ma class ServiceService qui fait le lien avec dao dans ma couche service et je recupere un array
+    $serv = new ServiceService();
+    $data = $serv->recheById($id); //j'utilise la methode recheById abstraite de ma class ServiceService qui fait le lien avec dao dans ma couche service et je recupere un array
     //ici je recupère chaque élement dans data grace au clés du tableau assoc et je les met dans une variable et je les echo dans le form de la modification
     Formulaire2($data);
 } else {

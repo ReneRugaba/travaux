@@ -46,7 +46,7 @@ function tabServiceAccueil()
                             trServ();
                             //ici je fai sun foreach pour recuperer la table entière, à l'aide de la fonction que j'ai créé dans crudnoserv.php, que je receptionne dans un tableau que je parcours à l'aide du foreach
                             $data = new ServiceService();
-                            $data = $data->afficheServ();
+                            $data = $data->recherche();
                             $isAdmin = $_SESSION['profil'];
                             afficheTabServ($data, $isAdmin);
                             ?>

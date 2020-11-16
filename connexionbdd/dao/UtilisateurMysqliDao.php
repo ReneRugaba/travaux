@@ -1,12 +1,13 @@
 <?php
 include('connectbdd.php');
 include_once __DIR__ . '/../model/Utilisateur.php';
+include_once __DIR__ . '/interfUtilisateur.php';
 
 
 /**
  * cette classe fait le lien avec la bdd et est la fille de la class bdd pour les utilisateurs
  */
-class UtilisateurMysqliDao extends ConnectBdd
+class UtilisateurMysqliDao extends ConnectBdd implements interfUtilisateur
 {
     /**
      * cette fonction s'occupe de chercher un utilisateur avec la colonne profil
@@ -33,7 +34,7 @@ class UtilisateurMysqliDao extends ConnectBdd
      * @param Utilisateur $utilisateur
      * @return void
      */
-    public function setUser(Utilisateur $utilisateur): void
+    public function setUser(object $utilisateur): void
     {
 
         $db = new ConnectBdd();
@@ -52,7 +53,7 @@ class UtilisateurMysqliDao extends ConnectBdd
      * @param Utilisateur $mail
      * @return Utilisateur|null
      */
-    public function getConnectUser(Utilisateur $mail): ?Utilisateur
+    public function getConnectUser(object $mail): ?object
     {
         $db = new ConnectBdd();
         $db = $db->connectBdd(); //connection  la base de donnée

@@ -1,19 +1,19 @@
 <?php
 include_once __DIR__ . '/ConnectBdd.php';
 include_once __DIR__ . '/../model/Employe.php';
-include_once __DIR__ . '/InterfEmpDao.php';
+include_once __DIR__ . '/InterfDao.php';
 
 /**
  * cette classe fait le lien avec la bdd et est la fille de la class bdd pour les Employés
  */
-class EmployeMysqliDao extends ConnectBdd implements InterEmpfDao
+class EmployeMysqliDao extends ConnectBdd implements InterfDao
 {
     /**
      * cette fonction ajoute un employé dans la table emp
      * @param Employe2 $employe
      * @return void
      */
-    public function add(Employe2 $employe): void
+    public function add(object $employe): void
     {
         $db = new ConnectBdd();
         $db = $db->connectBdd();
@@ -65,7 +65,7 @@ class EmployeMysqliDao extends ConnectBdd implements InterEmpfDao
      * @param integer $id
      * @return Employe2
      */
-    public function rechercheById(int $id): Employe2
+    public function rechercheById(int $id): object
     {
         $db = new ConnectBdd();
         $db = $db->connectBdd();
@@ -89,7 +89,7 @@ class EmployeMysqliDao extends ConnectBdd implements InterEmpfDao
      * @param Employe2 $employe
      * @return void
      */
-    public function update(Employe2 $employe): void
+    public function update(object $employe): void
     {
         $db = new ConnectBdd();
         $db = $db->connectBdd();

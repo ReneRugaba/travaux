@@ -1,12 +1,12 @@
 <?php
 include_once __DIR__ . '/ConnectBdd.php';
 include_once __DIR__ . '/../model/Service.php';
-include_once __DIR__ . '/InterfServDao.php';
+include_once __DIR__ . '/InterfDao.php';
 
 /**
  * cette classe fait le lien avec la bdd et est la fille de la class bdd pour les Services
  */
-class ServiceMysqliDao extends ConnectBdd implements InterServDao
+class ServiceMysqliDao extends ConnectBdd implements InterfDao
 {
     /**
      *cette fonction ajoute un nouveau serv dans la table serv
@@ -14,7 +14,7 @@ class ServiceMysqliDao extends ConnectBdd implements InterServDao
      * @param Service2 $service2
      * @return void
      */
-    public function add(Service2 $service2): void
+    public function add(object $service2): void
     {
         $db = new ConnectBdd();
         $db = $db->connectBdd();
@@ -54,7 +54,7 @@ class ServiceMysqliDao extends ConnectBdd implements InterServDao
      * @param integer $id
      * @return Serice2
      */
-    public function rechercheById(int $id): Service2
+    public function rechercheById(int $id): object
     {
         $db = new ConnectBdd();
         $db = $db->connectBdd();
@@ -76,7 +76,7 @@ class ServiceMysqliDao extends ConnectBdd implements InterServDao
      * @param Service2 $service2
      * @return void
      */
-    public function update(Service2 $service2): void
+    public function update(object $service2): void
     {
         $db = new ConnectBdd();
         $db = $db->connectBdd();

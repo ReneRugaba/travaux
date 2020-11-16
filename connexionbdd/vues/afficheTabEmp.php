@@ -36,7 +36,7 @@ function afficheTabEmp(array $data, string $isadmin)
             <!-- ici je gère le bouton de suppression à l'aide de la fonction isServiceAffect() pour enlever la possibilité de supprimer un supperieur hierarchique -->
             <td><?php
                 $affect = new EmployeService();
-                if ($affect->affectEmp($value->getNoemp()) == FALSE && $isadmin == 'admin') {
+                if ($affect->affect($value->getNoemp()) == FALSE && $isadmin == 'admin') {
                 ?>
                     <a href="gestion.php?id=<?php echo $value->getNoemp(); ?>&action=sup"><button type="button" class="btn btn-danger">X</button></a>
                 <?php

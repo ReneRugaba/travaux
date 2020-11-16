@@ -1,21 +1,27 @@
 <?php
 include_once(__DIR__ . '/../dao/ServiceMysqliDao.php');
+include_once __DIR__ . '/interfService.php';
 
 /**
  * ici ce trouve la classe de la couche service qui s'ocupe de mettre la couche controleur et dao en connection pour les services
  */
 class ServiceService
 {
+    private $row;
+
+    public function __construct()
+    {
+        $this->row = new ServiceMysqliDao();
+    }
     /**
      * cette methode fait appel à la methode add de la couche dao et ne retourne rien
      *
      * @param Service2 $employe
      * @return void
      */
-    public static function ajout(Service2 $employe): void
+    public function Add(Service2 $employe): void
     {
-        $row = new ServiceMysqliDao();
-        $row->add($employe);
+        $this->row->add($employe);
     }
 
     /**
@@ -24,10 +30,9 @@ class ServiceService
      * @param Service2 $service2
      * @return void
      */
-    public static function modiff(Service2 $service2): void
+    public  function modif(Service2 $service2): void
     {
-        $row = new ServiceMysqliDao();
-        $row->update($service2);
+        $this->row->update($service2);
     }
 
     /**
@@ -36,10 +41,9 @@ class ServiceService
      * @param integer $id
      * @return void
      */
-    public static function sup(int $id): void
+    public  function sup(int $id): void
     {
-        $row = new ServiceMysqliDao();
-        $row->delete($id);
+        $this->row->delete($id);
     }
 
     /**
@@ -48,11 +52,9 @@ class ServiceService
      * @param integer $id
      * @return array
      */
-    public static function recheById(int $id): Service2
+    public  function recheById(int $id): object
     {
-        $serv = new ServiceMysqliDao();
-        $row = $serv->rechercheById($id);
-        return $row;
+        return $this->row->rechercheById($id);
     }
 
     /**
@@ -60,10 +62,9 @@ class ServiceService
      *
      * @return array
      */
-    public function afficheServ(): array
+    public function recherche(): array
     {
-        $data = new ServiceMysqliDao();
-        return $data->searchAll();
+        return $this->row->searchAll();
     }
 
     /**
@@ -72,10 +73,9 @@ class ServiceService
      * @param integer $id
      * @return boolean|null
      */
-    public function isservAf(int $id): ?bool
+    public function affect(int $id): ?bool
     {
-        $data = new ServiceMysqliDao();
-        return $data->Affect($id);
+        return $this->row->Affect($id);
     }
 
     /**
@@ -84,9 +84,29 @@ class ServiceService
      * @param integer $id
      * @return array
      */
-    public function recherById(int $id): Service2
+    public function aff(int $id): object
     {
-        $serv = new ServiceMysqliDao();
-        return $serv->rechercheById($id);
+        return $this->row->rechercheById($id);
+    }
+
+
+    /**
+     * Get the value of row
+     */
+    public function getRow()
+    {
+        return $this->row;
+    }
+
+    /**
+     * Set the value of row
+     *
+     * @return  self
+     */
+    public function setRow($row)
+    {
+        $this->row = $row;
+
+        return $this;
     }
 }

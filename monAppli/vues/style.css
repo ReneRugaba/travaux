@@ -1,0 +1,17 @@
+body{
+    text-align: center;
+    font-family: 'Lusitana', serif;
+}
+
+table{
+    margin-top: 5%;
+}
+
+.form{
+    margin-top: 5%;
+}
+
+.messageErr{
+    color: red;
+}
+

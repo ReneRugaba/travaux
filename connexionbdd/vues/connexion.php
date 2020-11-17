@@ -38,16 +38,18 @@ function connexion()
                                 <div class="col-10">
                                     <?php
                                     if (isset($_GET['action']) && !empty($_GET['action']) && $_GET['action'] == 'empty') {
-                                        echo 'merci de remplir tous les champs du formulaire de connexion!!';
+                                    ?>
+                                        <h1 class="text-danger">merci de remplir tous les champs du formulaire de connexion!!</h1>
+                                        <?php
                                     } elseif (isset($_GET['action']) && !empty($_GET['action']) && $_GET['action'] == 'erreur') {
-                                        echo 'votre mail ou votre mot de passe n\'est pas reconnu. Merci de vous inscrire en suivant ce lien
-                            ' ?>
-                                        <a href="inscription.php">inscrivez vous ici</a>
+                                        ?>votre mail ou votre mot de passe n\'est pas reconnu. Merci de vous inscrire en suivant ce lien
+
+                                        <h5 class="text-danger"><a href="inscription.php">inscrivez vous ici</a></h5>
                                     <?php ',si cela n\'est pas encore le cas';
                                     } elseif (isset($_GET['action']) && !empty($_GET['action']) && $_GET['action'] == 'succes') {
-                                        echo 'votre inscription a été validé avec succès!';
-                                    }
-                                    ?>
+                                    ?><h1 class="text-success">votre inscription a été validé avec succès!</h1><?php
+                                                                                                            }
+                                                                                                                ?>
                                 </div>
                             </form>
                         </div>

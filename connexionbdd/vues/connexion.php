@@ -40,9 +40,9 @@ function connexion()
                                     if (isset($_GET['action']) && !empty($_GET['action']) && $_GET['action'] == 'empty') {
                                     ?>
                                         <h1 class="text-danger">merci de remplir tous les champs du formulaire de connexion!!</h1>
-                                        <?php
+                                    <?php
                                     } elseif (isset($_GET['action']) && !empty($_GET['action']) && $_GET['action'] == 'erreur') {
-                                        ?>votre mail ou votre mot de passe n\'est pas reconnu. Merci de vous inscrire en suivant ce lien
+                                    ?><h5>votre mail ou votre mot de passe n'est pas reconnu. Merci de vous inscrire en suivant ce lien</h5>
 
                                         <h5 class="text-danger"><a href="inscription.php">inscrivez vous ici</a></h5>
                                     <?php ',si cela n\'est pas encore le cas';

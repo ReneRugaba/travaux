@@ -47,9 +47,13 @@ function connexion()
                                         <h5 class="text-danger"><a href="inscription.php">inscrivez vous ici</a></h5>
                                     <?php ',si cela n\'est pas encore le cas';
                                     } elseif (isset($_GET['action']) && !empty($_GET['action']) && $_GET['action'] == 'succes') {
-                                    ?><h1 class="text-success">votre inscription a été validé avec succès!</h1><?php
-                                                                                                            }
-                                                                                                                ?>
+                                    ?><h1 class="text-success">votre inscription a été validé avec succès!</h1>
+                                    <?php
+                                    } elseif (isset($_GET['action']) && !empty($_GET['action']) && $_GET['action'] == 'unknow') {
+                                    ?><h1 class="text-danger">Nous n'avons pas trouvé de correspondance!</h1>
+                                    <?php
+                                    }
+                                    ?>
                                 </div>
                             </form>
                         </div>

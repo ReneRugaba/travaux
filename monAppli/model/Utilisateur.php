@@ -12,7 +12,7 @@ class Utilisateur extends Objet
     /**
      * Get the value of email
      */
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
@@ -22,7 +22,7 @@ class Utilisateur extends Objet
      *
      * @return  self
      */
-    public function setEmail(string $email): self
+    public function setEmail(?string $email): self
     {
         $this->email = $email;
 
@@ -32,7 +32,7 @@ class Utilisateur extends Objet
     /**
      * Get the value of passWord
      */
-    public function getPassWord(): string
+    public function getPassWord(): ?string
     {
         return $this->passWord;
     }
@@ -42,7 +42,7 @@ class Utilisateur extends Objet
      *
      * @return  self
      */
-    public function setPassWord(string $passWord): self
+    public function setPassWord(?string $passWord): self
     {
         $this->passWord = $passWord;
 
@@ -52,7 +52,7 @@ class Utilisateur extends Objet
     /**
      * Get the value of profil
      */
-    public function getProfil(): string
+    public function getProfil(): ?string
     {
         return $this->profil;
     }
@@ -62,7 +62,7 @@ class Utilisateur extends Objet
      *
      * @return  self
      */
-    public function setProfil(string $profil): self
+    public function setProfil(?string $profil): self
     {
         $this->profil = $profil;
 

@@ -65,9 +65,11 @@ class UtilisateurMysqliDao extends ConnectBdd implements interfUtilisateur
         $array = $rs->fetch_array(MYSQLI_ASSOC); //resutat mis dans un tableau associatif
         var_dump($array);
         $obj = new Utilisateur();
-        $obj->setEmail($array['username'])->setPassWord($array['password'])->setProfil($array['profil']);
-        if (!empty($array)) {
-            return $obj; //retourne un array
+        if ($array != null) {
+            $obj->setEmail($array['username'])->setPassWord($array['password'])->setProfil($array['profil']);
+            if (!empty($array)) {
+                return $obj; //retourne un array
+            }
         } else {
             return null;
         }

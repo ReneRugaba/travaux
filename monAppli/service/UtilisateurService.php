@@ -19,7 +19,7 @@ class utilisateurService implements InterfUtilServ
      * @param string $mail
      * @return Utilisateur
      */
-    public function getConnectU(object $mail): object
+    public function getConnectU(?object $mail): ?object
     {
         return $this->utilDao->getConnectUser($mail);
     }
@@ -30,7 +30,7 @@ class utilisateurService implements InterfUtilServ
      * @param Utilisateur $utilisateur
      * @return void
      */
-    public function setUserServ(object $utilisateur): void
+    public function setUserServ(?object $utilisateur): void
     {
         $this->utilDao->setUser($utilisateur);
     }
@@ -48,7 +48,7 @@ class utilisateurService implements InterfUtilServ
      *
      * @return  self
      */
-    public function setutilDao($utilDao)
+    public function setutilDao(?object $utilDao)
     {
         $this->utilDao = $utilDao;
 

@@ -7,9 +7,13 @@ include_once __DIR__ . '/head.php';
  * @param Employe2|null $emp
  * @return html
  */
-function Formulaire(?Employe2 $emp)
+function Formulaire(?Employe2 $emp,$errCodes,$ErrMessages)
 {
-?>
+if($errCodes && $ErrMessages){
+    echo "code: ". $errCodes
+
+}else{
+    ?>
     <!DOCTYPE html>
     <html lang="en">
 
@@ -109,4 +113,5 @@ function Formulaire(?Employe2 $emp)
 
     </html>
 <?php
+}
 }

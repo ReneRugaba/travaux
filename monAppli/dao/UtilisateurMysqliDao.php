@@ -2,7 +2,8 @@
 include('connectbdd.php');
 include_once __DIR__ . '/../model/Utilisateur.php';
 include_once __DIR__ . '/interfUtilisateur.php';
-
+require_once __DIR__ . '/ErreursExceptDao.php';
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 /**
  * cette classe fait le lien avec la bdd et est la fille de la class bdd pour les utilisateurs
@@ -55,15 +56,18 @@ class UtilisateurMysqliDao extends ConnectBdd implements interfUtilisateur
      */
     public function getConnectUser(object $mail): ?object
     {
-        $db = new ConnectBdd();
-        $db = $db->connectBdd(); //connection  la base de donnée
-        $req = $db->prepare("select * from utilisateur where username=?"); //preparation de la requette prepare
-        $email = $mail->getEmail();
-        $req->bind_param('s', $email); //mis en correspondance du ? avec $mail
-        $req->execute(); //execution de la requete
-        $rs = $req->get_result(); //recupertion du resultat de la requete
-        $array = $rs->fetch_array(MYSQLI_ASSOC); //resutat mis dans un tableau associatif
-        var_dump($array);
+        try {
+            $db = new ConnectBdd();
+            $db = $db->connectBdd(); //connection  la base de donnée
+            $req = $db->prepare("select * from utilisateur where username=?"); //preparation de la requette prepare
+            $email = $mail->getEmail();
+            $req->bind_param('s', $email); //mis en correspondance du ? avec $mail
+            $req->execute(); //execution de la requete
+            $rs = $req->get_result(); //recupertion du resultat de la requete
+            $array = $rs->fetch_array(MYSQLI_ASSOC); //resutat mis dans un tableau associatif
+        } catch (bddErreursException $f) {
+            throw new ErreursExceptDao($f->getMessage(), $f->getCode());
+        }
         $obj = new Utilisateur();
         if ($array != null) {
             $obj->setEmail($array['username'])->setPassWord($array['password'])->setProfil($array['profil']);

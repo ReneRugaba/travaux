@@ -86,7 +86,11 @@ class EmployeService implements interfService
      */
     public function Add(object $employe2): void
     {
-        $this->empDao->add($employe2);
+        try {
+            $this->empDao->add($employe2);
+        } catch (ErreursExceptDao $a) {
+            throw new ErreursExceptionService($a->getMessage(), $a->getCode());
+        }
     }
 
     /**

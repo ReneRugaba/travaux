@@ -11,9 +11,14 @@ if (!empty($_POST)) { //ici je verifie que le POST n'est pas vide
     ) {
         $array = new Utilisateur();
         $array->setEmail($_POST['email'])->setPassWord($_POST['password']);
-        $utServ = new utilisateurService();
-        $data = $utServ->getConnectU($array); //je fait appel à la methode getConnectUser et je met en argu le un objet de Utilisateur et je recupère le données de
-        //ma BDD en objet utilisteur également
+        try {
+            $utServ = new utilisateurService();
+            $data = $utServ->getConnectU($array); //je fait appel à la methode getConnectUser et je met en argu le un objet de Utilisateur et je recupère le données de
+            //ma BDD en objet utilisteur également
+        } catch (ErreursExceptionService $b) {
+            echo 'code erreur: ' . $b->getCode(); //. 'message: ' . $b->getMessage();
+        }
+
         if ($array != null && $data != null) {
 
             if (password_verify($array->getPassWord(), $data->getPassWord())) { //je verifie que le hash du mot de passe de l'utilisateur correspondant est bien identique à celui renseigé par le user

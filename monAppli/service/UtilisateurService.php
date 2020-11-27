@@ -1,6 +1,8 @@
 <?php
 include_once(__DIR__ . '/../dao/UtilisateurMysqliDao.php');
 include_once __DIR__ . '/interfUtilServ.php';
+require_once __DIR__ . '/ErreursExceptionService.php';
+
 
 /**
  * ici ce trouve la classe de la couche service qui s'ocupe de mettre la couche controlleur et dao en connection pour les utilisateurs
@@ -21,7 +23,11 @@ class utilisateurService implements InterfUtilServ
      */
     public function getConnectU(?object $mail): ?object
     {
-        return $this->utilDao->getConnectUser($mail);
+        try {
+            return $this->utilDao->getConnectUser($mail);
+        } catch (ErreursExceptDao $a) {
+            throw new ErreursExceptionService($a->getMessage(), $a->getCode());
+        }
     }
 
     /**

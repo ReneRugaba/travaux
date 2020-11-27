@@ -15,30 +15,35 @@ class EmployeMysqliDao extends ConnectBdd implements InterfDao
      */
     public function add(object $employe): void
     {
-        $db = new ConnectBdd();
-        $db = $db->connectBdd();
-        $req = $db->prepare("INSERT INTO emp VALUES(?,?,?,?,?,?,?,?,?)");
-        $id = $employe->getNoemp();
-        $nom = $employe->getNom();
-        $prenom = $employe->getPrenom();
-        $emp = $employe->getEmploi();
-        $sup = $employe->getSup();
-        $embauche = $employe->getEmbauche()->format("Y-m-d");
-        $sal = $employe->getSal();
-        $comm = $employe->getComm();
-        $noser = $employe->getNoserv();
-        $req->bind_param(
-            'isssisddi',
-            $id,
-            $nom,
-            $prenom,
-            $emp,
-            $sup,
-            $embauche,
-            $sal,
-            $comm,
-            $noser
-        );
+        try {
+
+            $db = new ConnectBdd();
+            $db = $db->connectBdd();
+            $req = $db->prepare("INSERT INTO emp VALUES(?,?,?,?,?,?,?,?,?)");
+            $id = $employe->getNoemp();
+            $nom = $employe->getNom();
+            $prenom = $employe->getPrenom();
+            $emp = $employe->getEmploi();
+            $sup = $employe->getSup();
+            $embauche = $employe->getEmbauche()->format("Y-m-d");
+            $sal = $employe->getSal();
+            $comm = $employe->getComm();
+            $noser = $employe->getNoserv();
+            $req->bind_param(
+                'isssisddi',
+                $id,
+                $nom,
+                $prenom,
+                $emp,
+                $sup,
+                $embauche,
+                $sal,
+                $comm,
+                $noser
+            );
+        } catch (bddErreursException $f) {
+            throw new ErreursExceptDao($f->getMessage(), $f->getCode());
+        }
         $req->execute();
         $db->close();
     }

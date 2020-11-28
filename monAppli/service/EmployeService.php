@@ -88,8 +88,8 @@ class EmployeService implements interfService
     {
         try {
             $this->empDao->add($employe2);
-        } catch (ErreursExceptDao $a) {
-            throw new ErreursExceptionService($a->getMessage(), $a->getCode());
+        } catch (ErreursDao $a) {
+            throw new ErreursService($a->getMessage(), $a->getCode());
         }
     }
 

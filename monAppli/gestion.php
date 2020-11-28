@@ -23,16 +23,15 @@ if (isset($_GET['action']) && $_GET['action'] == 'ajouter') { //je verifie si le
         try {
             $emp = new EmployeService();
             $emp->Add($empServ); //après avoir donnée une valeur à chaque atrtibu de ma class employe2, je fait appel à 
-        } catch (ErreursExceptionService $c) {
-            echo 'message: ' . $c->getMessage() . " code: " . $c->getCode();
-        }
-        //la methode abstraite de employeService dans la couche service en lui donnant mon instance d'employe
+            //la methode abstraite de employeService dans la couche service en lui donnant mon instance d'employe
 ?>
-        <h1 class="text-success">Ajout employé réssit avec succès!
+            <h1 class="text-success">Ajout employé réssit avec succès!
 
-        </h1> <?php
-                $data = null; // en donnant la valeur null par defaut à data j'enticipe les erreurs de mon formulaire car je gère la modification et l'ajout dans le même form
-                Formulaire($data, $c->getMessage(), $c->getCode()); //ici j'appel le form en html
+            </h1> <?php
+                } catch (ErreursDao $c) {
+                    $data = null; // en donnant la valeur null par defaut à data j'enticipe les erreurs de mon formulaire car je gère la modification et l'ajout dans le même form
+                    Formulaire($data, $c->getMessage(), $c->getCode()); //ici j'appel le form en html
+                }
             }
             $data = null; // en donnant la valeur null par defaut à data j'enticipe les erreurs de mon formulaire car je gère la modification et l'ajout dans le même form
             Formulaire($data); //ici j'appel le form en html

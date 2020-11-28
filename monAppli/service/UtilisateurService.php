@@ -1,7 +1,7 @@
 <?php
 include_once(__DIR__ . '/../dao/UtilisateurMysqliDao.php');
 include_once __DIR__ . '/interfUtilServ.php';
-require_once __DIR__ . '/ErreursExceptionService.php';
+require_once __DIR__ . '/ErreursService.php';
 
 
 /**
@@ -25,8 +25,8 @@ class utilisateurService implements InterfUtilServ
     {
         try {
             return $this->utilDao->getConnectUser($object);
-        } catch (ErreursExceptDao $a) {
-            throw new ErreursExceptionService($a->getMessage(), $a->getCode());
+        } catch (ErreursDao $a) {
+            throw new ErreursService($a->getMessage(), $a->getCode());
         }
     }
 

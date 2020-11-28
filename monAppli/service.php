@@ -25,14 +25,22 @@ if (isset($_GET['action']) && $_GET['action'] == 'ajouter') { //je verifie si le
         $service2->setNoserv($noserv)->setService($serv)->setVille($ville);
 
         //ici je fait appel à la methode abstraite de ma class ServiceService qui fait le lien avec dao dans ma couche service
-        $serv = new ServiceService();
-        $serv->Add($service2);
+        try {
+
+            $serv = new ServiceService();
+            $serv->Add($service2);
+        } catch (ErreursService $b) {
+?>
+            <h1><?php echo $b->getCode(); ?></h1><br>
+            <h1><?php echo $b->getMessage(); ?></h1>
+        <?php
+        }
 
         /**
          * ici j'inticipe la possibilité de retour d'un $_POST vide
          */
         if ($_POST['noserv'] != null) {
-?>
+        ?>
             <h1 class="text-success">Ajout Service réussit avec succès!!</h1>
         <?php
         } else {

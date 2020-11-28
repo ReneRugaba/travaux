@@ -1,6 +1,7 @@
 <?php
 include_once(__DIR__ . '/../dao/ServiceMysqliDao.php');
 include_once __DIR__ . '/interfService.php';
+include_once __DIR__ . '/ErreursService.php';
 
 /**
  * ici ce trouve la classe de la couche service qui s'ocupe de mettre la couche controleur et dao en connection pour les services
@@ -21,7 +22,11 @@ class ServiceService
      */
     public function Add(object $employe): void
     {
-        $this->row->add($employe);
+        try {
+            $this->row->add($employe);
+        } catch (ErreursDao $a) {
+            new ErreursService($a->getCode(), $a->getMessage());
+        }
     }
 
     /**

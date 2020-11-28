@@ -2,14 +2,17 @@
 include_once __DIR__ . '/ConnectBaseDeDonnee.php';
 include_once __DIR__ . '/../model/Employe.php';
 include_once __DIR__ . '/InterfDao.php';
-include_once __DIR__ .  '/ErreursExceptDao.php';
-include_once __DIR__ . '/dataBasErreursException.php';
+include_once __DIR__ .  '/ErreursDao.php';
 
 /**
  * cette classe fait le lien avec la bdd et est la fille de la class bdd pour les Employés
  */
 class EmployeMysqliDao extends ConnectBaseDeDonnee implements InterfDao
 {
+    public function __construct()
+    {
+        $this->db = new ConnectBaseDeDonnee();
+    }
     /**
      * cette fonction ajoute un employé dans la table emp
      * @param object $employe
@@ -19,9 +22,8 @@ class EmployeMysqliDao extends ConnectBaseDeDonnee implements InterfDao
     {
         try {
 
-            $db = new ConnectBaseDeDonnee();
-            $db = $db->connectionDataBase();
-            $req = $db->prepare("INSERT INTO emp VALUES(?,?,?,?,?,?,?,?,?)");
+            $bd = $this->db->connectionDataBase();
+            $req = $bd->prepare("INSERT INTO emp VALUES(?,?,?,?,?,?,?,?,?)");
             $id = $employe->getNoemp();
             $nom = $employe->getNom();
             $prenom = $employe->getPrenom();
@@ -44,10 +46,10 @@ class EmployeMysqliDao extends ConnectBaseDeDonnee implements InterfDao
                 $noser
             );
             $req->execute();
-        } catch (dataBasErreursException $f) {
-            throw new ErreursExceptDao($f->getMessage(), $f->getCode());
+        } catch (dataBasErreurs $f) {
+            throw new ErreursDao($f->getMessage(), $f->getCode());
         }
-        $db->close();
+        $bd->close();
     }
 
     /**
@@ -58,8 +60,7 @@ class EmployeMysqliDao extends ConnectBaseDeDonnee implements InterfDao
      */
     public function delete(int $id): void
     {
-        $db = new ConnectBaseDeDonnee();
-        $db = $db->connectionDataBase();
+        $db = $this->db->connectionDataBase();
         $req = $db->prepare("DELETE FROM emp WHERE noemp=?");
         $req->bind_param('i', $id);
         $req->execute();
@@ -74,8 +75,7 @@ class EmployeMysqliDao extends ConnectBaseDeDonnee implements InterfDao
      */
     public function rechercheById(int $id): object
     {
-        $db = new ConnectBaseDeDonnee();
-        $db = $db->connectionDataBase();
+        $db = $this->db->connectionDataBase();
         $req = $db->prepare("SELECT* FROM emp WHERE noemp=?");
         $req->bind_param('i', $id);
         $req->execute();
@@ -98,8 +98,7 @@ class EmployeMysqliDao extends ConnectBaseDeDonnee implements InterfDao
      */
     public function update(object $employe): void
     {
-        $db = new ConnectBaseDeDonnee();
-        $db = $db->connectionDataBase();
+        $db = $this->db->connectionDataBase();
         $req = $db->prepare("UPDATE emp SET  nom=?, prenom=?, emploi=?, sup=?, embauche=?, sal=?, comm=?  WHERE noemp=?");
         $id = $employe->getNoemp();
         $nom = $employe->getNom();
@@ -133,8 +132,7 @@ class EmployeMysqliDao extends ConnectBaseDeDonnee implements InterfDao
     public function searchAll(): array
     {
 
-        $db = new ConnectBaseDeDonnee();
-        $db = $db->connectionDataBase();
+        $db = $this->db->connectionDataBase();
         $req = $db->prepare('select * from emp');
         $req->execute();
         $rs = $req->get_result();
@@ -162,8 +160,7 @@ class EmployeMysqliDao extends ConnectBaseDeDonnee implements InterfDao
      */
     public function Affect(int $num): ?bool
     {
-        $db = new ConnectBaseDeDonnee();
-        $db = $db->connectionDataBase();
+        $db = $this->db->connectionDataBase();
         $req = $db->prepare("SELECT*FROM emp  WHERE sup=?");
         $req->bind_param('i', $num);
         $req->execute();

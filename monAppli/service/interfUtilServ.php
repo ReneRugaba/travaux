@@ -5,6 +5,6 @@
  */
 interface InterfUtilServ
 {
-    function getConnectU(?object $mail): ?object;
+    function getConnectU(?object $object): ?object;
     function setUserServ(?object $utilisateur): void;
 }

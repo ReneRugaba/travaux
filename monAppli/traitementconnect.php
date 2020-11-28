@@ -15,28 +15,30 @@ if (!empty($_POST)) { //ici je verifie que le POST n'est pas vide
             $utServ = new utilisateurService();
             $data = $utServ->getConnectU($array); //je fait appel à la methode getConnectUser et je met en argu le un objet de Utilisateur et je recupère le données de
             //ma BDD en objet utilisteur également
-        } catch (ErreursExceptionService $b) {
-            echo 'code erreur: ' . $b->getCode(); //. 'message: ' . $b->getMessage();
-        }
+            if ($array && $data) {
+                if (password_verify($array->getPassWord(), $data->getPassWord())) { //je verifie que le hash du mot de passe de l'utilisateur correspondant est bien identique à celui renseigé par le user
+                    session_start(); //si tout va bien je demarre la session
 
-        if ($array != null && $data != null) {
-
-            if (password_verify($array->getPassWord(), $data->getPassWord())) { //je verifie que le hash du mot de passe de l'utilisateur correspondant est bien identique à celui renseigé par le user
-                session_start(); //si tout va bien je demarre la session
-
-                /**
-                 * ici je met les clés values de mon instance dans la variable globale $_SESSION
-                 */
-                $_SESSION['username'] = $data->getEmail();
-                $_SESSION['profil'] = $data->getProfil();
-                header("location: profilsession.php");
-            } else { //le cas contraire
-                header('location: connexion.php?action=erreur');
+                    /**
+                     * ici je met les clés values de mon instance dans la variable globale $_SESSION
+                     */
+                    $_SESSION['username'] = $data->getEmail();
+                    $_SESSION['profil'] = $data->getProfil();
+                    header("location: profilsession.php");
+                } else { //le cas contraire
+                    header('location: connexion.php?action=erreur');
+                }
+            } //else {
+            //     header('location: connexion.php?action=unknow');
+            // }
+            else { //si le post est vide ou un element manque
+                header('location: connexion.php?action=empty');
             }
-        } else {
-            header('location: connexion.php?action=unknow');
+        } catch (ErreursExceptionService $b) {
+?>
+            <h1>code erreur: <?php echo $b->getCode(); ?></h1><br>
+            <h1>message erreur: <?php echo $b->getMessage(); ?></h1>
+<?php
         }
-    } else { //si le post est vide ou un element manque
-        header('location: connexion.php?action=empty');
     }
 }

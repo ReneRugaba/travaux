@@ -1,12 +1,12 @@
 <?php
-include_once __DIR__ . '/ConnectBdd.php';
+include_once __DIR__ . '/ConnectBaseDeDonnee.php';
 include_once __DIR__ . '/../model/Service.php';
 include_once __DIR__ . '/InterfDao.php';
 
 /**
  * cette classe fait le lien avec la bdd et est la fille de la class bdd pour les Services
  */
-class ServiceMysqliDao extends ConnectBdd implements InterfDao
+class ServiceMysqliDao extends ConnectBaseDeDonnee implements InterfDao
 {
     /**
      *cette fonction ajoute un nouveau serv dans la table serv
@@ -16,8 +16,8 @@ class ServiceMysqliDao extends ConnectBdd implements InterfDao
      */
     public function add(object $service2): void
     {
-        $db = new ConnectBdd();
-        $db = $db->connectBdd();
+        $db = new ConnectBaseDeDonnee();
+        $db = $db->connectionDataBase();
         $req = $db->prepare("INSERT INTO serv VALUES(?,?,?)");
         $noser = $service2->getNoserv();
         $serv = $service2->getService();
@@ -40,8 +40,8 @@ class ServiceMysqliDao extends ConnectBdd implements InterfDao
      */
     public function delete(int $id): void
     {
-        $db = new ConnectBdd();
-        $db = $db->connectBdd();
+        $db = new ConnectBaseDeDonnee();
+        $db = $db->connectionDataBase();
         $req = $db->prepare("DELETE FROM serv WHERE noserv=?");
         $req->bind_param('i', $id);
         $req->execute();
@@ -56,8 +56,8 @@ class ServiceMysqliDao extends ConnectBdd implements InterfDao
      */
     public function rechercheById(int $id): object
     {
-        $db = new ConnectBdd();
-        $db = $db->connectBdd();
+        $db = new ConnectBaseDeDonnee();
+        $db = $db->connectionDataBase();
         $req = $db->prepare("SELECT * FROM serv WHERE noserv=?");
         $req->bind_param('i', $id);
         $req->execute();
@@ -78,8 +78,8 @@ class ServiceMysqliDao extends ConnectBdd implements InterfDao
      */
     public function update(object $service2): void
     {
-        $db = new ConnectBdd();
-        $db = $db->connectBdd();
+        $db = new ConnectBaseDeDonnee();
+        $db = $db->connectionDataBase();
         $req = $db->prepare("UPDATE serv SET  service=?, ville=? WHERE noserv=?");
         $serv = $service2->getService();
         $ville = $service2->getVille();
@@ -102,8 +102,8 @@ class ServiceMysqliDao extends ConnectBdd implements InterfDao
      */
     public function searchAll(): array
     {
-        $db = new ConnectBdd();
-        $db = $db->connectBdd();
+        $db = new ConnectBaseDeDonnee();
+        $db = $db->connectionDataBase();
         $req = $db->prepare('SELECT * FROM serv');
         $req->execute();
         $rs = $req->get_result();
@@ -128,8 +128,8 @@ class ServiceMysqliDao extends ConnectBdd implements InterfDao
      */
     public function Affect(int $num): ?bool
     {
-        $db = new ConnectBdd();
-        $db = $db->connectBdd();
+        $db = new ConnectBaseDeDonnee();
+        $db = $db->connectionDataBase();
         $req = $db->prepare("SELECT*FROM emp AS A INNER JOIN serv AS B ON A.noserv=B.noserv WHERE A.noserv=?");
         $req->bind_param('i', $num);
         $req->execute();

@@ -21,10 +21,10 @@ class utilisateurService implements InterfUtilServ
      * @param string $mail
      * @return Utilisateur
      */
-    public function getConnectU(?object $mail): ?object
+    public function getConnectU(?object $object): ?object
     {
         try {
-            return $this->utilDao->getConnectUser($mail);
+            return $this->utilDao->getConnectUser($object);
         } catch (ErreursExceptDao $a) {
             throw new ErreursExceptionService($a->getMessage(), $a->getCode());
         }

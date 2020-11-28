@@ -1,8 +1,8 @@
 <?php
-require_once __DIR__ . '/bddErreursException.php';
+require_once __DIR__ . '/dataBasErreursException.php';
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-class ConnectBdd
+class ConnectBaseDeDonnee
 {
 
     /**
@@ -10,16 +10,16 @@ class ConnectBdd
      *
      * @return mysqli
      */
-    public function connectBdd()
+    public function connectionDataBase()
     {
         $mysql = 'localhost';
         $user = 'malakaie';
-        $password = '1234565';
+        $password = '123456';
         $bdd = 'gestionemploye';
         try {
             return new mysqli($mysql, $user, $password, $bdd); //ici je fais appel à la class mysqli
         } catch (mysqli_sql_exception $e) {
-            throw new bddErreursException($e->getMessage(), $e->getCode());
+            throw new dataBasErreursException($e->getMessage(), $e->getCode());
         }
     }
 }

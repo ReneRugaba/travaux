@@ -33,23 +33,21 @@ class EmployeMysqliDao extends ConnectBaseDeDonnee implements InterfDao
             $sal = $employe->getSal();
             $comm = $employe->getComm();
             $noser = $employe->getNoserv();
-            $req->bind_param(
-                'isssisddi',
-                $id,
-                $nom,
-                $prenom,
-                $emp,
-                $sup,
-                $embauche,
-                $sal,
-                $comm,
-                $noser
-            );
+
+            $req->bindValue(1, $id, PDO::PARAM_INT);
+            $req->bindValue(2, $nom);
+            $req->bindValue(3, $prenom);
+            $req->bindValue(4, $emp);
+            $req->bindValue(5, $sup, PDO::PARAM_INT);
+            $req->bindValue(6, $embauche);
+            $req->bindValue(7, $sal, PDO::PARAM_INT);
+            $req->bindValue(8, $comm, PDO::PARAM_INT);
+            $req->bindValue(9, $noser, PDO::PARAM_INT);
+
             $req->execute();
         } catch (dataBasErreurs $f) {
-            throw new ErreursDao($f->getMessage(), $f->getCode());
+            throw new ErreursDao($f);
         }
-        $bd->close();
     }
 
     /**
@@ -62,9 +60,8 @@ class EmployeMysqliDao extends ConnectBaseDeDonnee implements InterfDao
     {
         $db = $this->db->connectionDataBase();
         $req = $db->prepare("DELETE FROM emp WHERE noemp=?");
-        $req->bind_param('i', $id);
+        $req->bindValue(1, $id);
         $req->execute();
-        $db->close();
     }
 
     /**
@@ -77,16 +74,15 @@ class EmployeMysqliDao extends ConnectBaseDeDonnee implements InterfDao
     {
         $db = $this->db->connectionDataBase();
         $req = $db->prepare("SELECT* FROM emp WHERE noemp=?");
-        $req->bind_param('i', $id);
+        $req->bindValue(1, $id);
         $req->execute();
-        $rs = $req->get_result();
-        $data = $rs->fetch_array(MYSQLI_ASSOC);
-        $obj = new Employe2();
-        $obj->setNoemp($data['noemp'])->setNom($data['nom'])->setPrenom($data['prenom'])
-            ->setEmploi($data['emploi'])->setSup($data['sup'])->setEmbauche(new DateTime($data['embauche']))
-            ->setSal($data['sal'])->setComm($data['comm'])->setNoserv($data['noserv']);
-        $rs->free();
-        $db->close();
+        $data = $req->fetchALL(PDO::FETCH_ASSOC);
+        foreach ($data as $value) {
+            $obj = new Employe2();
+            $obj->setNoemp($value['noemp'])->setNom($value['nom'])->setPrenom($value['prenom'])
+                ->setEmploi($value['emploi'])->setSup($value['sup'])->setEmbauche(new DateTime($value['embauche']))
+                ->setSal($value['sal'])->setComm($value['comm'])->setNoserv($value['noserv']);
+        }
         return $obj;
     }
 
@@ -109,19 +105,16 @@ class EmployeMysqliDao extends ConnectBaseDeDonnee implements InterfDao
         $sal = $employe->getSal();
         $comm = $employe->getComm();
 
-        $req->bind_param(
-            'sssisddi',
-            $nom,
-            $prenom,
-            $emp,
-            $sup,
-            $embauche,
-            $sal,
-            $comm,
-            $id
-        );
+        $req->bindValue(1, $nom);
+        $req->bindValue(2, $prenom);
+        $req->bindValue(3, $emp);
+        $req->bindValue(4, $sup, PDO::PARAM_INT);
+        $req->bindValue(5, $embauche);
+        $req->bindValue(6, $sal, PDO::PARAM_INT);
+        $req->bindValue(7, $comm, PDO::PARAM_INT);
+        $req->bindValue(8, $id, PDO::PARAM_INT);
+
         $req->execute();
-        $db->close();
     }
 
     /**
@@ -135,9 +128,7 @@ class EmployeMysqliDao extends ConnectBaseDeDonnee implements InterfDao
         $db = $this->db->connectionDataBase();
         $req = $db->prepare('select * from emp');
         $req->execute();
-        $rs = $req->get_result();
-        $data = $rs->fetch_all(MYSQLI_ASSOC);
-        $employes = [];
+        $data = $req->fetchAll(PDO::FETCH_ASSOC);
         foreach ($data as $value) {
             $obj = new Employe2();
             $obj->setNoemp($value['noemp'])->setNom($value['nom'])->setPrenom($value['prenom'])
@@ -145,10 +136,6 @@ class EmployeMysqliDao extends ConnectBaseDeDonnee implements InterfDao
                 ->setSal($value['sal'])->setComm($value['comm'])->setNoserv($value['noserv']);
             $employes[] = $obj;
         }
-
-
-        $rs->free();
-        $db->close();
         return $employes;
     }
 
@@ -162,12 +149,9 @@ class EmployeMysqliDao extends ConnectBaseDeDonnee implements InterfDao
     {
         $db = $this->db->connectionDataBase();
         $req = $db->prepare("SELECT*FROM emp  WHERE sup=?");
-        $req->bind_param('i', $num);
+        $req->bindValue(1, $num);
         $req->execute();
-        $rs = $req->get_result();
-        $data = $rs->fetch_array(MYSQLI_ASSOC);
-        $rs->free();
-        $db->close();
+        $data = $req->fetchAll(PDO::FETCH_ASSOC);
         if (!empty($data)) {
             return TRUE;
         } else {

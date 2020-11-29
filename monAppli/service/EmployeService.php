@@ -89,7 +89,7 @@ class EmployeService implements interfService
         try {
             $this->empDao->add($employe2);
         } catch (ErreursDao $a) {
-            throw new ErreursService($a->getMessage(), $a->getCode());
+            throw new ErreursService($a);
         }
     }
 

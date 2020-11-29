@@ -21,20 +21,15 @@ class ServiceMysqliDao extends ConnectBaseDeDonnee implements InterfDao
     public function add(object $service2): void
     {
         try {
-
             $db = $this->db->connectionDataBase();
             $req = $db->prepare("INSERT INTO serv VALUES(?,?,?)");
             $noser = $service2->getNoserv();
             $serv = $service2->getService();
             $ville = $service2->getVille();
-            $req->bind_param(
-                'iss',
-                $noser,
-                $serv,
-                $ville
-            );
+            $req->bindValue(1, $noser, PDO::PARAM_INT);
+            $req->bindValue(2, $serv);
+            $req->bindValue(3, $ville);
             $req->execute();
-            $db->close();
         } catch (dataBasErreurs $e) {
             new ErreursDao($e->getCode(), $e->getMessage());
         }
@@ -50,9 +45,8 @@ class ServiceMysqliDao extends ConnectBaseDeDonnee implements InterfDao
     {
         $db = $this->db->connectionDataBase();
         $req = $db->prepare("DELETE FROM serv WHERE noserv=?");
-        $req->bind_param('i', $id);
+        $req->bindValue(1, $id);
         $req->execute();
-        $db->close();
     }
 
     /** 
@@ -65,14 +59,14 @@ class ServiceMysqliDao extends ConnectBaseDeDonnee implements InterfDao
     {
         $db = $this->db->connectionDataBase();
         $req = $db->prepare("SELECT * FROM serv WHERE noserv=?");
-        $req->bind_param('i', $id);
+        $req->bindValue(1, $id);
         $req->execute();
-        $rs = $req->get_result();
-        $data = $rs->fetch_array(MYSQLI_ASSOC);
-        $obj = new Service2();
-        $obj->setNoserv($data['noserv'])->setService($data['service'])->setVille($data['ville']);
-        $rs->free();
-        $db->close();
+
+        $data = $req->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($data as $value) {
+            $obj = new Service2();
+            $obj->setNoserv($value['noserv'])->setService($value['service'])->setVille($value['ville']);
+        }
         return $obj;
     }
 
@@ -89,14 +83,11 @@ class ServiceMysqliDao extends ConnectBaseDeDonnee implements InterfDao
         $serv = $service2->getService();
         $ville = $service2->getVille();
         $id = $service2->getNoserv();
-        $req->bind_param(
-            'ssi',
-            $serv,
-            $ville,
-            $id
-        );
+
+        $req->bindValue(1, $serv);
+        $req->bindValue(2, $ville);
+        $req->bindValue(3, $id, PDO::PARAM_INT);
         $req->execute();
-        $db->close();
     }
 
 
@@ -110,17 +101,13 @@ class ServiceMysqliDao extends ConnectBaseDeDonnee implements InterfDao
         $db = $this->db->connectionDataBase();
         $req = $db->prepare('SELECT * FROM serv');
         $req->execute();
-        $rs = $req->get_result();
-        $data = $rs->fetch_all(MYSQLI_ASSOC);
+        $data = $req->fetchAll(PDO::FETCH_ASSOC);
         $services = [];
         foreach ($data as $value) {
             $obj = new Service2();
             $obj->setNoserv($value['noserv'])->setService($value['service'])->setVille($value['ville']);
             $services[] = $obj;
         }
-
-        $rs->free();
-        $db->close();
         return $services;
     }
 
@@ -134,10 +121,9 @@ class ServiceMysqliDao extends ConnectBaseDeDonnee implements InterfDao
     {
         $db = $this->db->connectionDataBase();
         $req = $db->prepare("SELECT*FROM emp AS A INNER JOIN serv AS B ON A.noserv=B.noserv WHERE A.noserv=?");
-        $req->bind_param('i', $num);
+        $req->bindValue(1, $num);
         $req->execute();
-        $rs = $req->get_result();
-        $data = $rs->fetch_all(MYSQLI_ASSOC);
+        $data = $req->fetchAll(PDO::FETCH_ASSOC);
         if (!empty($data)) {
             return TRUE;
         } else {

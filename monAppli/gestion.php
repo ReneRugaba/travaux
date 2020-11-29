@@ -12,15 +12,15 @@ include_once __DIR__ . '/vues/Formulaire.php';
  * ce fichier est le fichier controleur qui gere le traitement de la tab employe
  */
 if (isset($_GET['action']) && $_GET['action'] == 'ajouter') { //je verifie si le tableau $_POST n'est pas vide et si dans le GET[action]==ajouter
-    if (!empty($_POST) && isset($_POST['noemp']) && !empty($_POST['noemp']) && isset($_POST['noserv']) && !empty($_POST['noserv'])) { //Si la verification est ok je verifie si dans le post noemp  et noserv existe et qu'il ne sont pas vide
-        $sup = $_POST['sup'] ? $_POST['sup'] : NULL;
-        $sal = $_POST['sal'] ? $_POST['sal'] : NULL;
-        $comm = $_POST['comm'] ? $_POST['comm'] : NULL;
-        $empServ = new Employe2(); //ici je crée mon Employe
-        $empServ->setNoemp($_POST['noemp'])->setNom($_POST['nom'])->setPrenom($_POST['prenom'])
-            ->setEmploi($_POST['emploi'])->setSup($sup)->setEmbauche($date = new DateTime($_POST['embauche']))
-            ->setSal($sal)->setComm($comm)->setNoserv($_POST['noserv']);
-        try {
+    try {
+        if (!empty($_POST) && isset($_POST['noemp']) && !empty($_POST['noemp']) && isset($_POST['noserv']) && !empty($_POST['noserv'])) { //Si la verification est ok je verifie si dans le post noemp  et noserv existe et qu'il ne sont pas vide
+            $sup = $_POST['sup'] ? $_POST['sup'] : NULL;
+            $sal = $_POST['sal'] ? $_POST['sal'] : NULL;
+            $comm = $_POST['comm'] ? $_POST['comm'] : NULL;
+            $empServ = new Employe2(); //ici je crée mon Employe
+            $empServ->setNoemp($_POST['noemp'])->setNom($_POST['nom'])->setPrenom($_POST['prenom'])
+                ->setEmploi($_POST['emploi'])->setSup($sup)->setEmbauche($date = new DateTime($_POST['embauche']))
+                ->setSal($sal)->setComm($comm)->setNoserv($_POST['noserv']);
             $emp = new EmployeService();
             $emp->Add($empServ); //après avoir donnée une valeur à chaque atrtibu de ma class employe2, je fait appel à 
             //la methode abstraite de employeService dans la couche service en lui donnant mon instance d'employe
@@ -28,13 +28,12 @@ if (isset($_GET['action']) && $_GET['action'] == 'ajouter') { //je verifie si le
             <h1 class="text-success">Ajout employé réssit avec succès!
 
             </h1> <?php
-                } catch (ErreursDao $c) {
-                    $data = null; // en donnant la valeur null par defaut à data j'enticipe les erreurs de mon formulaire car je gère la modification et l'ajout dans le même form
-                    Formulaire($data, $c->getMessage(), $c->getCode()); //ici j'appel le form en html
                 }
+                $data = null; // en donnant la valeur null par defaut à data j'enticipe les erreurs de mon formulaire car je gère la modification et l'ajout dans le même form
+                Formulaire($data); //ici j'appel le form en html
+            } catch (ErreursDao $c) {
+                echo $c->getMessage();
             }
-            $data = null; // en donnant la valeur null par defaut à data j'enticipe les erreurs de mon formulaire car je gère la modification et l'ajout dans le même form
-            Formulaire($data); //ici j'appel le form en html
         } elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'edit') { //je verifie si le tableau $_GET n'est pas vide et si dans le GET[action]==edit
 
             $employe = new Employe2(); //ici je crée mon employe avec ma class Employe2

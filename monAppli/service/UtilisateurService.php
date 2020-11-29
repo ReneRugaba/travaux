@@ -26,7 +26,7 @@ class utilisateurService implements InterfUtilServ
         try {
             return $this->utilDao->getConnectUser($object);
         } catch (ErreursDao $a) {
-            throw new ErreursService($a->getMessage(), $a->getCode());
+            throw new ErreursService($a);
         }
     }
 

@@ -34,10 +34,10 @@ if (!empty($_POST)) { //ici je verifie que le POST n'est pas vide
             else { //si le post est vide ou un element manque
                 header('location: connexion.php?action=empty');
             }
-        } catch (ErreursExceptionService $b) {
+        } catch (ErreursService $b) {
 ?>
-            <h1>code erreur: <?php echo $b->getCode(); ?></h1><br>
-            <h1>message erreur: <?php echo $b->getMessage(); ?></h1>
+            <h1>Erreurs lors de connexion à la base de données! Merci d'essayer de vous connecter ultérieurement.</h1><br>
+
 <?php
         }
     }

@@ -1,6 +1,5 @@
 <?php
 require_once __DIR__ . '/dataBasErreurs.php';
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 class ConnectBaseDeDonnee
 {
@@ -12,14 +11,14 @@ class ConnectBaseDeDonnee
      */
     public function connectionDataBase()
     {
-        $mysql = 'localhost';
+        $mysql = 'mysql:host=localhost;dbname=gestionemploye';
         $user = 'root';
         $password = '';
-        $bdd = 'gestionemploye';
+
         try {
-            return new mysqli($mysql, $user, $password, $bdd); //ici je fais appel à la class mysqli
-        } catch (mysqli_sql_exception $e) {
-            throw new dataBasErreurs($e->getMessage(), $e->getCode());
+            return new PDO($mysql, $user, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]); //ici je fais appel à la class PDO
+        } catch (PDOException $e) {
+            throw new dataBasErreurs($e);
         }
     }
 }

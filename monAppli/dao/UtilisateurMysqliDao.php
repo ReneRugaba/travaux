@@ -13,24 +13,6 @@ class UtilisateurMysqliDao extends ConnectBaseDeDonnee implements interfUtilisat
     {
         $this->db = new ConnectBaseDeDonnee();
     }
-    /**
-     * cette fonction s'occupe de chercher un utilisateur avec la colonne profil
-     * @param string $nomcol
-     * @return array
-     */
-    public function trouveUser(string $nomcol): array
-    {
-
-        $db = $this->db->connectionDataBase(); //connection  la base de donnée
-        $prepare = $db->prepare("select * from utilisateur where profil=?"); //preparation de la requette avant insertion
-        $prepare->bind_param('s', $nomcol); //mis en correspondance du ? avec $nomcol
-        $prepare->execute(); //execution de la requete
-        $rs = $prepare->get_result(); //recupération du resultat de la requete
-        $array = $rs->fetch_array(MYSQLI_ASSOC); //resultat mis dans un tableau associatif
-        $rs->free(); //liberation memoire ressource
-        $db->close(); //fermeture de la connection avec la base de donnée
-        return $array; //retourne le tableau
-    }
 
     /**
      * Undocumented function
@@ -43,12 +25,13 @@ class UtilisateurMysqliDao extends ConnectBaseDeDonnee implements interfUtilisat
 
 
         $db = $this->db->connectionDataBase(); //connection  la base de donnée
-        $prepare = $db->prepare("insert into utilisateur values(NULL,?,?,'utilisateur')"); //preparation de la requette avant insertion
+        $stm = $db->prepare("insert into utilisateur values(NULL,?,?,'utilisateur')"); //preparation de la requette avant insertion
         $mail = $utilisateur->getEmail();
         $password = $utilisateur->getPassWord();
-        $prepare->bind_param("ss", $mail, $password); //mis en correspondance des ? avec $password et $mail
-        $prepare->execute(); //execution de la requete
-        $db->close(); //fermeture de la connection avec la base de donnée
+        $stm->bindValue(1, $mail); //mis en correspondance des ? avec $password et $mail
+        $stm->bindValue(2, $password); //mis en correspondance des ? avec $password et $mail
+        $stm->execute(); //execution de la requete
+        //fermeture de la connection avec la base de donnée
     }
 
     /**
@@ -60,25 +43,26 @@ class UtilisateurMysqliDao extends ConnectBaseDeDonnee implements interfUtilisat
     public function getConnectUser(object $object): ?object
     {
         try {
-
-            $db = $this->db->connectionDataBase(); //connection  la base de donnée
-            $req = $db->prepare("select * from utilisateur where username=?"); //preparation de la requette prepare
-            $email = $object->getEmail();
-            $req->bind_param('s', $email); //mis en correspondance du ? avec $mail
-            $req->execute(); //execution de la requete
-            $rs = $req->get_result(); //recupertion du resultat de la requete
-            $array = $rs->fetch_array(MYSQLI_ASSOC); //resutat mis dans un tableau associatif
-        } catch (dataBasErreurs $f) {
-            throw new ErreursDao($f->getMessage(), $f->getCode());
-        }
-        if ($array) {
-            $obj = new Utilisateur();
-            $obj->setEmail($array['username'])->setPassWord($array['password'])->setProfil($array['profil']);
-            if (!empty($array)) {
-                return $obj; //retourne un array
+            $db = $this->db->connectionDataBase();
+            $req = 'SELECT * FROM utilisateur WHERE username=?';
+            $stm = $db->prepare($req);
+            $mail = $object->getEmail();
+            $stm->bindValue(1, $mail);
+            $stm->execute();
+            $array = $stm->FetchAll(PDO::FETCH_ASSOC);
+            if ($array) {
+                foreach ($array as $value) {
+                    $obj = new Utilisateur();
+                    $obj->setEmail($value['username'])->setPassWord($value['password'])->setProfil($value['profil']);
+                }
+                if (!empty($array)) {
+                    return $obj; //retourne un array
+                }
+            } else {
+                return null;
             }
-        } else {
-            return null;
+        } catch (dataBasErreurs $f) {
+            throw new ErreursDao($f);
         }
     }
 }

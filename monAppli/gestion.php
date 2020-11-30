@@ -6,6 +6,7 @@ include_once('model/Employe.php');
 include_once(__DIR__ . '/vues/afficheTabEmp.php');
 include_once __DIR__ . "/vues/tabEmpAcceuil.php";
 include_once __DIR__ . '/vues/Formulaire.php';
+include_once __DIR__ . '/service/ErreursService.php';
 
 
 /**
@@ -29,10 +30,10 @@ if (isset($_GET['action']) && $_GET['action'] == 'ajouter') { //je verifie si le
 
             </h1> <?php
                 }
+            } catch (ErreursService $c) {
                 $data = null; // en donnant la valeur null par defaut à data j'enticipe les erreurs de mon formulaire car je gère la modification et l'ajout dans le même form
-                Formulaire($data); //ici j'appel le form en html
-            } catch (ErreursDao $c) {
-                echo $c->getMessage();
+                Formulaire($data, $c->getMessage()); //ici j'appel le form en html
+
             }
         } elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'edit') { //je verifie si le tableau $_GET n'est pas vide et si dans le GET[action]==edit
 

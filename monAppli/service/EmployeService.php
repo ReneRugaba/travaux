@@ -1,6 +1,7 @@
 <?php
 include_once(__DIR__ . '/../dao/EmployeMysqliDao.php');
 include_once __DIR__ . '/interfService.php';
+include_once __DIR__ . '/ErreursService.php';
 /**
  * ici ce trouve la classe de la couche service qui s'ocupe de mettre la couche controlleur et dao en connection pour les employés
  */

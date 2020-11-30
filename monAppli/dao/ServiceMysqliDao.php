@@ -2,6 +2,7 @@
 include_once __DIR__ . '/ConnectBaseDeDonnee.php';
 include_once __DIR__ . '/../model/Service.php';
 include_once __DIR__ . '/InterfDao.php';
+include __DIR__ . '/ErreursDao.php';
 
 /**
  * cette classe fait le lien avec la bdd et est la fille de la class bdd pour les Services
@@ -30,8 +31,8 @@ class ServiceMysqliDao extends ConnectBaseDeDonnee implements InterfDao
             $req->bindValue(2, $serv);
             $req->bindValue(3, $ville);
             $req->execute();
-        } catch (dataBasErreurs $e) {
-            new ErreursDao($e->getCode(), $e->getMessage());
+        } catch (PDOException $e) {
+            new ErreursDao($e);
         }
     }
 

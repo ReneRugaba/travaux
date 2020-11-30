@@ -61,7 +61,7 @@ class UtilisateurMysqliDao extends ConnectBaseDeDonnee implements interfUtilisat
             } else {
                 return null;
             }
-        } catch (dataBasErreurs $f) {
+        } catch (PDOException $f) {
             throw new ErreursDao($f);
         }
     }

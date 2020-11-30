@@ -18,7 +18,7 @@ class ConnectBaseDeDonnee
         try {
             return new PDO($mysql, $user, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]); //ici je fais appel à la class PDO
         } catch (PDOException $e) {
-            throw new dataBasErreurs($e);
+            throw $e;
         }
     }
 }

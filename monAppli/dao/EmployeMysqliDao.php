@@ -45,7 +45,7 @@ class EmployeMysqliDao extends ConnectBaseDeDonnee implements InterfDao
             $req->bindValue(9, $noser, PDO::PARAM_INT);
 
             $req->execute();
-        } catch (dataBasErreurs $f) {
+        } catch (PDOException $f) {
             throw new ErreursDao($f);
         }
     }

@@ -25,7 +25,7 @@ class ServiceService
         try {
             $this->row->add($employe);
         } catch (ErreursDao $a) {
-            new ErreursService($a->getCode(), $a->getMessage());
+            new ErreursService($a);
         }
     }
 

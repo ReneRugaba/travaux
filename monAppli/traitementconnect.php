@@ -10,7 +10,7 @@ if (!empty($_POST)) { //ici je verifie que le POST n'est pas vide
         isset($_POST['email']) && !empty($_POST['email']) && isset($_POST['password']) && !empty($_POST['password']) // ici je verifie que chaque le tableau POST existe et qu'il n'est pas vide
     ) {
         $array = new Utilisateur();
-        $array->setEmail($_POST['email'])->setPassWord($_POST['password']);
+        $array->setEmail(htmlspecialchars($_POST['email']))->setPassWord(htmlspecialchars($_POST['password']));
         try {
             $utServ = new utilisateurService();
             $data = $utServ->getConnectU($array); //je fait appel à la methode getConnectUser et je met en argu le un objet de Utilisateur et je recupère le données de

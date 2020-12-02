@@ -15,9 +15,9 @@ if (isset($_GET['action']) && $_GET['action'] == 'ajouter') { //je verifie si le
     try {
         if (isset($_POST['noserv'])) { //Si la verification est ok je verifie si dans le post noserv n'est pas vide
             //je recupere chaque element du post dans des variables en anticipant leur valeur, s'ils sont vides, en leur donnant une valeur NULL
-            $noserv = $_POST['noserv'] ? $_POST['noserv']  : NULL;
-            $serv = $_POST['service'] ? $_POST['service']  : NULL;
-            $ville = $_POST['ville'] ? $_POST['ville']  : NULL;
+            $noserv = htmlspecialchars($_POST['noserv']) ? $_POST['noserv']  : NULL;
+            $serv = htmlspecialchars($_POST['service']) ? $_POST['service']  : NULL;
+            $ville = htmlspecialchars($_POST['ville']) ? $_POST['ville']  : NULL;
 
             $service2 = new Service2(); //ici je crée mon objet instance de ma class Service2
 
@@ -38,13 +38,13 @@ if (isset($_GET['action']) && $_GET['action'] == 'ajouter') { //je verifie si le
         $data = null;
         Formulaire2($data, $b->getMessage());
     }
-    // $data = null;
-    // Formulaire2($data);
+    $data = null;
+    Formulaire2($data);
 } elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'edit') { //je verifie si le tableau $_GET n'est pas vide et si dans le GET[action]==edit
     //je rentre les valeurs reçu dans le post dans des variables en anticipant leur valeur, s'ils sont vides, en leur donnant une valeur NULL
-    $noserv = $_POST['noserv'];
-    $serv = $_POST['service'] ? $_POST['service']  : NULL;
-    $ville = $_POST['ville'] ? $_POST['ville']  : NULL;
+    $noserv = htmlspecialchars($_POST['noserv']) ? $_POST['noserv']  : NULL;
+    $serv = htmlspecialchars($_POST['service']) ? $_POST['service']  : NULL;
+    $ville = htmlspecialchars($_POST['ville']) ? $_POST['ville']  : NULL;
 
     $service2 = new Service2(); //ici je crée mon objet $service
 
@@ -58,12 +58,12 @@ if (isset($_GET['action']) && $_GET['action'] == 'ajouter') { //je verifie si le
     $serv->modif($service2);
     tabServiceAccueil(); //j'appel la page html de table service
 } elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'sup' && $_GET['id']) { //je verifie si le tableau $_GET n'est pas vide et si dans le GET[action]==sup et que id est present dans le get
-    $id = $_GET['id']; // ici je recupere l'id dans le get et je le met dans une variable
+    $id = htmlspecialchars($_GET['id']); // ici je recupere l'id dans le get et je le met dans une variable
     $serv = new ServiceService();
     $serv->sup($id); //je fais appel à methode supp abstraite de ma class ServiceService qui fait le lien avec dao dans ma couche service
     tabServiceAccueil(); //j'appel la page html de table service
 } elseif (!empty($_GET) && isset($_GET['action']) && $_GET['action'] == 'modif' && $_GET['id']) { //je verifie si le tableau $_GET n'est pas vide , si dans le GET[action]==modif et si l'id est bien presente dans le get
-    $id = $_GET['id']; //je recup l'id du get et je la met dans la variable $id
+    $id = htmlspecialchars($_GET['id']); //je recup l'id du get et je la met dans la variable $id
     $serv = new ServiceService();
     $data = $serv->recheById($id); //j'utilise la methode recheById abstraite de ma class ServiceService qui fait le lien avec dao dans ma couche service et je recupere un array
     //ici je recupère chaque élement dans data grace au clés du tableau assoc et je les met dans une variable et je les echo dans le form de la modification

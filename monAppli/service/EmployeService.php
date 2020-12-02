@@ -113,4 +113,14 @@ class EmployeService implements interfService
 
         return $this;
     }
+
+    public function compteur()
+    {
+        return $this->empDao->compt();
+    }
+
+    public function rechInTab($nom = null, $emploi = null, $noserv = null)
+    {
+        return $this->empDao->rechercheInTab($nom, $emploi, $noserv);
+    }
 }

@@ -23,7 +23,7 @@ class EmployeMysqliDao extends ConnectBaseDeDonnee implements InterfDao
         try {
 
             $bd = $this->db->connectionDataBase();
-            $req = $bd->prepare("INSERT INTO emp VALUES(?,?,?,?,?,?,?,?,?)");
+            $req = $bd->prepare("INSERT INTO emp VALUES(?,?,?,?,?,?,?,?,?,NOW())");
             $id = $employe->getNoemp();
             $nom = $employe->getNom();
             $prenom = $employe->getPrenom();
@@ -157,5 +157,46 @@ class EmployeMysqliDao extends ConnectBaseDeDonnee implements InterfDao
         } else {
             return null;
         }
+    }
+
+    public function compt()
+    {
+        $db = $this->db->connectionDataBase();
+        $stm = $db->prepare("SELECT * FROM emp WHERE dateajout=?");
+        $date = date('Y-m-d');
+        $stm->bindValue(1, $date);
+        $stm->execute();
+        $data = $stm->fetchAll(PDO::FETCH_ASSOC);
+        return $data;
+    }
+
+    public function rechercheInTab($array = [])
+    {
+
+        $db = $this->db->connectionDataBase();
+        $req = "SELECT * FROM emp WHERE";
+        $i = 0;
+        if ($array) {
+            foreach ($array as $key => $val) {
+                if ($i > 0) {
+                    $req = $req . "AND";
+                }
+                $req = $req . $key . "=" . $val;
+                $i++;
+            }
+        } else {
+        }
+        echo $req;
+        $stm = $db->query($req);
+        $data = $stm->fetchALL(PDO::FETCH_ASSOC);
+        $employes = [];
+        foreach ($data as $value) {
+            $obj = new Employe2();
+            $obj->setNoemp($value['noemp'])->setNom($value['nom'])->setPrenom($value['prenom'])
+                ->setEmploi($value['emploi'])->setSup($value['sup'])->setEmbauche(new DateTime($value['embauche']))
+                ->setSal($value['sal'])->setComm($value['comm'])->setNoserv($value['noserv']);
+            $employes[] = $obj;
+        }
+        return $employes;
     }
 }

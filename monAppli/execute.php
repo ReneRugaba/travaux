@@ -12,7 +12,7 @@ if (!empty($_POST)) { //ici je verifie que le POST n'est pas vide
     ) {
         if ($_POST['password'] == $_POST['password2']) { // je verifie que les mots de passe sont identique
             $util = new Utilisateur();
-            $util->setEmail($_POST['email'])->setPassWord(password_hash($_POST['password'], PASSWORD_DEFAULT));
+            $util->setEmail(htmlspecialchars($_POST['email']))->setPassWord(password_hash(htmlspecialchars($_POST['password']), PASSWORD_DEFAULT));
             $utServ = new utilisateurService();
             $utServ->setUserServ($util); // je fait appel à la fonction setUser qui se trouve dans la couche service
             header('location: connexion.php?action=succes');
